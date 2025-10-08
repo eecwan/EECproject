@@ -1,0 +1,192 @@
+body{
+    background-color: rgb(33, 36, 34);  
+}
+
+.site-header h1{
+    color: #f8f8f7;
+    text-align: center;
+    font-family: "LXGW WenKai Mono TC", monospace;
+    font-size: 50px;
+}
+
+.main-nav {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* 導覽列整組靠右 */
+  right: 10px;
+}
+
+.main-nav ul {
+    display: flex;        /* 讓 li 橫向排列 */
+    padding: 0;
+    margin: 0;
+    list-style: none;     /* 去掉小黑點 */
+    gap: px;
+  }
+  
+  .main-nav li {
+    color: #fff;
+    padding: 1px 5px;  
+    margin-right:  5px;
+    /*border:1px solid #fff;
+    background-color: #b8c0b7;*/
+  }
+  
+  .main-nav li:hover{
+    color: rgb(231, 224, 156);
+    transition: color 0.2s;
+  }
+
+  header{
+    position: relative;
+    top: 35px;
+    background: radial-gradient(circle, #bae0d8, #11420b, #01140f);
+  }
+
+  .main-nav{
+    position: absolute;
+    top: 0px;
+  }
+
+  .search-form {
+    display: flex;             /* 水平排列 input + button */
+    justify-content: center;   /* 整組水平置中 */
+    align-items: center;       /* 垂直置中對齊 input + button */
+    gap: 10px;                  /* input 與 button 間距 */
+    margin: 5px auto 0 auto;  
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    max-width: 1200px;
+}
+
+
+.search-form input {
+    flex: 1;
+    padding: 10px 15px;           /* 內距 */
+    border-radius: 20px;         /* 圓角 */
+    border: 1px solid #fff;      /* 邊框顏色 */
+    background-color: #222;      /* 背景色 */
+    color: #fff;                 /* 文字顏色 */
+    outline: none;               /* 去掉焦點框 */
+    transition: all 0.3s;        /* 平滑過渡效果 */
+}
+
+.search-form input:focus {
+    border-color: #e7e09c;       /* 聚焦時邊框變色 */
+    background-color: #333;      /* 聚焦時背景稍亮 */
+}
+
+.search-form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #e7e09c;   /* 按鈕主色 */
+    color: #222;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;   
+}
+
+.search-form button:hover {
+    background-color: #d4c76e;   /* 滑鼠移上去變色 */
+    transform: scale(1.05);      /* 微放大效果 */
+}
+
+
+.img1 img {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  left: -30px;
+  top: -20px;
+}
+
+.category-links{
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  right: 10px;
+  margin-top: 50px;
+}
+
+.category-links ul {
+  display: flex;        /* 讓 li 橫向排列 */
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;     /* 去掉小黑點 */
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.category-links a{
+  color: #fff;
+  padding: 1px 5px; 
+  text-decoration: none;
+}
+
+.category-links a:hover{
+  color: rgb(231, 224, 156);
+  transition: color 0.2s;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 20px 0;
+  max-width: 1200px;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 10px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.carousel-track img {
+  flex: 0 0 auto; /* 不縮放，固定寬度 */
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.left-btn { left: 0; }
+.right-btn { right: 0; }
+
+.carousel-indicators {
+  display: none;
+}
+
+.card-custom1 {
+  background: linear-gradient(135deg, #103601,#e7e09c); 
+  color: white
+}
+
+.card-custom2 {
+  background: linear-gradient(135deg, #103601,#e7e09c); 
+  color: white;
+}
+
+.card-custom3 {
+  background: linear-gradient(135deg, #103601,#e7e09c); 
+  color: white;
+}
+
+
