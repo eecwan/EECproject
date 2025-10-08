@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "首頁";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- 卡片區域 -->
+<div class="container my-4">
+    <div class="row g-4">
+        <!-- 第一張卡片 -->
+        <div class="col-md-4">
+            <div class="card h-100 text-center card-custom1">
+                <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" class="card-img-top" alt="卡片1">
+                <div class="card-body">
+                    <h5 class="card-title">遊戲介紹</h5>
+                    <p class="card-text">精選各類遊戲，淺顯易懂的教學，讓您快速上手!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二張卡片 -->
+        <div class="col-md-4">
+            <div class="card h-100 text-center card-custom2">
+                <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" class="card-img-top" alt="卡片2">
+                <div class="card-body">
+                    <h5 class="card-title">儲值點數</h5>
+                    <p class="card-text">線上儲值，玩家錢包系統，首儲再送好禮!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三張卡片 -->
+        <div class="col-md-4">
+            <div class="card h-100 text-center card-custom3">
+                <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" class="card-img-top" alt="卡片3">
+                <div class="card-body">
+                    <h5 class="card-title">萬聖狂歡節</h5>
+                    <p class="card-text">萬聖節奇趣派對驚喜上線中!多重大禮包等你拿!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 輪播區 -->
+<div class="container mt-5">
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-pause="hover">
+
+        <!-- 第一排輪播 -->
+        <div class="carousel-container">
+            <button class="carousel-btn left-btn">&lt;</button>
+            <div class="carousel-track">
+                @for (int i = 1; i <= 8; i++)
+                {
+                    <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="slide@i">
+                }
+            </div>
+            <button class="carousel-btn right-btn">&gt;</button>
+        </div>
+
+        <!-- 第二排輪播 -->
+        <div class="carousel-container">
+            <button class="carousel-btn left-btn">&lt;</button>
+            <div class="carousel-track">
+                @for (int i = 9; i <= 16; i++)
+                {
+                    <img src="https://picsum.photos/800/400?random=@i" alt="slide@i">
+                }
+            </div>
+            <button class="carousel-btn right-btn">&gt;</button>
+        </div>
+
+        <!-- 第三排輪播 -->
+        <div class="carousel-container">
+            <button class="carousel-btn left-btn">&lt;</button>
+            <div class="carousel-track">
+                @for (int i = 17; i <= 24; i++)
+                {
+                    <img src="https://picsum.photos/800/400?random=@i" alt="slide@i">
+                }
+            </div>
+            <button class="carousel-btn right-btn">&gt;</button>
+        </div>
+
+        <script>
+            window.onload = function () {
+                document.querySelectorAll('.carousel-container').forEach(row => {
+                    const track = row.querySelector('.carousel-track');
+                    const btnLeft = row.querySelector('.left-btn');
+                    const btnRight = row.querySelector('.right-btn');
+                    const scrollAmount = track.querySelector('img').offsetWidth + 10;
+
+                    btnLeft.addEventListener('click', () => {
+                        track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                    });
+                    btnRight.addEventListener('click', () => {
+                        track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    });
+
+                    let interval = setInterval(() => {
+                        track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    }, 2000);
+
+                    track.addEventListener('mouseenter', () => clearInterval(interval));
+                    track.addEventListener('mouseleave', () => {
+                        interval = setInterval(() => {
+                            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                        }, 2000);
+                    });
+                });
+            };
+        </script>
+    </div>
+</div>

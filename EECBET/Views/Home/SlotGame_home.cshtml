@@ -1,0 +1,198 @@
+﻿<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="~/css/slotgameBase.css">
+<style>
+    /* 內容 */
+
+    .sectionTitle {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 30px;
+        color: white;
+    }
+
+    .sectionTitle a {
+        text-decoration: none;
+        color: white;
+    }
+
+    section {
+        margin-bottom: 40px;
+    }
+
+    .more {
+        display: inline-flex;
+        align-items: center;
+        /* 垂直置中 */
+        justify-content: center;
+        /* 水平置中 */
+        border: 1px solid rgb(255, 255, 255);
+        padding: 0 10px;
+        border-radius: 20px;
+        font-size: 10px;
+    }
+    /* Swiper */
+
+    .swiper {
+        padding: 20px 30px;
+    }
+
+    .swiper-slide img:hover {
+        transform: scale(1.05);
+    }
+
+    .swiper-slide img {
+        width: 100%;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        background-color: rgba(0, 0, 0, 0.519);
+        padding: 90px 10px;
+        color: white;
+        transition: opacity 0.3s ease;
+        top: 40px;
+    }
+
+    .swiper-button-next {
+        right: 0;
+    }
+
+    .swiper-button-prev {
+        left: 0;
+    }
+
+    .swiper-button-disabled {
+        opacity: 0.3;
+        /* 停止時淡化 */
+        pointer-events: none;
+    }
+    /* 響應式 */
+</style>
+
+
+<body>
+    <div class="wrap">
+        <div class="nav">
+            <ul>
+                <li><a href="#" class="active">熱門</a></li>
+                <li><a href="./SlotGame_classic.html">冒險</a></li>
+                <li><a href="./SlotGame_classic.html">經典</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <!-- 最新 -->
+            <section>
+                <div class="sectionTitle">
+                    <h3>最新</h3>
+                    <a class="more" href="./SlotGame_classic.html">更多</a>
+                </div>
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/333BoomBanksPowerCombo_1000x400.svg" alt="icon"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                    </div>
+                    <!-- 左右箭頭 -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </section>
+            <!-- 經典區 -->
+            <section>
+                <div class="sectionTitle">
+                    <h3>經典</h3> <a class="more" href="">更多</a>
+                </div>
+                <!-- Swiper -->
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
+                        </div>
+                    </div>
+                    <!-- 左右箭頭 -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </section>
+        </div>
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            // 🔑 每個 .mySwiper 都獨立初始化
+            document.querySelectorAll(".mySwiper").forEach((swiperEl, index) => {
+                const nextBtn = swiperEl.querySelector(".swiper-button-next");
+                const prevBtn = swiperEl.querySelector(".swiper-button-prev");
+
+                const swiper = new Swiper(swiperEl, {
+                    slidesPerView: 3,
+                    spaceBetween: 8,
+                    loop: false, // ❌ 不循環
+                    speed: 1000, // 平滑
+                    autoplay: {
+                        delay: 0,
+                        disableOnInteraction: false
+                    },
+                    navigation: {
+                        nextEl: nextBtn,
+                        prevEl: prevBtn
+                    }
+                });
+
+                swiper.autoplay.stop(); // 預設靜止
+
+                // 到頭或到尾 → 停止
+                swiper.on("slideChange", () => {
+                    if (swiper.isBeginning || swiper.isEnd) {
+                        swiper.autoplay.stop();
+                    }
+                });
+
+                // Hover 右箭頭 → 往後播
+                nextBtn.addEventListener("mouseenter", () => {
+                    if (!swiper.isEnd) {
+                        swiper.params.autoplay.reverseDirection = false;
+                        swiper.autoplay.start();
+                    }
+                });
+                nextBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
+
+                // Hover 左箭頭 → 往前播
+                prevBtn.addEventListener("mouseenter", () => {
+                    if (!swiper.isBeginning) {
+                        swiper.params.autoplay.reverseDirection = true;
+                        swiper.autoplay.start();
+                    }
+                });
+                prevBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
+            });
+        </script>
+    </div>
+</body>
