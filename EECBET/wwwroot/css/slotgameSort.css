@@ -1,0 +1,36 @@
+
+/*sort */
+.sort {
+    display: flex;
+    justify-content: right;
+}
+
+    .sort ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        border: 1px solid white;
+        border-radius: 20px;
+        padding: 2px 15px;
+        gap: 16px;
+    }
+
+
+        .sort ul li a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: white;
+            font-size: 12px;
+            border-radius: 0;
+            line-height: 2;
+        }
+
+            .sort ul li a img {
+                width: 15px;
+                height: 15px;
+                margin-right: 10px;
+                border-radius: 0;
+            }

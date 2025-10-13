@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<link rel="stylesheet" href="~/css/slotgameBase.css" asp-append-version="true" />
+<style>
+    /*menu */
+    .menu ul {
+        display: flex;
+        list-style: none;
+        justify-content: center;
+        padding: 20px;
+    }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: rgb(159, 159, 159);
+            margin-right: 40px;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+            .menu ul li a:hover {
+                color: rgb(253, 253, 253);
+                font-weight: bolder;
+            }
+
+            .menu ul li a.active {
+                color: #13ffc0;
+                font-weight: bolder;
+                border-bottom: 3px solid #1fffc3;
+                padding-bottom: 5px;
+            }
+   
+</style>
+
+<div class="wrap">
+    <div class="menu">
+        <ul>
+            <li>
+                <a asp-controller="Home" asp-action="SlotGame_home"
+                   class="@(currentAction == "SlotGame_home" ? "active" : "")">特色遊戲</a>
+            </li>
+            <li>
+                <a asp-controller="Games" asp-action="SlotGame_Exclusive"
+                   class="@(currentAction == "SlotGame_Exclusive"?"active":"")">獨創</a>
+            </li>
+            <li><a asp-controller="Games" asp-action="SlotGame_HighBonus"
+                   class="@(currentAction == "SlotGame_HighBonus"?"active":"")">高報酬</a>
+            </li>
+            <li>
+                <a asp-controller="Games" asp-action="SlotGame_classic"
+                   class="@(currentAction == "SlotGame_classic" ? "active" : "")">經典</a>
+            </li>
+            <li>
+                <a asp-controller="Games" asp-action="SlotGame_Megaways"
+                   class="@(currentAction == "SlotGame_Megaways" ? "active" : "")">頂級</a>
+            </li>
+        </ul>
+    </div>
+   
+</div>
+<div class="content">
+    @RenderBody()
+</div>
+
+
