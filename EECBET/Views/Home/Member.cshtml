@@ -1,1 +1,201 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/member.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <!-- 側邊欄 -->
+    <div class="sidebar">
+      <div class="user-info">
+        <div class="avatar">👤</div>
+        <div class="username">玩家名稱</div>
+        <div class="user-id">ID: 123456789</div>
+      </div>
+
+      <div class="menu-item active">
+        <span class="menu-icon">💰</span>
+        <span>點數管理</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">👤</span>
+        <span>個人資料</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">📋</span>
+        <span>投注記錄</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">🏆</span>
+        <span>中獎記錄</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">🔒</span>
+        <span>安全設定</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">🚪</span>
+        <span>登出</span>
+      </div>
+    </div>
+
+    <!-- 主要內容區 -->
+    <div class="main-content">
+      <h2 class="section-title">💰 點數管理</h2>
+
+      <!-- 錢包卡片 -->
+      <div class="wallet-cards">
+        <div class="wallet-card">
+          <div class="wallet-label">點數餘額</div>
+          <div class="wallet-amount">NT$ 87,878</div>
+          <!-- <div class="wallet-buttons">
+            <button class="btn btn-primary">充值</button>
+            <button class="btn btn-secondary">提現</button>
+          </div> -->
+        </div>
+        <div class="wallet-card">
+          <div class="wallet-label">今日盈虧</div>
+          <div class="wallet-amount">+ NT$ 870</div>
+          <div class="wallet-buttons">
+            <button class="btn btn-primary">查看詳情</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 統計資訊 -->
+      <div class="stats-grid">
+        <!-- <div class="stat-card">
+          <div class="stat-label">累計充值</div>
+          <div class="stat-value">NT$ 66,666</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">累計提現</div>
+          <div class="stat-value">NT$ 78,787</div>
+        </div> -->
+        <div class="stat-card">
+          <div class="stat-label">總投注額</div>
+          <div class="stat-value">NT$ 123,456</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">總中獎額</div>
+          <div class="stat-value">NT$ 15,151</div>
+        </div>
+      </div>
+
+      <!-- 充值/提現表單 -->
+      <!-- <div class="form-section">
+        <h3 style="margin-bottom: 20px;">💳 快速充值</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="" class="form-label">支付方式</label>
+            <select name="" id="" class="form-input">
+              <option value="">銀行轉帳</option>
+              <option value="">信用卡</option>
+              <option value="">電子錢包</option>
+              <option value="">超商繳費</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="margin-top: 15px;">確認充值</button>
+      </div> -->
+
+      <!-- 投注紀錄表格 -->
+      <h3 style="margin: 40px 0 20px">📋 最近投注記錄</h3>
+      <div class="form-row" style="margin-bottom: 20px;">
+        <div class="form-group">
+          <label for="" class="form-label">開始日期</label>
+          <input type="date" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="" class="form-label">結束日期</label>
+          <input type="date" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="" class="form-label">遊戲類型</label>
+          <select name="" id="" class="form-input">
+            <option value="">全部</option>
+            <option value="">Slot 遊戲</option>
+            <option value="">Lottery 彩票遊戲</option>
+            <option value="">百家樂</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>時間</th>
+              <th>遊戲名稱</th>
+              <th>投注金額</th>
+              <th>結果</th>
+              <th>盈虧</th>
+              <th>狀態</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2025-10-09 15:35</td>
+              <td>幸運轉輪</td>
+              <td>NT$ 1,000</td>
+              <td>未中獎</td>
+              <td style="color: #f44336;">NT$ -1,000</td>
+              <td>已結算</td>
+            </tr>
+            <tr>
+              <td>2025-10-09 14:20</td>
+              <td>百家樂</td>
+              <td>NT$ 2,500</td>
+              <td>中獎</td>
+              <td style="color: #4caf50;">NT$ +2,500</td>
+              <td>已結算</td>
+            </tr>
+            <tr>
+              <td>2025-10-08 20:10</td>
+              <td>老虎機 - 金幣探險</td>
+              <td>NT$ 500</td>
+              <td>未中獎</td>
+              <td style="color: #f44336;">NT$ -500</td>
+              <td>已結算</td>
+            </tr>
+            <tr>
+              <td>2025-10-08 18:45</td>
+              <td>彩票 - 超級大樂透</td>
+              <td>NT$ 1,200</td>
+              <td>中獎</td>
+              <td style="color: #4caf50;">NT$ +10,000</td>
+              <td>已結算</td>
+            </tr>
+            <tr>
+              <td>2025-10-07 22:30</td>
+              <td>輪盤賭</td>
+              <td>NT$ 3,000</td>
+              <td>處理中</td>
+              <td>---</td>
+              <td>待開獎</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 分頁 -->
+      <div class="pagination">
+        <button class="page-btn">上一頁</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">...</button>
+        <button class="page-btn">10</button>
+        <button class="page-btn">下一頁</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
