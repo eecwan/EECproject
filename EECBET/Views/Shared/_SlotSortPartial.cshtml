@@ -12,10 +12,8 @@
                     <li>A-Z</li>
                     <li>熱門</li>
                 </ul>
-
             </div>
         </li>
-
        
         <li>
             <a href="#"><img src="https://content001.bet365.com/Games/SGP/FilterAndSort/Filter.svg" alt="">篩選</a>
@@ -23,3 +21,30 @@
     </ul>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sortBtn = document.getElementById("sortBtn");
+        const sortDropdown = document.getElementById("sortDropdown");
+        sortDropdown.style.display = "none";
+        // 點擊排序按鈕：開關下拉選單
+        sortBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // 防止事件冒泡
+            sortDropdown.style.display = sortDropdown.style.display === "block" ? "none" : "block";
+        });
+
+        // 點擊外部：關閉選單
+        document.addEventListener("click", () => {
+            sortDropdown.style.display = "none";
+        });
+
+        // 點選選項
+        sortDropdown.querySelectorAll("li").forEach(li => {
+            li.addEventListener("click", () => {
+                sortDropdown.querySelectorAll("li").forEach(i => i.classList.remove("active"));
+                li.classList.add("active");
+                sortDropdown.style.display = "none";
+                console.log("選擇排序方式：", li.textContent.trim());
+            });
+        });
+    });
+</script>
