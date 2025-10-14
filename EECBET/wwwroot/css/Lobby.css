@@ -1,186 +1,454 @@
-/* === �I���P����]�w === */
+/* ===== 基礎設定 ===== */
+* {
+  margin: 0;
+  /* 移除所有元素的外邊距，確保版面一致性 */
+  padding: 0;
+  /* 移除所有元素的內邊距，避免預設間距影響排版 */
+  box-sizing: border-box;
+  /* 讓寬高計算包含 padding 和 border，方便控制元素實際大小 */
+}
+
 body {
-    background-color: rgb(33, 36, 34);
+  background-color: rgb(33, 36, 34);
+  /* 設定網頁背景色為深灰綠色 */
+  color: #fff;
+  /* 設定預設文字顏色為白色 */
+  font-family: Arial, sans-serif;
+  /* 設定預設字型為 Arial，若無則使用無襯線字型 */
 }
 
-/* === �������D === */
+/* ===== 頁首區域 ===== */
+.header-container {
+  position: relative;
+  /* 設定為相對定位，作為內部絕對定位元素的參考點 */
+  padding: 35px 0 0;
+  /* 上方留 35px 空白，左右下方無 padding */
+}
+
+.site-header {
+  background: radial-gradient(circle at center 10%, #0a573d94 0%, #014e3c75 20%, #01140f00 80%);
+  /* 設定徑向漸層背景：
+     - circle at center 10%: 圓形漸層，中心點在水平中央、垂直 10% 位置
+     - #0a573d94 0%: 起始顏色（深綠色帶透明度）
+     - #014e3c75 20%: 20% 位置的顏色（稍淺的綠色帶透明度）
+     - #01140f00 80%: 80% 位置完全透明，產生漸層消失效果 */
+  text-align: center;
+  /* 文字水平置中對齊 */
+  padding: 20px 0;
+  /* 上下各留 20px 內距，左右無 padding */
+}
+
 .site-header h1 {
-    color: #f8f8f7;
-    text-align: center;
-    font-family: "LXGW WenKai Mono TC", monospace;
-    font-size: 50px;
+  color: #f8f8f7;
+  /* 設定 h1 標題顏色為淺灰白色 */
+  font-family: "LXGW WenKai Mono TC", monospace;
+  /* 使用霞鶩文楷等寬字型，若無則使用等寬字型 */
+  font-size: 50px;
+  /* 字體大小設為 50 像素 */
+  margin: 0;
+  /* 移除預設外邊距 */
 }
 
-/* === �����C === */
-.main-nav {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end; /* �����C��վa�k */
-    right: 10px;
+.marquee {
+  background:rgba(255, 215, 0, 0.05);
+  padding: 15px 0;
+  overflow: hidden;
+  border-top: 2px solid #0a573d94;
+  border-bottom: 2px solid #0a573d94;
+  margin: 20px 0;
 }
 
-    .main-nav ul {
-        display: flex; /* �� li ��V�ƦC */
-        padding: 0;
-        margin: 0;
-        list-style: none; /* �h���p���I */
-    }
-
-    .main-nav li {
-        color: #fff;
-        padding: 1px 5px;
-        margin-right: 5px;
-    }
-
-        .main-nav li:hover {
-            color: rgb(231, 224, 156);
-            transition: color 0.2s;
-        }
-
-/* === �����϶� === */
-header {
-    position: relative;
-    background: radial-gradient(circle, #bae0d8, #11420b, #01140f);
-    margin-top: 35px; /* ? ��� margin-top�A�קK��� header ���U���e */
+.marquee-content {
+  display: flex;
+  animation: scroll 30s linear infinite;
 }
 
-/* === �j�M�� === */
+.marquee-item {
+  padding: 0 50px;
+  white-space: nowrap;
+  color: #ffd700;
+  font-size: 1.1rem;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* 統計數字區 */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+  padding: 0 20px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 215, 0, 0.05));
+  border: 2px solid #0a573d94;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(126, 207, 187, 0.3);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 10px;
+  animation: countUp 2s;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+/* ===== 搜尋欄 ===== */
 .search-form {
-    display: flex; /* �����ƦC input + button */
-    justify-content: center; /* ��դ����m�� */
-    align-items: center; /* �����m����� input + button */
-    gap: 10px; /* input �P button ���Z */
-    margin: 5px auto 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 20px;
-    max-width: 1200px;
+  display: flex;
+  /* 使用 Flexbox 排版，讓子元素可靈活排列 */
+  justify-content: center;
+  /* 子元素水平置中 */
+  align-items: center;
+  /* 子元素垂直置中對齊 */
+  gap: 10px;
+  /* 子元素之間的間距為 10px */
+  margin: 50px auto;
+  /* 上下各 50px 外距，左右自動置中 */
+  padding: 0 20px;
+  /* 左右各 20px 內距，避免貼齊螢幕邊緣 */
+  max-width: 1200px;
+  /* 最大寬度限制為 1200px，避免在大螢幕上過寬 */
 }
 
-    .search-form input {
-        flex: 1;
-        padding: 10px 15px;
-        border-radius: 20px;
-        border: 1px solid #fff;
-        background-color: #222;
-        color: #fff;
-        outline: none;
-        transition: all 0.3s;
-    }
-
-        .search-form input:focus {
-            border-color: #e7e09c;
-            background-color: #333;
-        }
-
-    .search-form button {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 20px;
-        background-color: #e7e09c;
-        color: #222;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-    }
-
-        .search-form button:hover {
-            background-color: #d4c76e;
-            transform: scale(1.05);
-        }
-
-/* === LOGO (�p���Ϥ�) === */
-.img1 img {
-    position: absolute;
-    width: 200px;
-    height: auto;
-    left: -30px;
-    top: -20px;
+.search-form input {
+  flex: 1;
+  /* 讓輸入框佔據剩餘空間（彈性伸縮） */
+  padding: 10px 15px;
+  /* 上下 10px、左右 15px 的內距 */
+  border-radius: 20px;
+  /* 圓角半徑 20px，產生橢圓形外觀 */
+  border: 1px solid #fff;
+  /* 1px 寬的白色實線邊框 */
+  background-color: #222;
+  /* 背景色為深灰色 */
+  color: #fff;
+  /* 文字顏色為白色 */
+  outline: none;
+  /* 移除聚焦時的預設外框線 */
+  transition: all 0.3s;
+  /* 所有屬性變化時都有 0.3 秒的平滑過渡效果 */
 }
 
-/* === �����s���C === */
+.search-form input:focus {
+  border-color: #e7e09c;
+  /* 聚焦（點擊）時邊框變為黃色 */
+  background-color: #333;
+  /* 聚焦時背景色稍微變亮 */
+}
+
+.search-form button {
+  padding: 8px 16px;
+  /* 上下 8px、左右 16px 的內距 */
+  border: none;
+  /* 移除預設邊框 */
+  border-radius: 20px;
+  /* 圓角半徑 20px，與輸入框一致 */
+  background-color: #e7e09c;
+  /* 背景色為黃色 */
+  color: #222;
+  /* 文字顏色為深灰色 */
+  cursor: pointer;
+  /* 滑鼠移上時顯示手指游標，表示可點擊 */
+  font-weight: 600;
+  /* 字體粗細為半粗體（600） */
+  transition: background-color 0.3s, transform 0.2s;
+  /* 背景色變化 0.3 秒過渡，變形效果 0.2 秒過渡 */
+}
+
+.search-form button:hover {
+  background-color: #d4c76e;
+  /* 滑鼠移上時背景色變為較深的黃色 */
+  transform: scale(1.05);
+  /* 放大至原尺寸的 1.05 倍（5% 放大效果） */
+}
+
+/* ===== 分類連結區域 ===== */
 .category-links {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    right: 10px;
-    margin-top: 20px; /* ? �쥻 50px �Ӥj�A�|�����U�����e */
+  text-align: center;
+  /* 內容文字置中對齊 */
+  margin: 50px 0 30px;
+  /* 上方 50px、下方 30px 外距，左右無外距 */
 }
 
-    .category-links ul {
-        display: flex;
-        padding: 0;
-        margin: 20px 0;
-        list-style: none;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+.category-links ul {
+  list-style: none;
+  /* 移除清單項目符號（小圓點） */
+  padding: 0;
+  /* 移除內距 */
+  margin: 0;
+  /* 移除外距 */
+  display: flex;
+  /* 使用 Flexbox 讓清單項目橫向排列 */
+  justify-content: center;
+  /* 清單項目水平置中 */
+  gap: 50px;
+  /* 清單項目之間的間距為 50px */
+  flex-wrap: wrap;
+  /* 允許項目換行，適應小螢幕 */
+}
 
-    .category-links a {
-        color: #fff;
-        padding: 1px 5px;
-        text-decoration: none;
-    }
+.category-links li a {
+  display: flex;
+  /* 使用 Flexbox 排版連結內容 */
+  flex-direction: column;
+  /* 子元素（圖片和文字）垂直排列 */
+  align-items: center;
+  /* 子元素水平置中對齊 */
+  text-decoration: none;
+  /* 移除連結的底線 */
+  color: #fff;
+  /* 連結文字顏色為白色 */
+  transition: transform 0.3s ease, color 0.3s ease;
+  /* 變形和顏色變化都有 0.3 秒的緩動過渡效果 */
+}
 
-        .category-links a:hover {
-            color: rgb(231, 224, 156);
-            transition: color 0.2s;
-        }
+.category-links li img {
+  width: 80px;
+  /* 圖片寬度固定為 80px */
+  height: 80px;
+  /* 圖片高度固定為 80px */
+  object-fit: contain;
+  /* 保持圖片原始比例，完整顯示在框內 */
+  margin-bottom: 8px;
+  /* 圖片底部留 8px 間距，與下方文字分隔 */
+  transition: transform 0.3s ease;
+  /* 變形效果有 0.3 秒緩動過渡 */
+}
 
-/* === ������ === */
+.category-links li span {
+  font-size: 1.1rem;
+  /* 字體大小為 1.1 倍根元素字體大小 */
+  font-weight: 600;
+  /* 字體粗細為半粗體 */
+}
+
+.category-links li a:hover img {
+  transform: scale(1.15);
+  /* 滑鼠移上時圖片放大至 1.15 倍（15% 放大） */
+}
+
+.category-links li a:hover span {
+  color: #00ff99;
+  /* 滑鼠移上時文字變為亮綠色 */
+}
+
+/* ===== 卡片區域 ===== */
+.card-image-only {
+  position: relative;
+  /* 設定為相對定位，作為內部絕對定位元素的參考 */
+  border: none;
+  /* 移除邊框 */
+  overflow: hidden;
+  /* 隱藏超出卡片範圍的內容 */
+  border-radius: 15px;
+  /* 圓角半徑 15px */
+  cursor: pointer;
+  /* 滑鼠移上時顯示手指游標 */
+  transition: transform 0.3s ease;
+  /* 變形效果 0.3 秒緩動過渡 */
+  height: 300px;
+  /* 卡片固定高度為 300px */
+}
+
+.card-image-only:hover {
+  transform: scale(1.03);
+  /* 滑鼠移上時放大至 1.03 倍（3% 放大） */
+}
+
+.card-image-only .card-img {
+  width: 100%;
+  /* 圖片寬度填滿卡片 */
+  height: 100%;
+  /* 圖片高度填滿卡片 */
+  object-fit: cover;
+  /* 圖片裁切填滿容器，可能會裁掉部分內容 */
+}
+
+.card-overlay {
+  position: absolute;
+  /* 絕對定位，相對於 .card-image-only */
+  bottom: 0;
+  /* 貼齊卡片底部 */
+  left: 0;
+  /* 貼齊卡片左側 */
+  right: 0;
+  /* 貼齊卡片右側 */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  /* 線性漸層：從底部的 80% 不透明黑色漸變到頂部透明 */
+  color: #fff;
+  /* 文字顏色為白色 */
+  padding: 20px;
+  /* 四周內距各 20px */
+}
+
+.card-overlay h5 {
+  margin: 0 0 8px;
+  /* 上方和左右無外距，底部 8px 外距 */
+  font-size: 1.25rem;
+  /* 字體大小為 1.25 倍根元素字體大小 */
+  font-weight: bold;
+  /* 字體粗體 */
+}
+
+.card-overlay p {
+  font-size: 0.9rem;
+  /* 字體大小為 0.9 倍根元素字體大小 */
+  margin: 0;
+  /* 移除外距 */
+}
+
+/* ===== 輪播區域 ===== */
 .carousel-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin: 20px 0;
-    max-width: 1200px;
+  display: flex;
+  /* 使用 Flexbox 排版 */
+  align-items: center;
+  /* 子元素垂直置中對齊 */
+  position: relative;
+  /* 相對定位，作為按鈕絕對定位的參考 */
+  width: 100%;
+  /* 寬度填滿父容器 */
+  overflow: hidden;
+  /* 隱藏超出容器的內容 */
+  margin: 30px 0;
+  /* 上下各 30px 外距 */
 }
 
 .carousel-track {
-    display: flex;
-    gap: 10px;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
+  display: flex;
+  /* 使用 Flexbox 讓圖片橫向排列 */
+  gap: 10px;
+  /* 圖片之間間距 10px */
+  overflow-x: hidden;
+  /* 隱藏水平滾動條 */
+  scroll-behavior: smooth;
+  /* 滾動時平滑過渡 */
+  padding: 10px 0;
+  /* 上下各 10px 內距 */
 }
 
-    .carousel-track img {
-        flex: 0 0 auto;
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
+.carousel-track img {
+  flex: 0 0 auto;
+  /* 圖片不伸縮，保持原始寬度 */
+  width: 180px;
+  /* 圖片寬度固定為 180px */
+  height: 150px;
+  /* 圖片高度固定為 150px */
+  object-fit: cover;
+  /* 圖片裁切填滿容器 */
+  border-radius: 8px;
+  /* 圓角半徑 8px */
+  cursor: pointer;
+  /* 滑鼠移上時顯示手指游標 */
+  transition: transform 0.3s ease;
+  /* 變形效果 0.3 秒緩動過渡 */
+}
+
+.carousel-track img:hover {
+  transform: scale(1.05);
+  /* 滑鼠移上時放大至 1.05 倍 */
+}
 
 .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    font-size: 24px;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 2;
+  position: absolute;
+  /* 絕對定位，相對於 .carousel-container */
+  top: 50%;
+  /* 距離頂部 50%（垂直置中起點） */
+  transform: translateY(-50%);
+  /* 向上移動自身高度的 50%，達到完全垂直置中 */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* 背景色為 60% 不透明的黑色 */
+  color: white;
+  /* 文字（箭頭符號）顏色為白色 */
+  border: none;
+  /* 移除邊框 */
+  font-size: 24px;
+  /* 字體大小 24px */
+  padding: 15px 10px;
+  /* 上下 15px、左右 10px 內距 */
+  cursor: pointer;
+  /* 滑鼠移上時顯示手指游標 */
+  z-index: 2;
+  /* 層級為 2，確保按鈕顯示在圖片上方 */
+  border-radius: 5px;
+  /* 圓角半徑 5px */
+  transition: background-color 0.3s;
+  /* 背景色變化 0.3 秒過渡 */
+}
+
+.carousel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  /* 滑鼠移上時背景變為 80% 不透明黑色 */
 }
 
 .left-btn {
-    left: 0;
+  left: 10px;
+  /* 左側按鈕距離容器左邊 10px */
 }
 
 .right-btn {
-    right: 0;
+  right: 10px;
+  /* 右側按鈕距離容器右邊 10px */
 }
 
-.carousel-indicators {
-    display: none;
+/* ===== Footer ===== */
+footer {
+  margin-top: 60px;
+  /* 頁尾上方留 60px 外距，與內容區分開 */
 }
 
-/* === �d���˦� === */
-.card-custom1,
-.card-custom2,
-.card-custom3 {
-    background: linear-gradient(135deg, #103601, #e7e09c);
-    color: white;
+footer a:hover {
+  color: #00ff99 !important;
+  /* 滑鼠移上頁尾連結時變為亮綠色，!important 提高優先權 */
+}
+
+/* ===== 響應式設計 ===== */
+/* 當螢幕寬度小於或等於 768px 時（平板和手機）套用以下樣式 */
+@media (max-width: 768px) {
+  .site-header h1 {
+    font-size: 36px;
+    /* 縮小標題字體至 36px，適應小螢幕 */
+  }
+
+  .category-links ul {
+    gap: 30px;
+    /* 減少分類連結間距至 30px */
+  }
+
+  .category-links li img {
+    width: 60px;
+    /* 縮小分類圖示至 60px */
+    height: 60px;
+    /* 高度同步縮小至 60px */
+  }
+
+  .carousel-track img {
+    width: 120px;
+    /* 縮小輪播圖片寬度至 120px */
+    height: 100px;
+    /* 縮小輪播圖片高度至 100px */
+  }
 }

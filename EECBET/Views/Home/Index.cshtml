@@ -1,113 +1,380 @@
-﻿@{
-    ViewData["Title"] = "首頁";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
 
-<!-- 卡片區域 -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap" rel="stylesheet">
+  <title>beteec</title>
+  <!-- 先載入 Bootstrap -->
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap JS Bundle (含 Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/css/Lobby.css">
+</head>
+
+<body>
+  <div class="header-container">
+    <!-- 頁首 -->
+    <header class="site-header">
+      <h1>beteec</h1>
+    </header>
+
+    <div class="nav-logo-container">
+      <!-- 圖片 -->
+      <!-- <p class="img1"> -->
+        <!-- <img src="./images/logo.png"> -->
+      <!-- </p> -->
+
+      <!-- 導覽列 -->
+      <!-- <nav class="main-nav"> -->
+        <!-- <ul> -->
+          <!-- <li>運彩</li> -->
+          <!-- <li>泳池</li> -->
+          <!-- <li>賭場</li> -->
+        <!-- </ul> -->
+      <!-- </nav> -->
+    <!-- </div> -->
+
+    <!-- 跑馬燈 -->
+  <div class="marquee">
+    <div class="marquee-content">
+      <span class="marquee-item">🎊 恭喜玩家 王***明 贏得 $128,000</span>
+      <span class="marquee-item">🎁 新會員註冊即送 $500 體驗金</span>
+      <span class="marquee-item">🔥 熱門遊戲「黃金埃及」累積獎金突破千萬</span>
+      <span class="marquee-item">⭐ 每日簽到送好禮</span>
+      <span class="marquee-item">🎊 恭喜玩家 王***明 贏得 $128,000</span>
+      <span class="marquee-item">🎁 新會員註冊即送 $500 體驗金</span>
+      <span class="marquee-item">🔥 熱門遊戲「黃金埃及」累積獎金突破千萬</span>
+      <span class="marquee-item">⭐ 每日簽到送好禮</span>
+    </div>
+  </div>
+
+  <!-- 統計數字區 -->
+  <div class="container">
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-number">87,087</div>
+        <div class="stat-label">在線玩家</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">$8.7M</div>
+        <div class="stat-label">今日累積獎金</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1,234</div>
+        <div class="stat-label">今日贏家</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">89.17%</div>
+        <div class="stat-label">返還率</div>
+      </div>
+    </div>
+  </div>
+
+    <!-- 搜尋欄 -->
+    <form class="search-form">
+      <input type="text" placeholder="輸入關鍵字...">
+      <button type="submit">搜尋</button>
+    </form>
+  </div>
+
+ <div class="category-links">
+      <ul>
+        <li>
+          <a href="#">
+          <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Offers_Colour_Icon.svg" alt="最新活動">
+          <span>最新活動</span>
+        </a>
+      </li> 
+
+        <li>
+          <a href="#">
+           <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Slots_Colour_Icon.svg" alt="老虎機">
+           <span>老虎機</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+           <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Bingo_Coloured_Icon.svg" alt="彩票">
+           <span>彩票</span>
+          </a>
+        </li>
+
+        <li><a href="./login.html">
+          <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Casino_Colour_Icon.svg" alt="會員專區">
+           <span>會員專區</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+ <!-- 卡片區域 -->
 <div class="container my-4">
-    <div class="row g-4">
-        <!-- 第一張卡片 -->
-        <div class="col-md-4">
-            <div class="card h-100 text-center card-custom1">
-                <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" class="card-img-top" alt="卡片1">
-                <div class="card-body">
-                    <h5 class="card-title">遊戲介紹</h5>
-                    <p class="card-text">精選各類遊戲，淺顯易懂的教學，讓您快速上手!</p>
-                </div>
-            </div>
-        </div>
+  <div class="row g-4">
 
-        <!-- 第二張卡片 -->
-        <div class="col-md-4">
-            <div class="card h-100 text-center card-custom2">
-                <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" class="card-img-top" alt="卡片2">
-                <div class="card-body">
-                    <h5 class="card-title">儲值點數</h5>
-                    <p class="card-text">線上儲值，玩家錢包系統，首儲再送好禮!</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 第三張卡片 -->
-        <div class="col-md-4">
-            <div class="card h-100 text-center card-custom3">
-                <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" class="card-img-top" alt="卡片3">
-                <div class="card-body">
-                    <h5 class="card-title">萬聖狂歡節</h5>
-                    <p class="card-text">萬聖節奇趣派對驚喜上線中!多重大禮包等你拿!</p>
-                </div>
-            </div>
-        </div>
+    <!-- 第一張卡片 -->
+   <div class="col-md-4">
+  <div class="card card-image-only">
+    <img src="https://content001.bet365.mx/Games/ProjectAwesome/LiveCasinoOffersSeason/November/1-LiveCasinoGiveaway/LCOS_LiveCasinoGiveaway_680x400.jpg" class="card-img" alt="遊戲介紹">
+    <div class="card-overlay">
+      <h5 class="card-title">遊戲介紹</h5>
+      <p class="card-text">精選各類遊戲，淺顯易懂的教學，讓您快速上手!</p>
     </div>
+  </div>
 </div>
 
-<!-- 輪播區 -->
-<div class="container mt-5">
+    <!-- 第二張卡片 -->
+  <div class="col-md-4">
+    <div class="card card-image-only">
+      <img src="https://content001.bet365.mx/Games/Awesome/LiveBlackjackChallenges_680x400.png" class="card-img" alt="儲值點數">
+      <div class="card-overlay">
+        <h5 class="card-title">儲值點數</h5>
+        <p class="card-text">線上儲值，玩家錢包系統，首儲再送好禮!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第三張卡片 -->
+  <div class="col-md-4">
+    <div class="card card-image-only">
+      <img src="https://content001.bet365.mx/Games/SGP/Test/NextGen/Gaming_680x400_Carousel_1.jpg" class="card-img" alt="萬聖狂歡節">
+      <div class="card-overlay">
+        <h5 class="card-title">萬聖狂歡節</h5>
+        <p class="card-text">萬聖節奇趣派對驚喜上線中!多重大禮包等你拿!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>
+
+
+
+
+
+  <div class="container mt-5">
+    <!-- 輪播開始 -->
     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-pause="hover">
+      <!-- 輪播指示器 (小圓點) -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2"></button>
+      </div>
 
-        <!-- 第一排輪播 -->
-        <div class="carousel-container">
-            <button class="carousel-btn left-btn">&lt;</button>
-            <div class="carousel-track">
-                @for (int i = 1; i <= 8; i++)
-                {
-                    <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="slide@i">
-                }
-            </div>
-            <button class="carousel-btn right-btn">&gt;</button>
+      <!-- 輪播內容 -->
+      <div class="carousel-container">
+        <!-- 左箭頭 -->
+        <button class="carousel-btn left-btn">&lt;</button>
+
+        <!-- 圖片橫向列表 -->
+        <div class="carousel-track">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="slide1">
+          <img src="https://www.top-casino.nl/runtime/images/2247/540x360/Gokkast_book_of_horus_bet365.webp" alt="slide2">
+          <img src="https://online.casinocity.com/image_resize.ashx?type=game&imgid=128934&width=280" alt="slide3">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS07KHn-x72PtJF_0qzfaRtuvLJ5GukYPBIrSF858_Dm7X_x5VxKeUgPwoI6_2L3-DliQA&usqp=CAU" alt="slide4">
+          <img src="https://content001.bet365.com/Games/SGP/GamePodImages/BisonRisingMegawaysJPK_1000x400.jpg" alt="slide5">
+          <img src="https://content001.bet365.es/Slots/SGP/GamePodImages/CashStrikeHotstepper2_1000x400_With-Character.jpg" alt="slide6">
+          <img src="https://content001.bet365.gr/Games/SGP/GamePodImages/ValhallGold_1000x400_With-Character.jpg" alt="slide7">
+          <img src="https://content001.bet365.es/Slots/SGP/GamePodImages/8Immortals3_1000x400_With-Character.jpg" alt="slide8">
         </div>
 
-        <!-- 第二排輪播 -->
-        <div class="carousel-container">
-            <button class="carousel-btn left-btn">&lt;</button>
-            <div class="carousel-track">
-                @for (int i = 9; i <= 16; i++)
-                {
-                    <img src="https://picsum.photos/800/400?random=@i" alt="slide@i">
-                }
-            </div>
-            <button class="carousel-btn right-btn">&gt;</button>
+        <!-- 右箭頭 -->
+        <button class="carousel-btn right-btn">&gt;</button>
+      </div>
+
+      <!-- 輪播內容 -->
+      <div class="carousel-container">
+        <!-- 左箭頭 -->
+        <button class="carousel-btn left-btn">&lt;</button>
+
+        <!-- 圖片橫向列表 -->
+        <div class="carousel-track">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/1001ArabianNightsPlusPays_1000x400_With-Character.jpg" alt="slide9">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/RouletteUp_1000x400.jpg" alt="slide10">
+          <img src="https://content001.bet365.com/Games/SGP/GamePodImages/MiniSuperSpinRoulette_1000x400.jpg" alt="slide11">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/ZappinZeus_1000x400_With-Character.jpg" alt="slide12">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/DeadWest_1000x400_With-Character.jpg" alt="slide13">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/8ImmortalsVideoBingo_1000x400_With-Character.jpg" alt="slide14">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/100BurningClover_CloverChance_1000x400.jpg" alt="slide15">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwbTmlYxiDepY8_3w5hZ_9Wq-dB3vSBN7pd2Z58FowqO9HgmASc0dPGRhXmlNGoB2dP4g&usqp=CAU" alt="slide16">
         </div>
 
-        <!-- 第三排輪播 -->
-        <div class="carousel-container">
-            <button class="carousel-btn left-btn">&lt;</button>
-            <div class="carousel-track">
-                @for (int i = 17; i <= 24; i++)
-                {
-                    <img src="https://picsum.photos/800/400?random=@i" alt="slide@i">
-                }
-            </div>
-            <button class="carousel-btn right-btn">&gt;</button>
+        <!-- 右箭頭 -->
+        <button class="carousel-btn right-btn">&gt;</button>
+      </div>
+
+      <!-- 輪播內容 -->
+      <div class="carousel-container">
+        <!-- 左箭頭 -->
+        <button class="carousel-btn left-btn">&lt;</button>
+
+        <!-- 圖片橫向列表 -->
+        <div class="carousel-track">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/123Bingo_1000x400.jpg" alt="slide17">
+          <img src="https://www.cityam.com/wp-content/uploads/2025/09/bet365-Bingo-Scratch-To-Win.jpg?w=824&h=463&crop=1" alt="slide18">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/GonzosQuestIIReturntoElDorado_1000x400_With-Character.jpg" alt="slide19">
+          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/10000BC2DoubleMax_v3_1000x400_With-Character.jpg" alt="slide20">
+          <img src="https://content001.bet365.es/Slots/SGP/GamePodImages/Baoshi_1000x400_with-character.jpg" alt="slide21">
+          <img src="https://content001.pa.bet365.com/Casino/SGP/GamePodImages/Firerush77Sevens_1000x400.jpg" alt="slide22">
+          <img src="https://content001.bet365.es/Slots/SGP/GamePodImages/RiseofAtlantisLegacy_1000x400_With-Character.jpg" alt="slide23">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkLzBg7y4_7grbk55zc7XVw2UzwsoUuVtllBntcr0Z-foDPCgCE358_bHSOMlcRRAhDyY&usqp=CAU" alt="slide24">
         </div>
 
-        <script>
-            window.onload = function () {
-                document.querySelectorAll('.carousel-container').forEach(row => {
-                    const track = row.querySelector('.carousel-track');
-                    const btnLeft = row.querySelector('.left-btn');
-                    const btnRight = row.querySelector('.right-btn');
-                    const scrollAmount = track.querySelector('img').offsetWidth + 10;
+        <!-- 右箭頭 -->
+        <button class="carousel-btn right-btn">&gt;</button>
+      </div>
 
-                    btnLeft.addEventListener('click', () => {
-                        track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-                    });
-                    btnRight.addEventListener('click', () => {
-                        track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                    });
+    <!-- 優化後的輪播功能 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 為每個輪播容器設定功能
+      document.querySelectorAll('.carousel-container').forEach((container, index) => {
+        const track = container.querySelector('.carousel-track');
+        const btnLeft = container.querySelector('.left-btn');
+        const btnRight = container.querySelector('.right-btn');
+        
+        let isScrolling = false;
+        let autoScrollInterval;
+        
+        // 計算每次滾動距離（一張圖片寬度 + 間距）
+        const getScrollAmount = () => {
+          const img = track.querySelector('img');
+          return img ? img.offsetWidth + 10 : 190;
+        };
+        
+        // 平滑滾動函數
+        const smoothScroll = (direction) => {
+          if (isScrolling) return;
+          
+          isScrolling = true;
+          const scrollAmount = getScrollAmount();
+          const targetScroll = direction === 'left' 
+            ? track.scrollLeft - scrollAmount 
+            : track.scrollLeft + scrollAmount;
+          
+          // 使用原生滾動 API，更流暢
+          track.scrollTo({
+            left: targetScroll,
+            behavior: 'smooth'
+          });
+          
+          // 檢查是否到達邊界，如果是則重置到開頭
+          setTimeout(() => {
+            if (direction === 'right' && track.scrollLeft >= track.scrollWidth - track.clientWidth - 50) {
+              setTimeout(() => {
+                track.scrollTo({ left: 0, behavior: 'smooth' });
+              }, 300);
+            }
+            isScrolling = false;
+          }, 400);
+        };
+        
+        // 左右按鈕事件
+        btnLeft.addEventListener('click', (e) => {
+          e.preventDefault();
+          smoothScroll('left');
+        });
+        
+        btnRight.addEventListener('click', (e) => {
+          e.preventDefault();
+          smoothScroll('right');
+        });
+        
+        // 自動輪播功能（每個輪播延遲不同時間開始，產生錯落效果）
+        const startAutoScroll = () => {
+          autoScrollInterval = setInterval(() => {
+            smoothScroll('right');
+          }, 2500 + (index * 300)); // 每排間隔 300ms，產生視覺層次
+        };
+        
+        const stopAutoScroll = () => {
+          if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+          }
+        };
+        
+        // 滑鼠移入暫停，移出恢復
+        track.addEventListener('mouseenter', stopAutoScroll);
+        track.addEventListener('mouseleave', startAutoScroll);
+        
+        // 觸控支援
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        track.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+          stopAutoScroll();
+        });
+        
+        track.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          const diff = touchStartX - touchEndX;
+          
+          if (Math.abs(diff) > 50) {
+            smoothScroll(diff > 0 ? 'right' : 'left');
+          }
+          
+          startAutoScroll();
+        });
+        
+        // 啟動自動輪播
+        startAutoScroll();
+      });
+    });
+  </script>
 
-                    let interval = setInterval(() => {
-                        track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                    }, 2000);
-
-                    track.addEventListener('mouseenter', () => clearInterval(interval));
-                    track.addEventListener('mouseleave', () => {
-                        interval = setInterval(() => {
-                            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                        }, 2000);
-                    });
-                });
-            };
-        </script>
     </div>
-</div>
+  </div>
+  <!-- Footer -->
+  <footer class="bg-dark text-light pt-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <!-- Logo & 描述 -->
+        <div class="col-md-4 mb-3">
+          <h5 class="fw-bold">beteec</h5>
+          <p>全台最歡樂的遊戲村莊，陪你度過每一個驚喜時刻！</p>
+        </div>
+
+        <!-- 快速連結 -->
+        <div class="col-md-4 mb-3">
+          <h6 class="fw-bold">快速連結</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-light text-decoration-none">最新活動</a></li>
+            <li><a href="#" class="text-light text-decoration-none">熱門分類</a></li>
+            <li><a href="#" class="text-light text-decoration-none">會員專區</a></li>
+            <li><a href="#" class="text-light text-decoration-none">聯絡我們</a></li>
+          </ul>
+        </div>
+
+        <!-- 聯絡資訊 -->
+        <div class="col-md-4 mb-3">
+          <h6 class="fw-bold">聯絡我們</h6>
+          <p>Email: service@happyvillage.com</p>
+          <p>電話: (02) 1234-5678</p>
+          <div>
+            <a href="#" class="text-light me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-light me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-light"><i class="bi bi-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部版權 -->
+      <div class="text-center py-3 border-top border-secondary">
+        © 2025 歡樂破產村 | All Rights Reserved
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>
