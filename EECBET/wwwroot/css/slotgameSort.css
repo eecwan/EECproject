@@ -1,6 +1,7 @@
 
 /*sort */
 .sort {
+    position: relative;
     display: flex;
     justify-content: right;
 }
@@ -14,6 +15,7 @@
         border-radius: 20px;
         padding: 2px 15px;
         gap: 16px;
+        font-size: 12px;
     }
 
 
@@ -23,7 +25,6 @@
             gap: 6px;
             text-decoration: none;
             color: white;
-            font-size: 12px;
             border-radius: 0;
             line-height: 2;
         }
@@ -34,3 +35,26 @@
                 margin-right: 10px;
                 border-radius: 0;
             }
+
+.sortDropdown {
+    position: absolute;
+    top: 35px;   
+    background: rgba(50, 50, 50, 0.9);
+    border-radius:5px;
+    padding: 8px 0;
+    z-index: 999;
+}
+
+    .sortDropdown ul {
+        flex-direction:column;
+        border: none;
+    }
+
+    .sortDropdown li {
+        cursor: pointer;
+    }
+
+        .sortDropdown li.active {
+            color: #13ffc0;
+            font-weight: bold;
+        }

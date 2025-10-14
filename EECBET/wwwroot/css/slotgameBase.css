@@ -4,16 +4,21 @@
     font-family: "Chiron Hei HK", sans-serif;
 }
 
-body {
-    background-color: rgb(28, 28, 28);
-
-
+.wrap {
+   
+    max-width: 1400px;
+   margin:0 auto;
+   
 }
+
 .sectionTitle {
- display: flex;
- justify-content: space-between;
- padding: 0 30px;
- color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    color: white;
+    margin: 0px;
+  
 }
 
     .sectionTitle a {
@@ -23,6 +28,7 @@ body {
     }
 
 section {
+    
     margin-bottom: 40px;
 }
 
@@ -35,12 +41,12 @@ section {
     border: 1px solid rgb(255, 255, 255);
     padding: 0 10px;
     border-radius: 20px;
-    font-size: 10px;
+    font-size: 12px;
 }
 /* Swiper */
 
 .swiper {
-    padding: 20px 30px;
+    padding: 10px 10px;
 }
 
 .swiper-slide img:hover {
@@ -61,7 +67,8 @@ section {
     padding: 90px 10px;
     color: white;
     transition: opacity 0.3s ease;
-    top: 40px;
+
+    transform: translateY(-40%); /* 垂直置中用這個 */
 }
 
 .swiper-button-next {
