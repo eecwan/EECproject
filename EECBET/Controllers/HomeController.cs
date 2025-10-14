@@ -36,5 +36,12 @@ namespace EECBET.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        // 🔥 添加這個
+        public IActionResult SlotMachine()
+        {
+            return View();
+        }
     }
 }

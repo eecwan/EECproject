@@ -1,0 +1,647 @@
+@{
+    ViewData["Title"] = "老虎機遊戲";
+}
+
+<style>
+/* 🎰 容器主體 */
+.slot-game-container {
+    background: 
+        radial-gradient(ellipse at top, rgba(139, 0, 139, 0.15), transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(0, 100, 200, 0.1), transparent 50%),
+        linear-gradient(180deg, #0a0a0f 0%, #1a1625 60%, #0f0a15 100%);
+    min-height: calc(100vh - 400px);
+    padding: 50px 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 背景動態光效 */
+.slot-game-container::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.08), transparent 70%);
+    top: -250px;
+    right: -250px;
+    animation: pulse 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.slot-game-container::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.06), transparent 70%);
+    bottom: -200px;
+    left: -200px;
+    animation: pulse 5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@@keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.slot-wrap {
+    width: 100%;
+    max-width: 980px;
+    background: linear-gradient(145deg, rgba(30, 25, 45, 0.6), rgba(15, 15, 25, 0.8));
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 32px;
+    margin: 0 auto;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        0 0 80px rgba(138, 43, 226, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.slot-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 頂部標題區 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    animation: glow 2s ease-in-out infinite;
+}
+
+@@keyframes glow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+.credits {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 200, 100, 0.25));
+    padding: 10px 20px;
+    border-radius: 14px;
+    color: #00ff88;
+    font-weight: 800;
+    font-size: 16px;
+    box-shadow: 
+        0 4px 15px rgba(0, 255, 136, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    letter-spacing: 1px;
+}
+
+/* 主要內容區 */
+.main {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.machine {
+    flex: 1 1 640px;
+    background: linear-gradient(145deg, rgba(20, 15, 35, 0.8), rgba(30, 25, 45, 0.6));
+    border-radius: 16px;
+    padding: 24px;
+    min-width: 280px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* 轉輪區 */
+.reels {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(20, 20, 40, 0.3));
+    border-radius: 16px;
+    box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.reel {
+    width: 140px;
+    height: 140px;
+    background: linear-gradient(145deg, #1a1a2e, #0f0f1e);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    box-shadow: 
+        inset 0 -8px 24px rgba(0, 0, 0, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.05),
+        0 8px 24px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    user-select: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.reel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent);
+    pointer-events: none;
+}
+
+.reel:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        inset 0 -8px 24px rgba(0, 0, 0, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.05),
+        0 12px 32px rgba(138, 43, 226, 0.2);
+}
+
+/* 控制按鈕區 */
+.controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: none;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn-spin {
+    background: linear-gradient(135deg, #00ff88 0%, #00cc66 50%, #00994d 100%);
+    color: #002211;
+    box-shadow: 
+        0 8px 24px rgba(0, 255, 136, 0.3),
+        0 0 40px rgba(0, 255, 136, 0.2);
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-spin:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 32px rgba(0, 255, 136, 0.4),
+        0 0 60px rgba(0, 255, 136, 0.3);
+}
+
+.btn-spin:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-reset {
+    background: linear-gradient(135deg, rgba(80, 60, 120, 0.3), rgba(50, 40, 80, 0.4));
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-reset:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(100, 80, 140, 0.4), rgba(70, 60, 100, 0.5));
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 押注輸入框 */
+.bet-box {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(30, 25, 45, 0.6), rgba(20, 15, 35, 0.8));
+    padding: 8px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.bet-box label {
+    font-size: 13px;
+    color: #d0d0d0;
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+.bet-box input {
+    width: 68px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    outline: none;
+    background: linear-gradient(145deg, #0f0f1e, #1a1a2e);
+    color: #00ff88;
+    text-align: center;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.bet-box input:focus {
+    border-color: rgba(0, 255, 136, 0.4);
+    box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.5),
+        0 0 12px rgba(0, 255, 136, 0.3);
+}
+
+/* 狀態顯示 */
+.status {
+    margin-top: 16px;
+    text-align: center;
+    color: #e0e0e0;
+    min-height: 24px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 8px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+    border-radius: 8px;
+}
+
+/* 側邊欄 */
+.side {
+    width: 300px;
+    min-width: 220px;
+    background: linear-gradient(145deg, rgba(25, 20, 40, 0.6), rgba(20, 15, 35, 0.8));
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.side h4 {
+    margin: 0 0 12px 0;
+    color: #ffd700;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.rules {
+    font-size: 13px;
+    color: #d0d0d0;
+    line-height: 1.7;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border-left: 3px solid rgba(255, 215, 0, 0.3);
+}
+
+.log {
+    margin-top: 12px;
+    max-height: 220px;
+    overflow: auto;
+    font-size: 12px;
+    color: #c0c0c0;
+    padding-right: 8px;
+}
+
+.log::-webkit-scrollbar {
+    width: 6px;
+}
+
+.log::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.log::-webkit-scrollbar-thumb {
+    background: rgba(138, 43, 226, 0.4);
+    border-radius: 3px;
+}
+
+.log::-webkit-scrollbar-thumb:hover {
+    background: rgba(138, 43, 226, 0.6);
+}
+
+.log p {
+    margin: 6px 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(30, 25, 45, 0.4), rgba(20, 15, 35, 0.6));
+    border-left: 2px solid rgba(138, 43, 226, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+@@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 中獎動畫 */
+.win {
+    animation: win-flash 800ms ease-in-out 0s 3, win-scale 800ms ease-in-out 0s 3;
+}
+
+@@keyframes win-flash {
+    0% { 
+        box-shadow: 0 0 0 rgba(0, 255, 136, 0);
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+    50% { 
+        box-shadow: 
+            0 0 40px rgba(0, 255, 136, 0.6),
+            0 0 80px rgba(0, 255, 136, 0.4),
+            inset 0 0 20px rgba(0, 255, 136, 0.3);
+        border-color: rgba(0, 255, 136, 0.8);
+    }
+    100% { 
+        box-shadow: 0 0 0 rgba(0, 255, 136, 0);
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+@@keyframes win-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* 響應式設計 */
+@@media (max-width: 900px) {
+    .main {
+        flex-direction: column;
+    }
+    
+    .side {
+        width: 100%;
+    }
+    
+    .machine {
+        width: 100%;
+    }
+    
+    .reel {
+        width: 110px;
+        height: 110px;
+        font-size: 44px;
+    }
+    
+    .title {
+        font-size: 20px;
+    }
+    
+    .slot-wrap {
+        padding: 24px;
+    }
+}
+
+@@media (max-width: 600px) {
+    .reel {
+        width: 90px;
+        height: 90px;
+        font-size: 36px;
+    }
+    
+    .reels {
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .controls {
+        gap: 8px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+}
+</style>
+
+<!-- 🔥 用 div 包裝，不要用 body -->
+<div class="slot-game-container">
+    <div class="slot-wrap" role="application" aria-label="老虎機遊戲">
+        <div class="header">
+            <div class="title">🎰 Slot Machine</div>
+            <div class="credits" id="credits">Credits: 100</div>
+        </div>
+
+        <div class="main">
+            <div class="machine" aria-hidden="false">
+                <div class="reels" id="reels">
+                    <div class="reel" id="reel1">🍒</div>
+                    <div class="reel" id="reel2">🍋</div>
+                    <div class="reel" id="reel3">🔔</div>
+                </div>
+
+                <div class="controls">
+                    <div class="bet-box">
+                        <label style="font-size:13px;color:#cfcfcf;margin-right:6px">押注</label>
+                        <input id="bet" type="number" min="1" value="5" />
+                    </div>
+
+                    <button class="btn btn-reset" id="resetBtn" title="重置點數">Reset</button>
+                    <button class="btn btn-spin" id="spinBtn" title="開始旋轉">SPIN</button>
+                </div>
+
+                <div class="status" id="status">按 SPIN 開始遊戲</div>
+            </div>
+
+            <aside class="side" aria-label="資訊">
+                <h4>中獎規則（示意）</h4>
+                <div class="rules">
+                    • 三個完全相同：大獎 5×。<br>
+                    • 兩個相同：小獎 2×。<br>
+                    • 否則未中。
+                </div>
+
+                <h4 style="margin-top:12px">遊戲紀錄</h4>
+                <div class="log" id="log"></div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        const symbols = ["🍒","🍋","🍊","🔔","⭐","💎","7️⃣","🍇"];
+        const reels = [
+            document.getElementById('reel1'),
+            document.getElementById('reel2'),
+            document.getElementById('reel3')
+        ];
+        const spinBtn = document.getElementById('spinBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const creditsEl = document.getElementById('credits');
+        const statusEl = document.getElementById('status');
+        const logEl = document.getElementById('log');
+        const betInput = document.getElementById('bet');
+
+        let credits = 100;
+        let spinning = false;
+
+        function updateCredits(){
+            creditsEl.textContent = 'Credits: ' + credits;
+        }
+        updateCredits();
+
+        function randSymbol(){
+            return symbols[Math.floor(Math.random()*symbols.length)];
+        }
+
+        function startSpinAnimation(reel){
+            return setInterval(()=> {
+                reel.textContent = randSymbol();
+            }, 60);
+        }
+
+        function stopAfter(reel, intervalId, finalSymbol){
+            clearInterval(intervalId);
+            reel.textContent = finalSymbol;
+        }
+
+        function appendLog(text){
+            const p = document.createElement('p');
+            p.textContent = `${new Date().toLocaleTimeString()} — ${text}`;
+            logEl.prepend(p);
+            while(logEl.children.length > 40) logEl.removeChild(logEl.lastChild);
+        }
+
+        spinBtn.addEventListener('click', ()=> {
+            if(spinning) return;
+            const bet = Math.max(1, Math.floor(Number(betInput.value) || 1));
+            if(bet > credits){
+                statusEl.textContent = '餘額不足，請降低押注。';
+                return;
+            }
+
+            credits -= bet;
+            updateCredits();
+            appendLog(`押注 ${bet}，開始旋轉`);
+            statusEl.textContent = '在旋轉...';
+            spinning = true;
+            spinBtn.disabled = true;
+
+            const intervals = reels.map(r => startSpinAnimation(r));
+            const finalSymbols = [randSymbol(), randSymbol(), randSymbol()];
+
+            setTimeout(()=> stopAfter(reels[0], intervals[0], finalSymbols[0]), 900);
+            setTimeout(()=> stopAfter(reels[1], intervals[1], finalSymbols[1]), 1400);
+            setTimeout(()=> {
+                stopAfter(reels[2], intervals[2], finalSymbols[2]);
+                setTimeout(()=> {
+                    evaluate(finalSymbols, bet);
+                    spinning = false;
+                    spinBtn.disabled = false;
+                }, 200);
+            }, 2000);
+        });
+
+        resetBtn.addEventListener('click', ()=> {
+            credits = 100;
+            updateCredits();
+            appendLog('已重設點數為 100');
+            statusEl.textContent = '已重設';
+        });
+
+        function evaluate(symbolsResult, bet){
+            const [a,b,c] = symbolsResult;
+            let reward = 0;
+            let msg = '';
+            if(a === b && b === c){
+                reward = bet * 5;
+                msg = `恭喜三連中！獲得 ${reward} 點`;
+                reels.forEach(r => { r.classList.add('win'); });
+                setTimeout(()=> reels.forEach(r => r.classList.remove('win')), 1000);
+            } else if (a === b || a === c || b === c){
+                reward = bet * 2;
+                msg = `兩個相同，小獎 ${reward} 點`;
+                reels.forEach((r, idx)=> {
+                    if(symbolsResult.filter(s => s === symbolsResult[idx]).length > 1){
+                        r.classList.add('win');
+                        setTimeout(()=> r.classList.remove('win'),1000);
+                    }
+                });
+            } else {
+                msg = '未中，再試一次！';
+            }
+
+            if(reward>0){
+                credits += reward;
+                updateCredits();
+                appendLog(`中獎：${msg}`);
+            } else {
+                appendLog(`未中，結果： ${symbolsResult.join(' | ')}`);
+            }
+            statusEl.textContent = msg;
+        }
+    })();
+</script>
