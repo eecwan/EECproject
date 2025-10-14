@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - 歡樂破產村</title>
+    <title>@ViewData["Title"] - EECBET</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
@@ -21,98 +21,127 @@
     <link rel="stylesheet" href="~/css/Lobby.css" asp-append-version="true" />
 </head>
 
+
 <body>
 
-    <!-- 這裡放你的 header、nav、搜尋列等 -->
+  <div class="header-container">
+    <!-- 頁首 -->
     <header class="site-header">
-        <h1>歡樂破產村</h1>
-
-        <div class="category-links">
-            <ul>
-                <li>
-                    <a asp-controller="Home" asp-action="Index">
-                        <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Offers_Colour_Icon.svg"
-                            alt="最新活動">
-                        <span>最新活動</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Slots_Colour_Icon.svg"
-                            alt="老虎機">
-                        <span>老虎機</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a asp-controller="Home" asp-action="Lottery">
-                        <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Bingo_Coloured_Icon.svg"
-                            alt="彩票">
-                        <span>彩票</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a asp-controller="Home" asp-action="Member">
-                        <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Casino_Colour_Icon.svg"
-                            alt="會員專區">
-                        <span>會員專區</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- 搜尋欄 -->
-        <form class="search-form">
-            <input type="text" placeholder="輸入關鍵字...">
-            <button type="submit">搜尋</button>
-        </form>
+      <h1>beteec</h1>
     </header>
 
-    <!-- 中間頁面內容會自動插入這裡 -->
-    <main class="container mt-4">
-        @RenderBody()
-    </main>
+    <div class="nav-logo-container">
+      <!-- 圖片 -->
+      <!-- <p class="img1"> -->
+        <!-- <img src="./images/logo.png"> -->
+      <!-- </p> -->
 
-    <!-- Footer 原樣保留 -->
-    <footer class="bg-dark text-light pt-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <h5 class="fw-bold">歡樂破產村</h5>
-                    <p>全台最歡樂的遊戲村莊，陪你度過每一個驚喜時刻！</p>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h6 class="fw-bold">快速連結</h6>
-                    <ul class="list-unstyled">
-                        <li><a asp-controller="Home" asp-action="Events"
-                                class="text-light text-decoration-none">最新活動</a></li>
-                        <li><a asp-controller="Game" asp-action="Lobby" class="text-light text-decoration-none">熱門分類</a>
-                        </li>
-                        <li><a asp-controller="Member" asp-action="Index"
-                                class="text-light text-decoration-none">會員專區</a></li>
-                        <li><a asp-controller="Home" asp-action="Contact"
-                                class="text-light text-decoration-none">聯絡我們</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h6 class="fw-bold">聯絡我們</h6>
-                    <p>Email: service@happyvillage.com</p>
-                    <p>電話: (02) 1234-5678</p>
-                </div>
-            </div>
-            <div class="text-center py-3 border-top border-secondary">
-                © 2025 歡樂破產村 | All Rights Reserved
-            </div>
+      <!-- 導覽列 -->
+      <!-- <nav class="main-nav"> -->
+        <!-- <ul> -->
+          <!-- <li>運彩</li> -->
+          <!-- <li>泳池</li> -->
+          <!-- <li>賭場</li> -->
+        <!-- </ul> -->
+      <!-- </nav> -->
+    <!-- </div> -->
+
+    <!-- 跑馬燈 -->
+  <div class="marquee">
+    <div class="marquee-content">
+      <span class="marquee-item">🎊 恭喜玩家 王***明 贏得 $128,000</span>
+      <span class="marquee-item">🎁 新會員註冊即送 $500 體驗金</span>
+      <span class="marquee-item">🔥 熱門遊戲「黃金埃及」累積獎金突破千萬</span>
+      <span class="marquee-item">⭐ 每日簽到送好禮</span>
+      <span class="marquee-item">🎊 恭喜玩家 王***明 贏得 $128,000</span>
+      <span class="marquee-item">🎁 新會員註冊即送 $500 體驗金</span>
+      <span class="marquee-item">🔥 熱門遊戲「黃金埃及」累積獎金突破千萬</span>
+      <span class="marquee-item">⭐ 每日簽到送好禮</span>
+    </div>
+  </div>
+
+    <!-- 搜尋欄 -->
+    <form class="search-form">
+      <input type="text" placeholder="輸入關鍵字...">
+      <button type="submit">搜尋</button>
+    </form>
+  </div>
+
+ <div class="category-links">
+      <ul>
+        <li>
+          <a asp-controller="Home" asp-action="Index">
+          <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Offers_Colour_Icon.svg" alt="最新活動">
+          <span>最新活動</span>
+        </a>
+      </li> 
+
+        <li>
+          <a asp-controller="Home" asp-action="SlotGame_home">
+           <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Slots_Colour_Icon.svg" alt="老虎機">
+           <span>老虎機</span>
+          </a>
+        </li>
+
+        <li>
+          <a asp-controller="Home" asp-action="Lottery">
+           <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Bingo_Coloured_Icon.svg" alt="彩票">
+           <span>彩票</span>
+          </a>
+        </li>
+
+        <li><a asp-controller="Home" asp-action="Member">
+          <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Casino_Colour_Icon.svg" alt="會員專區">
+           <span>會員專區</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    </div>
+  </div>
+    @RenderBody()
+  <!-- Footer -->
+  <footer class="bg-dark text-light pt-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <!-- Logo & 描述 -->
+        <div class="col-md-4 mb-3">
+          <h5 class="fw-bold">beteec</h5>
+          <p>全台最歡樂的遊戲村莊，陪你度過每一個驚喜時刻！</p>
         </div>
-    </footer>
 
-    <!-- 共用腳本 -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <!-- 快速連結 -->
+        <div class="col-md-4 mb-3">
+          <h6 class="fw-bold">快速連結</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-light text-decoration-none">最新活動</a></li>
+            <li><a href="#" class="text-light text-decoration-none">熱門分類</a></li>
+            <li><a href="#" class="text-light text-decoration-none">會員專區</a></li>
+            <li><a href="#" class="text-light text-decoration-none">聯絡我們</a></li>
+          </ul>
+        </div>
 
-    @await RenderSectionAsync("Scripts", required: false)
+        <!-- 聯絡資訊 -->
+        <div class="col-md-4 mb-3">
+          <h6 class="fw-bold">聯絡我們</h6>
+          <p>Email: service@happyvillage.com</p>
+          <p>電話: (02) 1234-5678</p>
+          <div>
+            <a href="#" class="text-light me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-light me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-light"><i class="bi bi-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部版權 -->
+      <div class="text-center py-3 border-top border-secondary">
+        © 2025 歡樂破產村 | All Rights Reserved
+      </div>
+    </div>
+  </footer>
+
+
 </body>
-
 </html>
