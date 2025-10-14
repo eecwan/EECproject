@@ -3,6 +3,7 @@
 }
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,15 +27,41 @@
     <header class="site-header">
         <h1>歡樂破產村</h1>
 
-        <!-- MENU -->
-        <nav class="category-links">
+        <div class="category-links">
             <ul>
-                <li><a asp-controller="Home" asp-action="Index">最新活動</a></li>
-                <li><a asp-controller="Home" asp-action="SlotGame_home">老虎機</a></li>             
-                <li><a asp-controller="Home" asp-action="Lottery">彩票</a></li>
-                <li><a asp-controller="Home" asp-action="Member">會員專區</a></li>
+                <li>
+                    <a asp-controller="Home" asp-action="Index">
+                        <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Offers_Colour_Icon.svg"
+                            alt="最新活動">
+                        <span>最新活動</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Slots_Colour_Icon.svg"
+                            alt="老虎機">
+                        <span>老虎機</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="Home" asp-action="Lottery">
+                        <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Bingo_Coloured_Icon.svg"
+                            alt="彩票">
+                        <span>彩票</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="Home" asp-action="Member">
+                        <img src="https://content001.bet365.mx/Games/CategoryNavIcon/NewColoured/Casino_Colour_Icon.svg"
+                            alt="會員專區">
+                        <span>會員專區</span>
+                    </a>
+                </li>
             </ul>
-        </nav>
+        </div>
 
         <!-- 搜尋欄 -->
         <form class="search-form">
@@ -59,10 +86,14 @@
                 <div class="col-md-4 mb-3">
                     <h6 class="fw-bold">快速連結</h6>
                     <ul class="list-unstyled">
-                        <li><a asp-controller="Home" asp-action="Events" class="text-light text-decoration-none">最新活動</a></li>
-                        <li><a asp-controller="Game" asp-action="Lobby" class="text-light text-decoration-none">熱門分類</a></li>
-                        <li><a asp-controller="Member" asp-action="Index" class="text-light text-decoration-none">會員專區</a></li>
-                        <li><a asp-controller="Home" asp-action="Contact" class="text-light text-decoration-none">聯絡我們</a></li>
+                        <li><a asp-controller="Home" asp-action="Events"
+                                class="text-light text-decoration-none">最新活動</a></li>
+                        <li><a asp-controller="Game" asp-action="Lobby" class="text-light text-decoration-none">熱門分類</a>
+                        </li>
+                        <li><a asp-controller="Member" asp-action="Index"
+                                class="text-light text-decoration-none">會員專區</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact"
+                                class="text-light text-decoration-none">聯絡我們</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -83,4 +114,5 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
