@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Member\Register_02.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Member\Register01.cshtml" />
+    <None Include="Views\Member\Register_02.cshtml" />
+  </ItemGroup>
+
 </Project>

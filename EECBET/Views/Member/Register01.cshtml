@@ -1,0 +1,119 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>註冊頁</title>
+<link rel="stylesheet" href="~/css/Register.css" asp-append-version="true" />
+    
+</head>
+
+<body>
+    <div class="wrap">
+        <!-- logo -->
+        <div class="header">
+            <img src="https://content001.bet365.mx/Games/SGP/TouchIcons/Safari-Fav-Icon.svg" alt="logo">
+            <h1>註冊</h1>
+        </div>
+
+        <!-- 進度條 -->
+        <div class="stepBox">
+            <div class="progress-container">
+                <div class="progress" id="progress"></div>
+                <div class="step">
+                    <div class="circle active">1</div>
+                </div>
+                <div class="step">
+                    <div class="circle">2</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 會更換的區域 -->
+        <div class="process01">
+            <!-- 填表區 -->
+            <form>
+                <label>國家</label>
+                <select>
+                    <option>台灣</option>
+                    <option>日本</option>
+                    <option>墨西哥</option>
+                </select>
+
+                <label>姓氏</label>
+                <input type="text" id="lastname" placeholder="姓氏" />
+
+                <label>名字</label>
+                <input type="text" id="firstname" placeholder="名字" />
+
+                <label>生日</label>
+                <input type="date" id="birthday" />
+
+                <label>電子郵件</label>
+                <input type="email" id="email" placeholder="example@email.com" />
+
+                <label>密碼</label>
+                <input type="password" id="password" placeholder="密碼" />
+
+                <label>再次確認密碼</label>
+                <input type="password" id="password" placeholder="再次確認密碼" />
+
+
+                <div class="terms">
+                    <input type="checkbox" id="agree" />
+                    <label for="agree">我已滿18歲以及同意 <a href="#">服務條款</a></label>
+                </div>
+
+                <div class="buttons">
+                    <button id="nextBtn">下一步</button>
+                </div>
+            </form>
+            <!-- 警語 -->
+            <div class="footer">
+                <img src="https://membership.888casino.com/Images/new-form/responsible-logo-18.png" alt="">
+                <img src="https://membership.888casino.com/Images/new-form/Lock.png" alt="">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const progress = document.getElementById('progress');
+        const circles = document.querySelectorAll('.circle');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentStep = 1;
+
+        // 更新進度條與圈圈狀態
+        function updateProgress() {
+            circles.forEach((circle, index) => {
+                if (index < currentStep) {
+                    circle.classList.add('active');
+                } else {
+                    circle.classList.remove('active');
+                }
+            });
+
+            const progressWidth = ((currentStep - 1) / (circles.length - 1)) * 100;
+            progress.style.width = progressWidth + '%';
+
+            // 控制按鈕是否可按
+            nextBtn.disabled = currentStep === circles.length;
+        }
+
+        // 下一步
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < circles.length) {
+                currentStep++;
+                updateProgress();
+            }
+        });
+        // 初始化
+        updateProgress();
+    </script>
+</body>
+
+</html>

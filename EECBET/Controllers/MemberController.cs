@@ -11,7 +11,7 @@ namespace EECBET.Controllers
         }
 
         // GET: /Member/Register
-        public IActionResult Register()
+        public IActionResult Register01()
         {
             return View();
         }
