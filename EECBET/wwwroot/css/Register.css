@@ -10,6 +10,7 @@ body {
 .wrap {
     width: 400px;
     margin: 60px auto;
+
 }
 
 .header {
@@ -171,4 +172,27 @@ button {
         color: #777;
         cursor: not-allowed;
         transform: none;
+    }
+
+   .process02 {
+
+    margin-top:50px;
+    text-align: center;
+   }
+
+    .process02 p {
+        font-size: 40px;
+        color: aliceblue;
+    }
+
+/*    性別*/
+.gender-options {
+    display: flex;
+    gap:25px;
+    color: #d2d2d2;
+    margin-bottom: 15px;
+}
+
+    .gender-options input[type="radio"] {
+        accent-color: #00ff99; /* 綠色主題 */
     }

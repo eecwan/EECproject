@@ -18,7 +18,7 @@
         <!-- logo -->
         <div class="header">
             <img src="https://content001.bet365.mx/Games/SGP/TouchIcons/Safari-Fav-Icon.svg" alt="logo">
-            <h1>註冊</h1>
+            <h1 id="regTitle" >註冊</h1>
         </div>
 
         <!-- 進度條 -->
@@ -51,8 +51,15 @@
                 <label>名字</label>
                 <input type="text" id="firstname" placeholder="名字" />
 
+               <label>性別</label>
+                <div class="gender-options">
+                    <label><input type="radio" name="gender" value="female"> 女</label>
+                    <label><input type="radio" name="gender" value="male"> 男</label>
+                    <label><input type="radio" name="gender" value="none"> 不方便透露</label>
+                </div>
+                
                 <label>生日</label>
-                <input type="date" id="birthday" />
+                <input type="date" id="birthday" />              
 
                 <label>電子郵件</label>
                 <input type="email" id="email" placeholder="example@email.com" />
@@ -61,8 +68,7 @@
                 <input type="password" id="password" placeholder="密碼" />
 
                 <label>再次確認密碼</label>
-                <input type="password" id="password" placeholder="再次確認密碼" />
-
+                <input type="password" id="confirmPassword" placeholder="再次確認密碼" />
 
                 <div class="terms">
                     <input type="checkbox" id="agree" />
@@ -78,6 +84,10 @@
                 <img src="https://membership.888casino.com/Images/new-form/responsible-logo-18.png" alt="">
                 <img src="https://membership.888casino.com/Images/new-form/Lock.png" alt="">
             </div>
+        </div>
+        <div class="process02">
+            <p></p>
+            <p>歡迎</p>
         </div>
     </div>
 
@@ -103,14 +113,25 @@
             // 控制按鈕是否可按
             nextBtn.disabled = currentStep === circles.length;
         }
-
+        document.querySelector('.process02').style.display = 'none';
         // 下一步
-        nextBtn.addEventListener('click', () => {
-            if (currentStep < circles.length) {
-                currentStep++;
-                updateProgress();
-            }
-        });
+       nextBtn.addEventListener('click', (e) => {
+         e.preventDefault();
+
+         // 取值＋組合：姓氏在前、名字在後
+        const last = document.getElementById('lastname').value.trim();
+        const first = document.getElementById('firstname').value.trim();
+        const fullName = (last || first) ? `${last}${first}` : '玩家';
+
+        // 把第一個 <p> 改成「歡迎，姓氏名字」
+        const p1 = document.querySelector('.process02 p:first-child');
+        p1.textContent = `${fullName}`;
+         
+        document.querySelector('.process01').style.display = 'none';
+         document.querySelector('.process02').style.display = 'block';
+         currentStep++;
+         updateProgress();
+      });
         // 初始化
         updateProgress();
     </script>
