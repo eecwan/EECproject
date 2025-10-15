@@ -42,7 +42,7 @@
                 <select>
                     <option>台灣</option>
                     <option>日本</option>
-                    <option>墨西哥</option>
+                    <option>韓國</option>
                 </select>
 
                 <label>姓氏</label>
@@ -113,7 +113,10 @@
             // 控制按鈕是否可按
             nextBtn.disabled = currentStep === circles.length;
         }
+
         document.querySelector('.process02').style.display = 'none';
+
+
         // 下一步
         nextBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -136,6 +139,17 @@
                 }
             });
 
+            //確認密碼比對
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            if (password != '' && confirmPassword != '' && password != confirmPassword) {
+                isValid = false;
+                const confirmInput = document.getElementById('confirmPassword');
+                confirmInput.style.border = '2px solid red';
+                confirmInput.value = '';
+                confirmInput.placeholder = '密碼不一致';
+            }
+
             // 如果沒勾選條款
             const agree = document.getElementById('agree')
             if (!agree.checked) {
@@ -154,8 +168,12 @@
             const p1 = document.querySelector('.process02 p:first-child');
             p1.textContent = `${fullName}`;
 
+            document.getElementById('regTitle').textContent = '註冊成功';
+
             document.querySelector('.process01').style.display = 'none';
             document.querySelector('.process02').style.display = 'block';
+
+
             currentStep++;
             updateProgress();
         });

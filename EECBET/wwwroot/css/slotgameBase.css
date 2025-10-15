@@ -1,14 +1,14 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: "Chiron Hei HK", sans-serif;
+    font-family: Arial, sans-serif;
 }
 
 .wrap {
-   
+
     max-width: 1400px;
-   margin:0 auto;
-   
+    margin: 0 auto;
+
 }
 
 .sectionTitle {
@@ -18,31 +18,32 @@
     padding: 0 30px;
     color: white;
     margin: 0px;
-  
+
 }
 
-    .sectionTitle a {
-        text-decoration: none;
-        font-weight:bolder;
-        color: white;
-    }
+.sectionTitle a {
+    text-decoration: none;
+    font-weight: bolder;
+    color: white;
+}
 
 section {
-    
+
     margin-bottom: 40px;
 }
 
 .more {
     display: inline-flex;
     align-items: center;
-    /* ««ª½¸m¤¤ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ */
     justify-content: center;
-    /* ¤ô¥­¸m¤¤ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ */
     border: 1px solid rgb(255, 255, 255);
     padding: 0 10px;
     border-radius: 20px;
     font-size: 12px;
 }
+
 /* Swiper */
 
 .swiper {
@@ -68,7 +69,8 @@ section {
     color: white;
     transition: opacity 0.3s ease;
 
-    transform: translateY(-40%); /* ««ª½¸m¤¤¥Î³o­Ó */
+    transform: translateY(-40%);
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½Î³oï¿½ï¿½ */
 }
 
 .swiper-button-next {
@@ -81,6 +83,6 @@ section {
 
 .swiper-button-disabled {
     opacity: 0.3;
-    /* °±¤î®É²H¤Æ */
+    /* ï¿½ï¿½ï¿½ï¿½É²Hï¿½ï¿½ */
     pointer-events: none;
 }
