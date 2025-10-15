@@ -9,16 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>註冊頁</title>
-<link rel="stylesheet" href="~/css/Register.css" asp-append-version="true" />
-    
+    <link rel="stylesheet" href="~/css/Register.css" asp-append-version="true" />
+
 </head>
 
 <body>
     <div class="wrap">
         <!-- logo -->
         <div class="header">
-            <img src="https://content001.bet365.mx/Games/SGP/TouchIcons/Safari-Fav-Icon.svg" alt="logo">
-            <h1 id="regTitle" >註冊</h1>
+            <img src="/images/Logo_ECC366.svg" alt="logo">
+            <h1 id="regTitle">註冊</h1>
         </div>
 
         <!-- 進度條 -->
@@ -51,15 +51,15 @@
                 <label>名字</label>
                 <input type="text" id="firstname" placeholder="名字" />
 
-               <label>性別</label>
+                <label>性別</label>
                 <div class="gender-options">
-                    <label><input type="radio" name="gender" value="female"> 女</label>
+                    <label><input type="radio" name="gender" value="female" checked> 女</label>
                     <label><input type="radio" name="gender" value="male"> 男</label>
                     <label><input type="radio" name="gender" value="none"> 不方便透露</label>
                 </div>
-                
+
                 <label>生日</label>
-                <input type="date" id="birthday" />              
+                <input type="date" id="birthday" />
 
                 <label>電子郵件</label>
                 <input type="email" id="email" placeholder="example@email.com" />
@@ -67,8 +67,8 @@
                 <label>密碼</label>
                 <input type="password" id="password" placeholder="密碼" />
 
-                <label>再次確認密碼</label>
-                <input type="password" id="confirmPassword" placeholder="再次確認密碼" />
+                <label>確認密碼</label>
+                <input type="password" id="confirmPassword" placeholder="確認密碼" />
 
                 <div class="terms">
                     <input type="checkbox" id="agree" />
@@ -115,23 +115,50 @@
         }
         document.querySelector('.process02').style.display = 'none';
         // 下一步
-       nextBtn.addEventListener('click', (e) => {
-         e.preventDefault();
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
 
-         // 取值＋組合：姓氏在前、名字在後
-        const last = document.getElementById('lastname').value.trim();
-        const first = document.getElementById('firstname').value.trim();
-        const fullName = (last || first) ? `${last}${first}` : '玩家';
+            // 取得所有要檢查的欄位
+            const requireField = ['lastname', 'firstname', 'birthday', 'email', 'password', 'confirmPassword'];
+            let isValid = true;
 
-        // 把第一個 <p> 改成「歡迎，姓氏名字」
-        const p1 = document.querySelector('.process02 p:first-child');
-        p1.textContent = `${fullName}`;
-         
-        document.querySelector('.process01').style.display = 'none';
-         document.querySelector('.process02').style.display = 'block';
-         currentStep++;
-         updateProgress();
-      });
+            requireField.forEach(id => {
+                const input = document.getElementById(id);
+                //重新檢查前先重置欄位外觀
+                input.style.border = '';
+                //把不能空白」字樣刪掉
+                input.placeholder = input.placeholder.replace('不能空白', '');
+                //檢查是否空白
+                if (input.value.trim() === '') {
+                    isValid = false;
+                    input.style.border = '2px solid red';
+                    input.placeholder = '不能空白';
+                }
+            });
+
+            // 如果沒勾選條款
+            const agree = document.getElementById('agree')
+            if (!agree.checked) {
+                isValid = false;
+                alert('請勾選同意條款');
+            }
+
+            if (!isValid) return;
+
+            // 取值＋組合：姓氏在前、名字在後
+            const last = document.getElementById('lastname').value.trim();
+            const first = document.getElementById('firstname').value.trim();
+            const fullName = (last || first) ? `${last}${first}` : '玩家';
+
+            // 把第一個 <p> 改成「歡迎，姓氏名字」
+            const p1 = document.querySelector('.process02 p:first-child');
+            p1.textContent = `${fullName}`;
+
+            document.querySelector('.process01').style.display = 'none';
+            document.querySelector('.process02').style.display = 'block';
+            currentStep++;
+            updateProgress();
+        });
         // 初始化
         updateProgress();
     </script>

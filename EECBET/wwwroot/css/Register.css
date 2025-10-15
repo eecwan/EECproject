@@ -18,15 +18,16 @@ body {
     text-align: center;
 }
 
-    .header img {
-        width: 10%;
-        filter: brightness(0) saturate(100%) invert(65%) sepia(100%) saturate(500%) hue-rotate(100deg);
-    }
+.header img {
+    height: 80px;
+    width: 80px;
+    filter: brightness(0) saturate(100%) invert(65%) sepia(100%) saturate(500%) hue-rotate(100deg);
+}
 
-    .header h1 {
-        color: #d2d2d2;
-        margin-top: 10px;
-    }
+.header h1 {
+    color: #d2d2d2;
+    margin-top: 10px;
+}
 
 form {
     display: flex;
@@ -49,11 +50,11 @@ select {
     border-radius: 3px;
 }
 
-    input:focus,
-    select:focus {
-        outline: none;
-        border: 1px solid #00ff99;
-    }
+input:focus,
+select:focus {
+    outline: none;
+    border: 1px solid #00ff99;
+}
 
 .terms {
     display: flex;
@@ -85,19 +86,19 @@ select {
     width: 300px;
 }
 
-    /* --- 灰線背景 --- */
+/* --- 灰線背景 --- */
 
-    .progress-container::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: #555;
-        transform: translateY(-50%);
-        z-index: 0;
-    }
+.progress-container::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #555;
+    transform: translateY(-50%);
+    z-index: 0;
+}
 
 /* --- 綠線進度 --- */
 
@@ -131,10 +132,10 @@ select {
     transition: all 0.3s ease;
 }
 
-    .circle.active {
-        border-color: rgb(0, 177, 98);
-        color: rgb(0, 177, 98);
-    }
+.circle.active {
+    border-color: rgb(0, 177, 98);
+    color: rgb(0, 177, 98);
+}
 
 /* --- 間距 --- */
 
@@ -163,36 +164,37 @@ button {
     transition: all 0.2s ease;
 }
 
-    button:hover {
-        transform: scale(1.05);
-    }
+button:hover {
+    transform: scale(1.05);
+}
 
-    button:disabled {
-        background: #333;
-        color: #777;
-        cursor: not-allowed;
-        transform: none;
-    }
+button:disabled {
+    background: #333;
+    color: #777;
+    cursor: not-allowed;
+    transform: none;
+}
 
-   .process02 {
+.process02 {
 
-    margin-top:50px;
+    margin-top: 50px;
     text-align: center;
-   }
+}
 
-    .process02 p {
-        font-size: 40px;
-        color: aliceblue;
-    }
+.process02 p {
+    font-size: 40px;
+    color: aliceblue;
+}
 
 /*    性別*/
 .gender-options {
     display: flex;
-    gap:25px;
+    gap: 25px;
     color: #d2d2d2;
     margin-bottom: 15px;
 }
 
-    .gender-options input[type="radio"] {
-        accent-color: #00ff99; /* 綠色主題 */
-    }
+.gender-options input[type="radio"] {
+    accent-color: #00ff99;
+    /* 綠色主題 */
+}
