@@ -234,7 +234,7 @@
                 }
             });
 
-            // Hover 右箭頭 → 往後播
+            // 右箭頭 → 往後播
             nextBtn.addEventListener("mouseenter", () => {
                 if (!swiper.isEnd) {
                     swiper.params.autoplay.reverseDirection = false;
@@ -243,7 +243,7 @@
             });
             nextBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
 
-            // Hover 左箭頭 → 往前播
+            // 左箭頭 → 往前播
             prevBtn.addEventListener("mouseenter", () => {
                 if (!swiper.isBeginning) {
                     swiper.params.autoplay.reverseDirection = true;
