@@ -31,4 +31,35 @@
         </div>
     </div>
 
-
+    @* 抓資料欄位 *@
+@model IEnumerable<EECBET.Models.GameListViewModel>
+@if (Model == null || !Model.Any())
+{
+    <p>⚠️ 尚無資料或 API 連線失敗。</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>中文名稱</th>
+                <th>英文名稱</th>
+                <th>類型</th>
+                <th>上架</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var g in Model)
+            {
+                <tr>
+                    <td>@g.GameID</td>
+                    <td>@g.GameNameTW</td>
+                    <td>@g.GameNameEN</td>
+                    <td>@g.GameCategory</td>
+                    <td>@(g.IsActive ? "✅" : "❌")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

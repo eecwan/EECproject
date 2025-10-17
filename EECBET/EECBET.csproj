@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <None Include="Views\Member\Register01.cshtml" />
-    <None Include="Views\Member\Register02.cshtml" />
   </ItemGroup>
 
 </Project>
