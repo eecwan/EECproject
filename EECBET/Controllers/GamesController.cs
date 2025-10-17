@@ -26,12 +26,16 @@ namespace EECBET.Controllers
         }
 
         // 從 Web API 取得遊戲清單
+        //宣告 GetGameListAsync()
+        //Task<T> = 「一個會回傳結果的非同步工作」
         private async Task<List<GameListViewModel>> GetGameListAsync()
         {
+            //async 必須要搭配 await 使用，非同步的作法，系統可以在等待 API 的同時，去服務其他使用者
             var response = await _httpClient.GetAsync("api/gamelist");
 
             if (response.IsSuccessStatusCode)
             {
+                //讀取 API 回傳內容並轉成C#的格式
                 var games = await response.Content.ReadFromJsonAsync<List<GameListViewModel>>();
                 return games ?? new List<GameListViewModel>();
             }
