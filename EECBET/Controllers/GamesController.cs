@@ -14,42 +14,42 @@ namespace EECBET.Controllers
         private readonly HttpClient _httpClient;
         private readonly ILogger<GamesController> _logger;
 
-        // §â HttpClient »P Logger ¦X¨Ö°_¨Ó, ILogger<GamesController> ¥u¬O¤@­Ó¬ö¿ı¥Î
+        // æŠŠ HttpClient èˆ‡ Logger åˆä½µèµ·ä¾†, ILogger<GamesController> åªæ˜¯ä¸€å€‹ç´€éŒ„ç”¨
         public GamesController(ILogger<GamesController> logger)
         {
             _logger = logger;
-            // Web API ¦ì¸m
+            // Web API ä½ç½®
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri("http://localhost:5210/") 
             };
         }
 
-        // ±q Web API ¨ú±o¹CÀ¸²M³æ
-        //«Å§i GetGameListAsync()
-        //Task<T> = ¡u¤@­Ó·|¦^¶Çµ²ªGªº«D¦P¨B¤u§@¡v
+        // å¾ Web API å–å¾—éŠæˆ²æ¸…å–®
+        //å®£å‘Š GetGameListAsync()
+        //Task<T> = ã€Œä¸€å€‹æœƒå›å‚³çµæœçš„éåŒæ­¥å·¥ä½œã€
         private async Task<List<GameListViewModel>> GetGameListAsync()
         {
-            //async ¥²¶·­n·f°t await ¨Ï¥Î¡A«D¦P¨Bªº§@ªk¡A¨t²Î¥i¥H¦bµ¥«İ API ªº¦P®É¡A¥hªA°È¨ä¥L¨Ï¥ÎªÌ
+            //async å¿…é ˆè¦æ­é… await ä½¿ç”¨ï¼ŒéåŒæ­¥çš„ä½œæ³•ï¼Œç³»çµ±å¯ä»¥åœ¨ç­‰å¾… API çš„åŒæ™‚ï¼Œå»æœå‹™å…¶ä»–ä½¿ç”¨è€…
             var response = await _httpClient.GetAsync("api/gamelist");
 
             if (response.IsSuccessStatusCode)
             {
-                //Åª¨ú API ¦^¶Ç¤º®e¨ÃÂà¦¨C#ªº®æ¦¡
+                //è®€å– API å›å‚³å…§å®¹ä¸¦è½‰æˆC#çš„æ ¼å¼
                 var games = await response.Content.ReadFromJsonAsync<List<GameListViewModel>>();
                 return games ?? new List<GameListViewModel>();
             }
 
-            // ¦pªG³s½u¥¢±Ñ¡A¦^¶ÇªÅªº List¡]Á×§Kµ{¦¡³ø¿ù¡^
+            // å¦‚æœé€£ç·šå¤±æ•—ï¼Œå›å‚³ç©ºçš„ Listï¼ˆé¿å…ç¨‹å¼å ±éŒ¯ï¼‰
             return new List<GameListViewModel>();
         }
 
 
-        //    SlotGame ¤À­¶     
+        //    SlotGame åˆ†é      
         public async Task<IActionResult> SlotGame_Exclusive()
         {
-            var games = await GetGameListAsync();//¼´ API ¸ê®Æ
-            return View(games);   //§â¸ê®Æ¶Çµ¹ SlotGame_Exclusive.cshtml
+            var games = await GetGameListAsync();//æ’ˆ API è³‡æ–™
+            return View(games);   //æŠŠè³‡æ–™å‚³çµ¦ SlotGame_Exclusive.cshtml
         }
         public IActionResult SlotGame_HighBonus()
         {
@@ -65,7 +65,7 @@ namespace EECBET.Controllers
         }
 
 
-        //¿ù»~³B²z
+        //éŒ¯èª¤è™•ç†
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
