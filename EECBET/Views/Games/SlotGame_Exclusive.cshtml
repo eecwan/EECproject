@@ -17,15 +17,13 @@
             }
             else
             {
-                @foreach (var g in Model)
+                @foreach (var g in Model.Where(g => g.GameCategory == "獨創"))
                 {
                     <div class="swiper-slide">
 
-                        {
                         <tr>
                             <td> <a href=""><img src="@g.GameImageUrl" alt="icon" /></a></td>
                         </tr>
-
 
                     </div>
                 }

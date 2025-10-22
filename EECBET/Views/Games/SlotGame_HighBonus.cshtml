@@ -3,32 +3,31 @@
     Layout = "~/Views/Shared/_SlotLayout.cshtml";
     ViewBag.Title = "高報酬 SlotGame_HighBonus";
 }
+@* 抓資料欄位 *@
+@model IEnumerable<EECBET.Models.GameListViewModel>
 
-   
 
-    <div class="wrap">
+<div class="wrap">
     <partial name="_SlotSortPartial" />
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/ArtHeist_1000x400.svg" alt="icon"></a>
-                </div>
-            <div class="swiper-slide">
-                <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/BigBaitGold_1000x400_With-Character.jpg" alt="icon"></a>
-                </div>
-            <div class="swiper-slide">
-                <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/KitchenChaosRushHour_1000x400_With-Character.jpg" alt="icon"></a>
-                </div>
-            <div class="swiper-slide">
-                    <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/DragonHopper_1000x400.svg" alt="icon"></a>
-                </div>
-            <div class="swiper-slide">
-                <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/BigBaitGold_1000x400_With-Character.jpg" alt="icon"></a>
-                </div>
-            <div class="swiper-slide">
-                <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/TattooChallenge_1000x400_With-Character.jpg" alt="icon"></a>
-            </div>
-            </div>
+            @if (Model == null || !Model.Any())
+            {
+                <p>⚠️ 尚無資料或 API 連線失敗。</p>
+            }
+            else
+            {
+                @foreach (var g in Model.Where(g => g.GameCategory == "高報酬"))
+                {
+                    <div class="swiper-slide">
+
+                        <tr>
+                            <td> <a href=""><img src="@g.GameImageUrl" alt="icon" /></a></td>
+                        </tr>
+
+                    </div>
+                }
+            }
         </div>
     </div>
-
+</div>

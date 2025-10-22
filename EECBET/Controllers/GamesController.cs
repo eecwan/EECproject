@@ -21,7 +21,7 @@ namespace EECBET.Controllers
             // Web API 位置
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:5210/") 
+                BaseAddress = new Uri("http://localhost:5210/")
             };
         }
 
@@ -51,17 +51,20 @@ namespace EECBET.Controllers
             var games = await GetGameListAsync();//撈 API 資料
             return View(games);   //把資料傳給 SlotGame_Exclusive.cshtml
         }
-        public IActionResult SlotGame_HighBonus()
+        public async Task<IActionResult> SlotGame_HighBonus()
         {
-            return View();
+            var games = await GetGameListAsync();
+            return View(games);
         }
-        public IActionResult SlotGame_classic()
+        public async Task<IActionResult> SlotGame_classic()
         {
-            return View();
+            var games = await GetGameListAsync();
+            return View(games);
         }
-        public IActionResult SlotGame_Megaways()
+        public async Task<IActionResult> SlotGame_Megaways()
         {
-            return View();
+            var games = await GetGameListAsync();
+            return View(games);
         }
 
 
