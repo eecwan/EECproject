@@ -8,7 +8,10 @@
 
 
 <div class="wrap">
+
+    @* 抓取搜尋框 *@
     <partial name="_SlotSortPartial" />
+
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             @if (Model == null || !Model.Any())
@@ -19,12 +22,8 @@
             {
                 @foreach (var g in Model.Where(g => g.GameCategory == "獨創"))
                 {
-                    <div class="swiper-slide">
-
-                        <tr>
-                            <td> <a href=""><img src="@g.GameImageUrl" alt="icon" /></a></td>
-                        </tr>
-
+                    <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                        <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
                     </div>
                 }
             }

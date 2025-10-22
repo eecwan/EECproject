@@ -7,8 +7,8 @@
             @* 下拉選單 *@
             <div class="sortDropdown" id="sortDropdown">
                 <ul>
-                    <li>最新</li>
-                    <li>A-Z</li>
+                    <li data-sort="latest">最新</li>
+                    <li data-sort="az">A-Z</li>
                 </ul>
             </div>
         </li>
@@ -37,7 +37,40 @@
                 sortDropdown.querySelectorAll("li").forEach(i => i.classList.remove("active"));
                 li.classList.add("active");
                 sortDropdown.style.display = "none";
-                console.log("選擇排序方式：", li.textContent.trim());
+
+                //dataset 就是讀取 有關data-字樣的標籤
+                const sortType = li.dataset.sort;
+
+                //querySelector找到「第一個.swiper-wrapper 」符合條件的元素
+                const container = document.querySelector(".swiper-wrapper");
+                //取得(那個元素子物件) 然後轉成陣列 Array
+                const slides = Array.from(container.children);
+
+                if (sortType === "az") {
+                    // A-Z 排序（依圖片 alt 屬性）
+                    slides.sort((a, b) =>
+                        a
+                            .querySelector("img").alt
+                            .localeCompare(
+                                b
+                                    .querySelector("img").alt,
+                                "en-US"
+                            )
+                    );
+                } else if (sortType === "latest") {
+                    slides.sort((a, b) => {
+                        let dateA = new Date(a.dataset.releaseDate || "1970-01-01"); // 確保格式正確
+                        let dateB = new Date(b.dataset.releaseDate || "1970-01-01");
+
+                        // 確保有效日期並比較
+                        if (isNaN(dateA)) dateA = new Date(0);
+                        if (isNaN(dateB)) dateB = new Date(0);
+
+                        return dateB - dateA; // 最新日期排前面
+                    });
+                }
+
+                slides.forEach(s => container.appendChild(s));
             });
         });
     });
