@@ -1,4 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
+using EECBET.Data;
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    ));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
