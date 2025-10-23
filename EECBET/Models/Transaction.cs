@@ -18,7 +18,7 @@ namespace EECBET.Models
     [Required]
     [StringLength(100)]
     [Column("category")]
-    public string Category { get; set; }
+    public string Category { get; set; } = string.Empty;  // ✅ 加上預設值
 
     [Required]
     [Column("amount", TypeName = "decimal(10,2)")]
@@ -27,7 +27,7 @@ namespace EECBET.Models
     [Required]
     [StringLength(20)]
     [Column("type")]
-    public string Type { get; set; } // 未中獎, 中獎, 處理中
+    public string Type { get; set; } = string.Empty;  // ✅ 加上預設值
 
     [Required]
     [Column("points_change", TypeName = "decimal(10,2)")]
@@ -35,7 +35,7 @@ namespace EECBET.Models
 
     [StringLength(20)]
     [Column("status")]
-    public string Status { get; set; } = "已結單"; // 已結單, 待處理
+    public string Status { get; set; } = "已結單";
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;

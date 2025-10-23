@@ -1,15 +1,25 @@
-var builder = WebApplication.CreateBuilder(args);
 using Microsoft.EntityFrameworkCore;
 using EECBET.Data;
 
+var builder = WebApplication.CreateBuilder(args);
+
+// 使用 SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// 加入 Session 支援
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session 逾時時間
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -17,7 +27,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -26,6 +35,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// 啟用 Session（必須在 UseRouting 之後，UseEndpoints 之前）
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -33,4 +45,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-

@@ -1,211 +1,397 @@
+@model EECBET.Models.LoginViewModel
 @{
-    Layout = null;
+    ViewData["Title"] = "會員登入";
+    Layout = "_Layout";
 }
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>會員登入 - beteec</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            background: linear-gradient(135deg, #0d0d0d, #1f1f1f);
-            font-family: "Noto Serif TC", serif;
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+<style>
+    .login-page {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+    }
 
-        .login-card {
-            background: #222;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
-            padding: 40px;
-            width: 400px;
-        }
+    .login-box {
+        background-color: #2a2a2a;
+        border: 2px solid #00ff88;
+        border-radius: 15px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        position: relative;
+    }
 
-        .login-card h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #1da867;
-            font-size: 2rem;
-        }
+    .login-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-        .form-label {
-            color: #ccc;
-            margin-bottom: 8px;
-        }
+    .login-title h1 {
+        color: #00ff88;
+        font-size: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 0;
+    }
 
-        .form-control {
-            background: #333;
-            border: 1px solid #555;
-            color: #fff;
-            padding: 12px;
-            border-radius: 8px;
-        }
+    .login-title .icon {
+        font-size: 40px;
+    }
 
-        .form-control:focus {
-            background: #444;
-            border-color: #00ff88;
-            box-shadow: 0 0 5px #00ff88;
-            color: #fff;
-        }
+    .login-form-group {
+        margin-bottom: 20px;
+    }
 
-        .form-control::placeholder {
-            color: #888;
-        }
+    .login-form-group label {
+        display: block;
+        color: #00ff88;
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: bold;
+    }
 
-        .btn-login {
-            background: linear-gradient(90deg, #006633, #1da867);
-            border: none;
-            color: #fff;
-            font-weight: bold;
-            padding: 12px;
-            transition: 0.3s;
-        }
+    .login-form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        background-color: #3a3a3a;
+        border: 2px solid #4a4a4a;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 16px;
+        transition: border-color 0.3s;
+        box-sizing: border-box;
+    }
 
-        .btn-login:hover {
-            background: linear-gradient(90deg, #004d26, #1da867);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(29, 168, 103, 0.3);
-        }
+    .login-form-group input:focus {
+        outline: none;
+        border-color: #00ff88;
+    }
 
-        .links {
-            text-align: center;
-            margin-top: 20px;
-        }
+    .login-form-group input::placeholder {
+        color: #888;
+    }
 
-        .links a {
-            color: #1da867;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+    .captcha-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
 
-        .links a:hover {
-            color: #00ff88;
-            text-decoration: underline;
-        }
+    .captcha-code {
+        background-color: #3a3a3a;
+        border: 2px solid #00ff88;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #00ff88;
+        letter-spacing: 8px;
+        text-align: center;
+        flex: 1;
+        user-select: none;
+    }
 
-        .captcha-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
+    .captcha-refresh {
+        background-color: #4a4a4a;
+        border: 2px solid #00ff88;
+        border-radius: 8px;
+        padding: 12px 20px;
+        color: #00ff88;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+        white-space: nowrap;
+    }
 
-        .captcha-text {
-            background: #333;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            font-size: 20px;
-            user-select: none;
-            flex: 1;
-            text-align: center;
-            color: #1da867;
-        }
+    .captcha-refresh:hover {
+        background-color: #00ff88;
+        color: #1a1a1a;
+    }
 
-        .btn-secondary {
-            background: #555;
-            border: none;
-            color: #fff;
-            padding: 8px 15px;
-        }
+    .login-submit {
+        width: 100%;
+        padding: 15px;
+        background-color: #00ff88;
+        border: none;
+        border-radius: 8px;
+        color: #1a1a1a;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 20px;
+    }
 
-        .btn-secondary:hover {
-            background: #666;
-        }
+    .login-submit:hover {
+        background-color: #00cc6f;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+    }
 
-        .mb-3 {
-            margin-bottom: 20px;
+    .login-links {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .login-links a {
+        color: #00ff88;
+        text-decoration: none;
+        margin: 0 10px;
+        transition: color 0.3s;
+    }
+
+    .login-links a:hover {
+        color: #00cc6f;
+        text-decoration: underline;
+    }
+
+    .login-links .separator {
+        color: #666;
+    }
+
+    .login-back {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .login-back a {
+        color: #00ff88;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: color 0.3s;
+    }
+
+    .login-back a:hover {
+        color: #00cc6f;
+    }
+
+    .error-summary {
+        background-color: rgba(255, 0, 0, 0.1);
+        border: 1px solid #ff4444;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .error-summary ul {
+        list-style: none;
+        color: #ff4444;
+        margin: 0;
+        padding: 0;
+    }
+
+    .error-summary li {
+        margin: 5px 0;
+    }
+
+    .error-message {
+        color: #ff4444;
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* 登入成功提示 */
+    .success-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    .success-message {
+        background-color: #2a2a2a;
+        border: 3px solid #00ff88;
+        border-radius: 20px;
+        padding: 50px;
+        text-align: center;
+        box-shadow: 0 0 50px rgba(0, 255, 136, 0.5);
+        animation: scaleIn 0.5s ease-out;
+    }
+
+    .success-icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+        animation: bounceIn 0.6s ease-out;
+    }
+
+    .success-title {
+        color: #00ff88;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .success-text {
+        color: #fff;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .success-redirect {
+        color: #00ff88;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .loading-dots {
+        display: inline-block;
+    }
+
+    .loading-dots span {
+        animation: blink 1.4s infinite;
+        animation-fill-mode: both;
+    }
+
+    .loading-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .loading-dots span:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
         }
-    </style>
-</head>
-<body>
-    <div class="login-card">
-        <h2>🎰 會員登入</h2>
-        <form id="loginForm">
-            <div class="mb-3">
-                <label for="username" class="form-label">帳號</label>
-                <input type="text" class="form-control" id="username" placeholder="輸入帳號" required>
+        to {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes scaleIn {
+        from {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @@keyframes bounceIn {
+        0% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @@keyframes blink {
+        0%, 80%, 100% {
+            opacity: 0;
+        }
+        40% {
+            opacity: 1;
+        }
+    }
+</style>
+
+<div class="login-page">
+    <div class="login-box">
+        <div class="login-title">
+            <h1>
+                <span class="icon">🎰</span>
+                會員登入
+            </h1>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0 && ViewBag.LoginSuccess != true)
+        {
+            <div class="error-summary">
+                <ul>
+                    @foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
             </div>
+        }
+
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
             
-            <div class="mb-3">
-                <label for="password" class="form-label">密碼</label>
-                <input type="password" class="form-control" id="password" placeholder="輸入密碼" required>
+            <div class="login-form-group">
+                <label asp-for="Username">帳號</label>
+                <input asp-for="Username" type="text" placeholder="輸入帳號" autocomplete="username" />
+                <span asp-validation-for="Username" class="error-message"></span>
             </div>
-            
-            <div class="mb-3">
-                <label for="captchaInput" class="form-label">驗證碼</label>
-                <div class="captcha-box">
-                    <span id="captcha" class="captcha-text"></span>
-                    <button type="button" class="btn btn-sm btn-secondary" onclick="generateCaptcha()">換一張</button>
+
+            <div class="login-form-group">
+                <label asp-for="Password">密碼</label>
+                <input asp-for="Password" type="password" placeholder="輸入密碼" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="error-message"></span>
+            </div>
+
+            <div class="login-form-group">
+                <label asp-for="Captcha">驗證碼</label>
+                <div class="captcha-container">
+                    <div class="captcha-code">@ViewBag.Captcha</div>
+                    <button type="button" class="captcha-refresh" onclick="location.reload()">換一張</button>
                 </div>
-                <input type="text" class="form-control" id="captchaInput" placeholder="輸入上方驗證碼" required>
+                <input asp-for="Captcha" type="text" placeholder="輸入上方驗證碼" style="margin-top: 10px;" autocomplete="off" />
+                <span asp-validation-for="Captcha" class="error-message"></span>
             </div>
-            
-            <button type="submit" class="btn btn-login w-100">登入</button>
+
+            <button type="submit" class="login-submit">登入</button>
         </form>
 
-        <div class="links">
-            <p>
-                <a href="/Member/Register">註冊新帳號</a> | 
-                <a href="#">忘記密碼?</a>
-            </p>
-            <p style="margin-top: 15px;">
-                <a href="/">← 返回首頁</a>
-            </p>
+        <div class="login-links">
+            <a asp-action="Register01">註冊新帳號</a>
+            <span class="separator">|</span>
+            <a href="#">忘記密碼?</a>
+        </div>
+
+        <div class="login-back">
+            <a asp-controller="Home" asp-action="Index">← 返回首頁</a>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.LoginSuccess == true)
+{
+    <div class="success-overlay">
+        <div class="success-message">
+            <div class="success-icon">✅</div>
+            <div class="success-title">登入成功！</div>
+            <div class="success-text">歡迎回來，<strong>@ViewBag.Username</strong></div>
+            <div class="success-redirect">
+                正在跳轉至首頁<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+            </div>
         </div>
     </div>
 
     <script>
-        let currentCaptcha = "";
-
-        function generateCaptcha() {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-            currentCaptcha = "";
-            for (let i = 0; i < 4; i++) {
-                currentCaptcha += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            document.getElementById("captcha").textContent = currentCaptcha;
-        }
-
-        generateCaptcha();
-
-        document.getElementById("loginForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const userInput = document.getElementById("captchaInput").value.trim().toUpperCase();
-            
-            if (userInput !== currentCaptcha) {
-                alert("驗證碼錯誤，請再試一次！");
-                generateCaptcha();
-                document.getElementById("captchaInput").value = "";
-                return;
-            }
-            
-            if (!username || !password) {
-                alert("請填寫完整資料！");
-                return;
-            }
-            
-            alert("驗證成功，登入中...");
-            // 這裡可以接後端 API 做登入
-            // window.location.href = "/";
-        });
+        // 2 秒後跳轉至首頁
+        setTimeout(function() {
+            window.location.href = '@Url.Action("Index", "Home")';
+        }, 2000);
     </script>
-</body>
-</html>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
