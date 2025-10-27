@@ -116,10 +116,79 @@ namespace EECBET.Controllers
             }
         }
 
-        // GET: /Member/Register
+        // GET: /Member/Register01
         public IActionResult Register01()
         {
             return View();
+        }
+
+        // POST: /Member/Register01 (註冊表單提交)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register01(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                // 檢查用戶名是否已存在
+                if (await _context.Members.AnyAsync(m => m.Username == model.Username))
+                {
+                    ModelState.AddModelError("Username", "此用戶名已被使用");
+                    return View(model);
+                }
+
+                // 檢查 Email 是否已存在
+                if (await _context.Members.AnyAsync(m => m.Email == model.Email))
+                {
+                    ModelState.AddModelError("Email", "此電子郵件已被註冊");
+                    return View(model);
+                }
+
+                // 建立新會員
+                var member = new Member
+                {
+                    Username = model.Username,
+                    Password = model.Password, // 明文密碼（學生作業用）
+                    Email = model.Email,
+                    Firstname = model.Firstname,
+                    Lastname = model.Lastname,
+                    Gender = model.Gender,
+                    Birthday = model.Birthday,
+                    Country = model.Country,
+                    Points = 1000, // 新會員贈送1000點
+                    CreatedAt = DateTime.Now
+                };
+
+                _context.Members.Add(member);
+                await _context.SaveChangesAsync();
+
+                // 自動登入
+                HttpContext.Session.SetInt32("MemberId", member.Id);
+                HttpContext.Session.SetString("Username", member.Username);
+
+                _logger.LogInformation($"新會員 {member.Username} 註冊成功");
+
+                // 設定註冊成功訊息
+                ViewBag.RegisterSuccess = true;
+
+                // 組合顯示名稱
+                var displayName = !string.IsNullOrEmpty(model.Lastname) || !string.IsNullOrEmpty(model.Firstname)
+                    ? $"{model.Lastname}{model.Firstname}"
+                    : member.Username;
+                ViewBag.Username = displayName;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "註冊過程發生錯誤");
+                ModelState.AddModelError("", "註冊失敗，請稍後再試");
+                return View(model);
+            }
         }
 
         // GET: /Member/Points
