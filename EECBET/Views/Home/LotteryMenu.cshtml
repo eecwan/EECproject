@@ -1,0 +1,254 @@
+@{
+    ViewBag.Title = "彩票選單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: linear-gradient(135deg, #0a1f0a 0%, #1a3d1a 50%, #0d2d0d 100%);
+        color: #ffffff;
+        font-family: 'Microsoft JhengHei', sans-serif;
+        min-height: 100vh;
+    }
+
+    .lottery-container {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(0, 255, 0, 0.3);
+        margin: 20px 0;
+    }
+
+    .lottery-title {
+        color: #00ff00;
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    .lottery-card {
+        background: rgba(0, 0, 0, 0.6);
+        border: 2px solid rgba(0, 255, 0, 0.4);
+        color: #ffffff;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .lottery-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 255, 0, 0.3);
+        border-color: #00ff00;
+    }
+
+    .lottery-card-header {
+        background: linear-gradient(135deg, #004d00 0%, #00aa00 50%, #004d00 100%);
+        color: #ffffff;
+        border-radius: 15px 15px 0 0;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .lottery-card-body {
+        padding: 25px;
+        text-align: center;
+    }
+
+    .lottery-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #00ff00;
+    }
+
+    .lottery-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #00ff00;
+    }
+
+    .lottery-description {
+        color: #cccccc;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+
+    .lottery-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .lottery-features li {
+        color: #aaaaaa;
+        font-size: 0.8rem;
+        margin-bottom: 5px;
+    }
+
+    .lottery-features li:before {
+        content: "✓ ";
+        color: #00ff00;
+        font-weight: bold;
+    }
+
+    .back-button {
+        background: linear-gradient(135deg, #666666 0%, #888888 100%);
+        border: 2px solid #555555;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+        background: linear-gradient(135deg, #888888 0%, #aaaaaa 100%);
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="container">
+    <div class="lottery-container">
+        <a href="@Url.Action("Index", "Home")" class="back-button">← 返回首頁</a>
+        
+        <h1 class="lottery-title">🎰 彩票遊戲選單</h1>
+        
+        <div class="row g-4">
+            <!-- 四星彩 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="lottery-card" onclick="location.href='@Url.Action("Lottery539", "Home")'">
+                    <div class="lottery-card-header">
+                        <div class="lottery-icon">🎯</div>
+                        <div class="lottery-name">四星彩</div>
+                    </div>
+                    <div class="lottery-card-body">
+                        <div class="lottery-description">台灣最受歡迎的彩票遊戲</div>
+                        <ul class="lottery-features">
+                            <li>1-39號碼選擇</li>
+                            <li>二星、三星、四星投注</li>
+                            <li>每30秒開獎一次</li>
+                            <li>即時開獎結果</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 大樂透 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="lottery-card" onclick="location.href='@Url.Action("LotteryLotto", "Home")'">
+                    <div class="lottery-card-header">
+                        <div class="lottery-icon">🎲</div>
+                        <div class="lottery-name">大樂透</div>
+                    </div>
+                    <div class="lottery-card-body">
+                        <div class="lottery-description">高獎金彩票遊戲</div>
+                        <ul class="lottery-features">
+                            <li>1-49號碼選擇</li>
+                            <li>6個號碼+1個特別號</li>
+                            <li>每30秒開獎一次</li>
+                            <li>頭獎最高2億</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 威力彩 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="lottery-card" onclick="location.href='@Url.Action("LotteryPower", "Home")'">
+                    <div class="lottery-card-header">
+                        <div class="lottery-icon">⚡</div>
+                        <div class="lottery-name">威力彩</div>
+                    </div>
+                    <div class="lottery-card-body">
+                        <div class="lottery-description">超級大獎彩票</div>
+                        <ul class="lottery-features">
+                            <li>第一區1-38選6個</li>
+                            <li>第二區1-8選1個</li>
+                            <li>每30秒開獎一次</li>
+                            <li>頭獎最高10億</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 今彩539 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="lottery-card" onclick="location.href='@Url.Action("LotteryToday539", "Home")'">
+                    <div class="lottery-card-header">
+                        <div class="lottery-icon">🌟</div>
+                        <div class="lottery-name">今彩539</div>
+                    </div>
+                    <div class="lottery-card-body">
+                        <div class="lottery-description">每日開獎的熱門彩票</div>
+                        <ul class="lottery-features">
+                            <li>1-39號碼選擇</li>
+                            <li>5個號碼開獎</li>
+                            <li>每30秒開獎一次</li>
+                            <li>中獎機率較高</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 雙色球 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="lottery-card" onclick="location.href='@Url.Action("LotteryDoubleColor", "Home")'">
+                    <div class="lottery-card-header">
+                        <div class="lottery-icon">🔴🔵</div>
+                        <div class="lottery-name">雙色球</div>
+                    </div>
+                    <div class="lottery-card-body">
+                        <div class="lottery-description">紅藍雙色球彩票</div>
+                        <ul class="lottery-features">
+                            <li>紅球1-33選6個</li>
+                            <li>藍球1-16選1個</li>
+                            <li>每30秒開獎一次</li>
+                            <li>多種投注方式</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 刮刮樂 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="lottery-card" onclick="location.href='@Url.Action("LotteryScratch", "Home")'">
+                    <div class="lottery-card-header">
+                        <div class="lottery-icon">🎫</div>
+                        <div class="lottery-name">刮刮樂</div>
+                    </div>
+                    <div class="lottery-card-body">
+                        <div class="lottery-description">即時開獎刮刮樂</div>
+                        <ul class="lottery-features">
+                            <li>多種面額選擇</li>
+                            <li>即刮即中獎</li>
+                            <li>多種遊戲主題</li>
+                            <li>中獎率透明</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 添加卡片點擊效果
+        $('.lottery-card').on('click', function() {
+            $(this).addClass('active');
+            setTimeout(() => {
+                $(this).removeClass('active');
+            }, 200);
+        });
+    });
+</script>

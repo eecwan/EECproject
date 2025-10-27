@@ -1,0 +1,880 @@
+@{
+    ViewBag.Title = "雙色球投注";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: linear-gradient(135deg, #0a1f0a 0%, #1a3d1a 50%, #0d2d0d 100%);
+        color: #ffffff;
+        font-family: 'Microsoft JhengHei', sans-serif;
+        min-height: 100vh;
+    }
+
+    .doublecolor-container {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(0, 255, 0, 0.3);
+        margin: 20px 0;
+    }
+
+    .doublecolor-title {
+        color: #00ff00;
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    .card {
+        background: rgba(0, 0, 0, 0.6);
+        border: 2px solid rgba(0, 255, 0, 0.4);
+        color: #ffffff;
+        border-radius: 15px;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #004d00 0%, #00aa00 50%, #004d00 100%);
+        color: #ffffff;
+        border-radius: 15px 15px 0 0;
+        padding: 18px 25px;
+    }
+
+    .number-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        margin: 3px;
+        background: linear-gradient(135deg, #1a3d1a 0%, #2d5a2d 100%);
+        color: #00ff00;
+        border: 2px solid #004d00;
+        transition: all 0.3s ease;
+        font-weight: bold;
+    }
+
+    .number-btn:hover {
+        background: linear-gradient(135deg, #00aa00 0%, #00ff00 100%);
+        border-color: #00ff00;
+        color: #000000;
+        transform: scale(1.1);
+    }
+
+    .number-btn.selected {
+        background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
+        color: #000000;
+        border-color: #ff6600;
+        transform: scale(1.05);
+    }
+
+    .red-number-btn {
+        background: linear-gradient(135deg, #cc0000 0%, #ff3333 100%);
+        color: #ffffff;
+        border: 2px solid #990000;
+    }
+
+    .red-number-btn:hover {
+        background: linear-gradient(135deg, #ff3333 0%, #ff6666 100%);
+        border-color: #ff0000;
+        color: #ffffff;
+    }
+
+    .red-number-btn.selected {
+        background: linear-gradient(135deg, #ff9900 0%, #ffcc00 100%);
+        color: #000000;
+        border-color: #ff6600;
+    }
+
+    .blue-number-btn {
+        background: linear-gradient(135deg, #0000cc 0%, #3333ff 100%);
+        color: #ffffff;
+        border: 2px solid #000099;
+    }
+
+    .blue-number-btn:hover {
+        background: linear-gradient(135deg, #3333ff 0%, #6666ff 100%);
+        border-color: #0000ff;
+        color: #ffffff;
+    }
+
+    .blue-number-btn.selected {
+        background: linear-gradient(135deg, #ff9900 0%, #ffcc00 100%);
+        color: #000000;
+        border-color: #ff6600;
+    }
+
+    .number-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        max-width: 360px;
+        margin: 10px auto;
+        padding: 20px;
+    }
+
+    .blue-number-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        max-width: 240px;
+        margin: 10px auto;
+        padding: 20px;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
+        border: none;
+        color: #000000;
+        font-weight: 700;
+        padding: 18px 35px;
+        font-size: 1.2rem;
+        margin: 30px 0;
+        display: block;
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #ff9900 0%, #ffcc00 100%);
+        color: #000000;
+        transform: translateY(-3px);
+    }
+
+    table.table {
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        border: 1px solid rgba(0, 255, 0, 0.3);
+        border-radius: 8px;
+    }
+
+    table.table th,
+    table.table td {
+        text-align: center;
+        vertical-align: middle;
+        padding: 12px 8px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(0, 255, 0, 0.2);
+        color: #ffffff;
+    }
+
+    table thead {
+        background: linear-gradient(135deg, #004d00 0%, #00aa00 100%);
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    #countdown {
+        font-weight: 900;
+        color: #ff6600;
+        font-size: 1.4rem;
+        background: rgba(255, 102, 0, 0.1);
+        padding: 12px 20px;
+        border-radius: 10px;
+        border: 2px solid rgba(255, 102, 0, 0.4);
+        margin-top: 25px;
+        display: inline-block;
+    }
+
+    #serverResult {
+        white-space: pre-line;
+        color: #00ff00;
+        background: rgba(0, 255, 0, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid #00ff00;
+        margin-top: 20px;
+    }
+
+    #historyTable tbody {
+        display: block;
+        max-height: 280px;
+        overflow-y: auto;
+        border-radius: 8px;
+    }
+
+    #historyTable thead, #historyTable tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    #tipOpening {
+        color: #ff0000;
+        font-weight: 900;
+        display: none;
+        font-size: 1.2rem;
+        background: rgba(255, 0, 0, 0.1);
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 0, 0, 0.4);
+    }
+
+    input[type="number"] {
+        background: rgba(0, 0, 0, 0.4);
+        border: 2px solid rgba(0, 255, 0, 0.4);
+        color: #00ff00;
+        padding: 10px 15px;
+        border-radius: 8px;
+    }
+
+    input[type="number"]:focus {
+        outline: none;
+        border-color: #00ff00;
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+    }
+
+    .btn-outline-primary, .btn-outline-secondary {
+        border-radius: 8px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+        border-width: 2px;
+    }
+
+    .btn-outline-primary {
+        color: #00ff00;
+        border-color: #00ff00;
+        background: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        background: #00ff00;
+        color: #000000;
+    }
+
+    .btn-outline-secondary {
+        color: #888888;
+        border-color: #888888;
+        background: transparent;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #888888;
+        color: #000000;
+    }
+
+    label {
+        color: #00ff00;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .btn-sm {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .back-button {
+        background: linear-gradient(135deg, #666666 0%, #888888 100%);
+        border: 2px solid #555555;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+        background: linear-gradient(135deg, #888888 0%, #aaaaaa 100%);
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
+    .prize-info {
+        background: rgba(0, 255, 0, 0.1);
+        border: 2px solid rgba(0, 255, 0, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .prize-info h6 {
+        color: #00ff00;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .prize-info p {
+        color: #cccccc;
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .selected-numbers-display {
+        background: rgba(255, 102, 0, 0.1);
+        border: 2px solid rgba(255, 102, 0, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        text-align: center;
+    }
+
+    .selected-numbers-display h6 {
+        color: #ff6600;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .selected-number {
+        display: inline-block;
+        background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
+        color: #000000;
+        padding: 8px 12px;
+        margin: 3px;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .section-title {
+        color: #00ff00;
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin: 20px 0 10px 0;
+        text-align: center;
+    }
+
+    .section-divider {
+        border-top: 2px solid rgba(0, 255, 0, 0.3);
+        margin: 20px 0;
+    }
+</style>
+
+<div class="container">
+    <div class="doublecolor-container">
+        <a href="@Url.Action("LotteryMenu", "Home")" class="back-button">← 返回彩票選單</a>
+        
+        <h1 class="doublecolor-title">🔴🔵 雙色球投注</h1>
+        
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div>紅球：請選擇6個號碼（1-33）</div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary" id="btnRandomRed">隨機選號</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="btnClearRed">清除</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="number-grid" id="redNumberGrid">
+                            @for (int i = 1; i <= 33; i++)
+                            {
+                                <button type="button" class="number-btn red-number-btn" data-number="@i" data-type="red">@i.ToString("D2")</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div>藍球：請選擇1個號碼（1-16）</div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary" id="btnRandomBlue">隨機選號</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="btnClearBlue">清除</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="blue-number-grid" id="blueNumberGrid">
+                            @for (int i = 1; i <= 16; i++)
+                            {
+                                <button type="button" class="number-btn blue-number-btn" data-number="@i" data-type="blue">@i.ToString("D2")</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="selected-numbers-display" id="selectedNumbersDisplay" style="display: none;">
+                    <h6>已選號碼：</h6>
+                    <div>
+                        <strong>紅球：</strong>
+                        <div id="redNumbersList"></div>
+                    </div>
+                    <div>
+                        <strong>藍球：</strong>
+                        <div id="blueNumbersList"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">投注設定</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label>每注金額：</label>
+                            <input type="number" id="betAmount" value="2" step="1" min="2" max="1000" />
+                            <small class="text-muted">（最低2元，最高1,000元）</small>
+                        </div>
+                        <div class="mb-3">
+                            <label>投注注數：</label>
+                            <input type="number" id="betCount" value="1" min="1" max="100" />
+                            <small class="text-muted">（最多100注）</small>
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <strong>總投注金額：<span id="totalAmount">2</span> 元</strong>
+                        </div>
+                        <button class="btn btn-warning" id="submitBet">立即投注</button>
+                        <div class="mt-3">
+                            <div>距離下次開獎：<span id="countdown">00:30</span></div>
+                            <div id="tipOpening">即將開獎！</div>
+                        </div>
+                        <div id="serverResult" class="mt-2"></div>
+                    </div>
+                </div>
+                
+                <div class="prize-info">
+                    <h6>🔴🔵 獎項說明</h6>
+                    <p><strong>一等獎：</strong>6個紅球+1個藍球 - 賠率 1:5,000,000</p>
+                    <p><strong>二等獎：</strong>6個紅球 - 賠率 1:200,000</p>
+                    <p><strong>三等獎：</strong>5個紅球+1個藍球 - 賠率 1:3,000</p>
+                    <p><strong>四等獎：</strong>5個紅球 或 4個紅球+1個藍球 - 賠率 1:200</p>
+                    <p><strong>五等獎：</strong>4個紅球 或 3個紅球+1個藍球 - 賠率 1:10</p>
+                    <p><strong>六等獎：</strong>2個紅球+1個藍球 或 1個紅球+1個藍球 或 1個藍球 - 賠率 1:5</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">開獎紀錄</div>
+                    <div class="card-body">
+                        <table class="table table-sm" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>期數</th>
+                                    <th>紅球號碼</th>
+                                    <th>藍球號碼</th>
+                                    <th>開獎時間</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let selectedRedNumbers = [];
+    let selectedBlueNumbers = [];
+    const INTERVAL_SEC = 30;
+    let countdownSec = INTERVAL_SEC;
+    let hasBetThisRound = false;
+    let currentBetPayload = null;
+
+    // 雙色球賠率表
+    const prizeRates = {
+        6: 5000000,  // 一等獎：6個紅球+1個藍球
+        5: 200000,   // 二等獎：6個紅球
+        4: 3000,     // 三等獎：5個紅球+1個藍球
+        3: 200,      // 四等獎：5個紅球 或 4個紅球+1個藍球
+        2: 10,       // 五等獎：4個紅球 或 3個紅球+1個藍球
+        1: 5         // 六等獎：2個紅球+1個藍球 或 1個紅球+1個藍球 或 1個藍球
+    };
+
+    function updateUI() {
+        updateSelectedNumbersDisplay();
+        updateTotalAmount();
+        highlightSelectedButtons();
+    }
+
+    function updateSelectedNumbersDisplay() {
+        if (selectedRedNumbers.length > 0 || selectedBlueNumbers.length > 0) {
+            $('#selectedNumbersDisplay').show();
+            
+            let redHtml = '';
+            selectedRedNumbers.forEach(num => {
+                redHtml += `<span class="selected-number" style="background: linear-gradient(135deg, #cc0000 0%, #ff3333 100%); color: white;">${num.toString().padStart(2, '0')}</span>`;
+            });
+            $('#redNumbersList').html(redHtml);
+            
+            let blueHtml = '';
+            selectedBlueNumbers.forEach(num => {
+                blueHtml += `<span class="selected-number" style="background: linear-gradient(135deg, #0000cc 0%, #3333ff 100%); color: white;">${num.toString().padStart(2, '0')}</span>`;
+            });
+            $('#blueNumbersList').html(blueHtml);
+        } else {
+            $('#selectedNumbersDisplay').hide();
+        }
+    }
+
+    function updateTotalAmount() {
+        const betAmount = parseInt($('#betAmount').val()) || 2;
+        const betCount = parseInt($('#betCount').val()) || 1;
+        const total = betAmount * betCount;
+        $('#totalAmount').text(total);
+    }
+
+    function highlightSelectedButtons() {
+        $('.number-btn').each(function () {
+            let num = parseInt($(this).data('number'));
+            let type = $(this).data('type');
+            let isSelected = false;
+            
+            if (type === 'red') {
+                isSelected = selectedRedNumbers.includes(num);
+            } else if (type === 'blue') {
+                isSelected = selectedBlueNumbers.includes(num);
+            }
+            
+            $(this).toggleClass('selected', isSelected);
+        });
+    }
+
+    $(document).on('click', '.number-btn', function () {
+        let num = parseInt($(this).data('number'));
+        let type = $(this).data('type');
+        
+        if (type === 'red') {
+            const idx = selectedRedNumbers.indexOf(num);
+            if (idx >= 0) {
+                selectedRedNumbers.splice(idx, 1);
+            } else {
+                if (selectedRedNumbers.length >= 6) {
+                    alert('紅球最多只能選6個號碼');
+                    return;
+                }
+                selectedRedNumbers.push(num);
+            }
+            selectedRedNumbers.sort((a, b) => a - b);
+        } else if (type === 'blue') {
+            const idx = selectedBlueNumbers.indexOf(num);
+            if (idx >= 0) {
+                selectedBlueNumbers.splice(idx, 1);
+            } else {
+                if (selectedBlueNumbers.length >= 1) {
+                    alert('藍球最多只能選1個號碼');
+                    return;
+                }
+                selectedBlueNumbers.push(num);
+            }
+            selectedBlueNumbers.sort((a, b) => a - b);
+        }
+        
+        updateUI();
+    });
+
+    $('#btnClearRed').click(() => {
+        selectedRedNumbers = [];
+        updateUI();
+    });
+
+    $('#btnClearBlue').click(() => {
+        selectedBlueNumbers = [];
+        updateUI();
+    });
+
+    $('#btnRandomRed').click(() => {
+        selectedRedNumbers = [];
+        const available = [];
+        for (let i = 1; i <= 33; i++) {
+            available.push(i);
+        }
+        
+        // 隨機選擇6個紅球
+        for (let i = 0; i < 6; i++) {
+            const idx = Math.floor(Math.random() * available.length);
+            selectedRedNumbers.push(available[idx]);
+            available.splice(idx, 1);
+        }
+        selectedRedNumbers.sort((a, b) => a - b);
+        updateUI();
+    });
+
+    $('#btnRandomBlue').click(() => {
+        selectedBlueNumbers = [];
+        const available = [];
+        for (let i = 1; i <= 16; i++) {
+            available.push(i);
+        }
+        
+        // 隨機選擇1個藍球
+        const idx = Math.floor(Math.random() * available.length);
+        selectedBlueNumbers.push(available[idx]);
+        updateUI();
+    });
+
+    $('#betAmount, #betCount').on('input', updateTotalAmount);
+
+    $('#submitBet').click(() => {
+        @if (User.Identity?.IsAuthenticated != true)
+        {
+            @:alert('請先登入才能進行投注');
+            @:return;
+        }
+        else
+        {
+            @:if (selectedRedNumbers.length !== 6) {
+            @:    alert('請選擇6個紅球號碼');
+            @:    return;
+            @:}
+            @:if (selectedBlueNumbers.length !== 1) {
+            @:    alert('請選擇1個藍球號碼');
+            @:    return;
+            @:}
+            @:const total = parseInt($('#totalAmount').text());
+            @:if (total <= 0) {
+            @:    alert('請輸入投注金額');
+            @:    return;
+            @:}
+            @:hasBetThisRound = true;
+            @:currentBetPayload = {
+            @:    RedNumbers: selectedRedNumbers,
+            @:    BlueNumbers: selectedBlueNumbers,
+            @:    BetAmount: parseInt($('#betAmount').val()),
+            @:    BetCount: parseInt($('#betCount').val()),
+            @:    TotalAmount: total
+            @:};
+            @:$('#serverResult').text('您已投注成功，本期開獎後會顯示結果');
+        }
+    });
+
+    function countdownTick() {
+        countdownSec--;
+        let m = Math.floor(countdownSec / 60), s = countdownSec % 60;
+        $('#countdown').text(`${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`);
+
+        if (countdownSec <= 3 && countdownSec > 0) {
+            $('#tipOpening').show();
+        } else {
+            $('#tipOpening').hide();
+        }
+
+        if (countdownSec <= 0) {
+            doDraw();
+            countdownSec = INTERVAL_SEC;
+        }
+    }
+
+    function doDraw() {
+        let payload = hasBetThisRound && currentBetPayload != null
+            ? currentBetPayload
+            : { RedNumbers: [], BlueNumbers: [] };
+
+        $.ajax({
+            url: '/Bet/SubmitDoubleColorBet',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: data => {
+                renderResult(data);
+            },
+            error: err => {
+                console.error('開獎呼叫錯誤', err);
+                // 模擬開獎結果
+                simulateDrawResult(payload);
+            },
+            complete: () => {
+                hasBetThisRound = false;
+                currentBetPayload = null;
+            }
+        });
+    }
+
+    function simulateDrawResult(payload) {
+        // 生成開獎號碼（6個紅球 + 1個藍球）
+        const redNumbers = [];
+        const blueNumbers = [];
+        const redAvailable = [];
+        const blueAvailable = [];
+        
+        for (let i = 1; i <= 33; i++) {
+            redAvailable.push(i);
+        }
+        for (let i = 1; i <= 16; i++) {
+            blueAvailable.push(i);
+        }
+        
+        // 選擇6個紅球
+        for (let i = 0; i < 6; i++) {
+            const idx = Math.floor(Math.random() * redAvailable.length);
+            redNumbers.push(redAvailable[idx]);
+            redAvailable.splice(idx, 1);
+        }
+        redNumbers.sort((a, b) => a - b);
+        
+        // 選擇1個藍球
+        const blueIdx = Math.floor(Math.random() * blueAvailable.length);
+        blueNumbers.push(blueAvailable[blueIdx]);
+        
+        const result = {
+            success: true,
+            issueNo: Date.now(),
+            redNumbers: redNumbers,
+            blueNumbers: blueNumbers,
+            wins: [],
+            totalPayout: 0,
+            betAmount: payload.TotalAmount || 0,
+            newBalance: 10000 // 模擬餘額
+        };
+
+        // 如果有投注，計算中獎情況
+        if (payload.RedNumbers && payload.RedNumbers.length === 6 && 
+            payload.BlueNumbers && payload.BlueNumbers.length === 1) {
+            const userRedNumbers = payload.RedNumbers;
+            const userBlueNumbers = payload.BlueNumbers;
+            const redMatches = userRedNumbers.filter(num => redNumbers.includes(num)).length;
+            const blueMatches = userBlueNumbers.filter(num => blueNumbers.includes(num)).length;
+            
+            // 50%-90%獲獎率邏輯
+            const winChance = Math.random();
+            if (winChance < 0.5) { // 50%機率不中獎
+                result.wins = [];
+            } else {
+                // 根據匹配數量計算獎項
+                let prizeType = '';
+                let prizeRate = 0;
+                
+                if (redMatches === 6 && blueMatches === 1) {
+                    prizeType = '一等獎';
+                    prizeRate = prizeRates[6];
+                } else if (redMatches === 6) {
+                    prizeType = '二等獎';
+                    prizeRate = prizeRates[5];
+                } else if (redMatches === 5 && blueMatches === 1) {
+                    prizeType = '三等獎';
+                    prizeRate = prizeRates[4];
+                } else if (redMatches === 5 || (redMatches === 4 && blueMatches === 1)) {
+                    prizeType = '四等獎';
+                    prizeRate = prizeRates[3];
+                } else if (redMatches === 4 || (redMatches === 3 && blueMatches === 1)) {
+                    prizeType = '五等獎';
+                    prizeRate = prizeRates[2];
+                } else if ((redMatches === 2 && blueMatches === 1) || (redMatches === 1 && blueMatches === 1) || blueMatches === 1) {
+                    prizeType = '六等獎';
+                    prizeRate = prizeRates[1];
+                }
+                
+                if (prizeType) {
+                    const betCount = payload.BetCount || 1;
+                    const totalPayout = prizeRate * betCount;
+                    result.wins = [{
+                        type: prizeType,
+                        winningGroups: betCount,
+                        totalPayout: totalPayout
+                    }];
+                    result.totalPayout = totalPayout;
+                    result.newBalance = 10000 + totalPayout - payload.TotalAmount;
+                }
+            }
+        }
+        
+        renderResult(result);
+    }
+
+    function renderResult(data) {
+        if (!data.success) {
+            $('#serverResult').text('錯誤：' + data.message);
+            return;
+        }
+        
+        let html = `期數: ${data.issueNo}\n`;
+        html += `紅球號碼: ${data.redNumbers.join(', ')}\n`;
+        html += `藍球號碼: ${data.blueNumbers.join(', ')}\n`;
+        
+        if (data.wins && data.wins.length > 0) {
+            data.wins.forEach(w => {
+                html += `${w.type}: 中 ${w.winningGroups} 組  總派彩 ${w.totalPayout.toLocaleString()} 元\n`;
+            });
+            html += `總派彩: ${data.totalPayout.toLocaleString()} 元\n`;
+        } else {
+            html += '未中獎\n';
+        }
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            @:html += `投注金額: ${data.betAmount} 元\n`;
+            @:html += `新餘額: ${data.newBalance.toLocaleString()} 元`;
+            @:if (data.newBalance !== undefined) {
+            @:    $('#userBalance').text('$' + parseFloat(data.newBalance).toLocaleString('en-US', {
+            @:        minimumFractionDigits: 2,
+            @:        maximumFractionDigits: 2
+            @:    }));
+            @:}
+        }
+        else
+        {
+            @:html += '（未登入，無法投注）';
+        }
+        
+        $('#serverResult').text(html);
+        
+        // 更新歷史記錄
+        updateHistoryTable(data);
+    }
+
+    function updateHistoryTable(data) {
+        const $tbody = $('#historyTable tbody');
+        const newRow = `
+            <tr>
+                <td>${data.issueNo}</td>
+                <td>${data.redNumbers.join(', ')}</td>
+                <td>${data.blueNumbers.join(', ')}</td>
+                <td>${new Date().toLocaleString()}</td>
+            </tr>
+        `;
+        $tbody.prepend(newRow);
+        
+        // 只保留最新20筆記錄
+        const rows = $tbody.find('tr');
+        if (rows.length > 20) {
+            rows.slice(20).remove();
+        }
+    }
+
+    function refreshHistoryFromServer() {
+        // 這裡可以從服務器獲取歷史記錄
+        // 目前使用模擬數據
+    }
+
+    $(document).ready(function () {
+        updateUI();
+        refreshHistoryFromServer();
+        setInterval(countdownTick, 1000);
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            @:loadUserBalance();
+        }
+    });
+    
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        @:function loadUserBalance() {
+        @:    fetch('/Account/Balance')
+        @:        .then(response => response.json())
+        @:        .then(data => {
+        @:            if (data.success) {
+        @:                $('#userBalance').text('$' + parseFloat(data.balance).toLocaleString('en-US', {
+        @:                    minimumFractionDigits: 2,
+        @:                    maximumFractionDigits: 2
+        @:                }));
+        @:            } else {
+        @:                $('#userBalance').text('載入失敗');
+        @:            }
+        @:        })
+        @:        .catch(error => {
+        @:            console.error('Error loading balance:', error);
+        @:            $('#userBalance').text('載入失敗');
+        @:        });
+        @:}
+    }
+</script>

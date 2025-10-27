@@ -1,5 +1,6 @@
-﻿@{
-    ViewBag.Title = "539 投注模擬";
+@{
+    ViewBag.Title = "四星彩投注";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -244,11 +245,33 @@
         color: #000000;
         transform: translateY(-1px);
     }
+
+    .back-button {
+        background: linear-gradient(135deg, #666666 0%, #888888 100%);
+        border: 2px solid #555555;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+        background: linear-gradient(135deg, #888888 0%, #aaaaaa 100%);
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
 </style>
 
-
 <div class="container mt-4">
-    <h4> 539 投注開獎器</h4>
+    <a href="@Url.Action("LotteryMenu", "Home")" class="back-button">← 返回彩票選單</a>
+    
+    <h4>🎯 四星彩投注開獎器</h4>
+    
+    
     
     <div class="row">
         <div class="col-md-4">
@@ -562,4 +585,3 @@
         @:}
     }
 </script>
-

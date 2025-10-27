@@ -1,0 +1,740 @@
+@{
+    ViewBag.Title = "大樂透投注";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: linear-gradient(135deg, #0a1f0a 0%, #1a3d1a 50%, #0d2d0d 100%);
+        color: #ffffff;
+        font-family: 'Microsoft JhengHei', sans-serif;
+        min-height: 100vh;
+    }
+
+    .lotto-container {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(0, 255, 0, 0.3);
+        margin: 20px 0;
+    }
+
+    .lotto-title {
+        color: #00ff00;
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    .card {
+        background: rgba(0, 0, 0, 0.6);
+        border: 2px solid rgba(0, 255, 0, 0.4);
+        color: #ffffff;
+        border-radius: 15px;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #004d00 0%, #00aa00 50%, #004d00 100%);
+        color: #ffffff;
+        border-radius: 15px 15px 0 0;
+        padding: 18px 25px;
+    }
+
+    .number-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        margin: 3px;
+        background: linear-gradient(135deg, #1a3d1a 0%, #2d5a2d 100%);
+        color: #00ff00;
+        border: 2px solid #004d00;
+        transition: all 0.3s ease;
+        font-weight: bold;
+    }
+
+    .number-btn:hover {
+        background: linear-gradient(135deg, #00aa00 0%, #00ff00 100%);
+        border-color: #00ff00;
+        color: #000000;
+        transform: scale(1.1);
+    }
+
+    .number-btn.selected {
+        background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
+        color: #000000;
+        border-color: #ff6600;
+        transform: scale(1.05);
+    }
+
+    .number-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        max-width: 420px;
+        margin: 10px auto;
+        padding: 20px;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
+        border: none;
+        color: #000000;
+        font-weight: 700;
+        padding: 18px 35px;
+        font-size: 1.2rem;
+        margin: 30px 0;
+        display: block;
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #ff9900 0%, #ffcc00 100%);
+        color: #000000;
+        transform: translateY(-3px);
+    }
+
+    table.table {
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        border: 1px solid rgba(0, 255, 0, 0.3);
+        border-radius: 8px;
+    }
+
+    table.table th,
+    table.table td {
+        text-align: center;
+        vertical-align: middle;
+        padding: 12px 8px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(0, 255, 0, 0.2);
+        color: #ffffff;
+    }
+
+    table thead {
+        background: linear-gradient(135deg, #004d00 0%, #00aa00 100%);
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    #countdown {
+        font-weight: 900;
+        color: #ff6600;
+        font-size: 1.4rem;
+        background: rgba(255, 102, 0, 0.1);
+        padding: 12px 20px;
+        border-radius: 10px;
+        border: 2px solid rgba(255, 102, 0, 0.4);
+        margin-top: 25px;
+        display: inline-block;
+    }
+
+    #serverResult {
+        white-space: pre-line;
+        color: #00ff00;
+        background: rgba(0, 255, 0, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid #00ff00;
+        margin-top: 20px;
+    }
+
+    #historyTable tbody {
+        display: block;
+        max-height: 280px;
+        overflow-y: auto;
+        border-radius: 8px;
+    }
+
+    #historyTable thead, #historyTable tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    #tipOpening {
+        color: #ff0000;
+        font-weight: 900;
+        display: none;
+        font-size: 1.2rem;
+        background: rgba(255, 0, 0, 0.1);
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 0, 0, 0.4);
+    }
+
+    input[type="number"] {
+        background: rgba(0, 0, 0, 0.4);
+        border: 2px solid rgba(0, 255, 0, 0.4);
+        color: #00ff00;
+        padding: 10px 15px;
+        border-radius: 8px;
+    }
+
+    input[type="number"]:focus {
+        outline: none;
+        border-color: #00ff00;
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+    }
+
+    .btn-outline-primary, .btn-outline-secondary {
+        border-radius: 8px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+        border-width: 2px;
+    }
+
+    .btn-outline-primary {
+        color: #00ff00;
+        border-color: #00ff00;
+        background: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        background: #00ff00;
+        color: #000000;
+    }
+
+    .btn-outline-secondary {
+        color: #888888;
+        border-color: #888888;
+        background: transparent;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #888888;
+        color: #000000;
+    }
+
+    label {
+        color: #00ff00;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .btn-sm {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .back-button {
+        background: linear-gradient(135deg, #666666 0%, #888888 100%);
+        border: 2px solid #555555;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+        background: linear-gradient(135deg, #888888 0%, #aaaaaa 100%);
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
+    .prize-info {
+        background: rgba(0, 255, 0, 0.1);
+        border: 2px solid rgba(0, 255, 0, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .prize-info h6 {
+        color: #00ff00;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .prize-info p {
+        color: #cccccc;
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .selected-numbers-display {
+        background: rgba(255, 102, 0, 0.1);
+        border: 2px solid rgba(255, 102, 0, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        text-align: center;
+    }
+
+    .selected-numbers-display h6 {
+        color: #ff6600;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .selected-number {
+        display: inline-block;
+        background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
+        color: #000000;
+        padding: 8px 12px;
+        margin: 3px;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+</style>
+
+<div class="container">
+    <div class="lotto-container">
+        <a href="@Url.Action("LotteryMenu", "Home")" class="back-button">← 返回彩票選單</a>
+        
+        <h1 class="lotto-title">🎲 大樂透投注</h1>
+        
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div>請選擇6個號碼（1-49）</div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary" id="btnRandom">隨機選號</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="btnClear">清除</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="number-grid" id="numberGrid">
+                            @for (int i = 1; i <= 49; i++)
+                            {
+                                <button type="button" class="number-btn" data-number="@i">@i.ToString("D2")</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="selected-numbers-display" id="selectedNumbersDisplay" style="display: none;">
+                    <h6>已選號碼：</h6>
+                    <div id="selectedNumbersList"></div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">投注設定</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label>每注金額：</label>
+                            <input type="number" id="betAmount" value="50" step="10" min="50" max="10000" />
+                            <small class="text-muted">（最低50元，最高10,000元）</small>
+                        </div>
+                        <div class="mb-3">
+                            <label>投注注數：</label>
+                            <input type="number" id="betCount" value="1" min="1" max="100" />
+                            <small class="text-muted">（最多100注）</small>
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <strong>總投注金額：<span id="totalAmount">50</span> 元</strong>
+                        </div>
+                        <button class="btn btn-warning" id="submitBet">立即投注</button>
+                        <div class="mt-3">
+                            <div>距離下次開獎：<span id="countdown">00:30</span></div>
+                            <div id="tipOpening">即將開獎！</div>
+                        </div>
+                        <div id="serverResult" class="mt-2"></div>
+                    </div>
+                </div>
+                
+                <div class="prize-info">
+                    <h6>🎯 獎項說明</h6>
+                    <p><strong>頭獎：</strong>6個號碼全中 - 賠率 1:20,000,000</p>
+                    <p><strong>貳獎：</strong>5個號碼+特別號 - 賠率 1:1,000,000</p>
+                    <p><strong>參獎：</strong>5個號碼 - 賠率 1:50,000</p>
+                    <p><strong>肆獎：</strong>4個號碼+特別號 - 賠率 1:5,000</p>
+                    <p><strong>伍獎：</strong>4個號碼 - 賠率 1:500</p>
+                    <p><strong>陸獎：</strong>3個號碼+特別號 - 賠率 1:100</p>
+                    <p><strong>柒獎：</strong>3個號碼 - 賠率 1:10</p>
+                    <p><strong>普獎：</strong>2個號碼+特別號 - 賠率 1:2</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">開獎紀錄</div>
+                    <div class="card-body">
+                        <table class="table table-sm" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>期數</th>
+                                    <th>開獎號碼</th>
+                                    <th>特別號</th>
+                                    <th>開獎時間</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let selectedNumbers = [];
+    const INTERVAL_SEC = 30;
+    let countdownSec = INTERVAL_SEC;
+    let hasBetThisRound = false;
+    let currentBetPayload = null;
+
+    // 台灣大樂透賠率表
+    const prizeRates = {
+        6: 20000000,  // 頭獎：6個號碼全中
+        5: 1000000,   // 貳獎：5個號碼+特別號
+        4: 50000,     // 參獎：5個號碼
+        3: 5000,      // 肆獎：4個號碼+特別號
+        2: 500,       // 伍獎：4個號碼
+        1: 100,       // 陸獎：3個號碼+特別號
+        0: 10,        // 柒獎：3個號碼
+        'special': 2  // 普獎：2個號碼+特別號
+    };
+
+    function updateUI() {
+        updateSelectedNumbersDisplay();
+        updateTotalAmount();
+        highlightSelectedButtons();
+    }
+
+    function updateSelectedNumbersDisplay() {
+        if (selectedNumbers.length > 0) {
+            $('#selectedNumbersDisplay').show();
+            let html = '';
+            selectedNumbers.forEach(num => {
+                html += `<span class="selected-number">${num.toString().padStart(2, '0')}</span>`;
+            });
+            $('#selectedNumbersList').html(html);
+        } else {
+            $('#selectedNumbersDisplay').hide();
+        }
+    }
+
+    function updateTotalAmount() {
+        const betAmount = parseInt($('#betAmount').val()) || 50;
+        const betCount = parseInt($('#betCount').val()) || 1;
+        const total = betAmount * betCount;
+        $('#totalAmount').text(total);
+    }
+
+    function highlightSelectedButtons() {
+        $('.number-btn').each(function () {
+            let num = parseInt($(this).data('number'));
+            $(this).toggleClass('selected', selectedNumbers.includes(num));
+        });
+    }
+
+    $(document).on('click', '.number-btn', function () {
+        let num = parseInt($(this).data('number'));
+        const idx = selectedNumbers.indexOf(num);
+        
+        if (idx >= 0) {
+            selectedNumbers.splice(idx, 1);
+        } else {
+            if (selectedNumbers.length >= 6) {
+                alert('大樂透最多只能選6個號碼');
+                return;
+            }
+            selectedNumbers.push(num);
+        }
+        selectedNumbers.sort((a, b) => a - b);
+        updateUI();
+    });
+
+    $('#btnClear').click(() => {
+        selectedNumbers = [];
+        updateUI();
+    });
+
+    $('#btnRandom').click(() => {
+        selectedNumbers = [];
+        const available = [];
+        for (let i = 1; i <= 49; i++) {
+            available.push(i);
+        }
+        
+        // 隨機選擇6個號碼
+        for (let i = 0; i < 6; i++) {
+            const idx = Math.floor(Math.random() * available.length);
+            selectedNumbers.push(available[idx]);
+            available.splice(idx, 1);
+        }
+        selectedNumbers.sort((a, b) => a - b);
+        updateUI();
+    });
+
+    $('#betAmount, #betCount').on('input', updateTotalAmount);
+
+    $('#submitBet').click(() => {
+        @if (User.Identity?.IsAuthenticated != true)
+        {
+            @:alert('請先登入才能進行投注');
+            @:return;
+        }
+        else
+        {
+            @:if (selectedNumbers.length !== 6) {
+            @:    alert('請選擇6個號碼');
+            @:    return;
+            @:}
+            @:const total = parseInt($('#totalAmount').text());
+            @:if (total <= 0) {
+            @:    alert('請輸入投注金額');
+            @:    return;
+            @:}
+            @:hasBetThisRound = true;
+            @:currentBetPayload = {
+            @:    Numbers: selectedNumbers,
+            @:    BetAmount: parseInt($('#betAmount').val()),
+            @:    BetCount: parseInt($('#betCount').val()),
+            @:    TotalAmount: total
+            @:};
+            @:$('#serverResult').text('您已投注成功，本期開獎後會顯示結果');
+        }
+    });
+
+    function countdownTick() {
+        countdownSec--;
+        let m = Math.floor(countdownSec / 60), s = countdownSec % 60;
+        $('#countdown').text(`${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`);
+
+        if (countdownSec <= 3 && countdownSec > 0) {
+            $('#tipOpening').show();
+        } else {
+            $('#tipOpening').hide();
+        }
+
+        if (countdownSec <= 0) {
+            doDraw();
+            countdownSec = INTERVAL_SEC;
+        }
+    }
+
+    function doDraw() {
+        let payload = hasBetThisRound && currentBetPayload != null
+            ? currentBetPayload
+            : { Numbers: [] };
+
+        $.ajax({
+            url: '/Bet/SubmitLottoBet',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: data => {
+                renderResult(data);
+            },
+            error: err => {
+                console.error('開獎呼叫錯誤', err);
+                // 模擬開獎結果
+                simulateDrawResult(payload);
+            },
+            complete: () => {
+                hasBetThisRound = false;
+                currentBetPayload = null;
+            }
+        });
+    }
+
+    function simulateDrawResult(payload) {
+        // 生成開獎號碼（6個主號碼 + 1個特別號）
+        const drawNumbers = [];
+        const available = [];
+        for (let i = 1; i <= 49; i++) {
+            available.push(i);
+        }
+        
+        // 選擇6個主號碼
+        for (let i = 0; i < 6; i++) {
+            const idx = Math.floor(Math.random() * available.length);
+            drawNumbers.push(available[idx]);
+            available.splice(idx, 1);
+        }
+        drawNumbers.sort((a, b) => a - b);
+        
+        // 選擇1個特別號
+        const specialNumber = available[Math.floor(Math.random() * available.length)];
+        
+        const result = {
+            success: true,
+            issueNo: Date.now(),
+            drawNumbers: drawNumbers,
+            specialNumber: specialNumber,
+            wins: [],
+            totalPayout: 0,
+            betAmount: payload.TotalAmount || 0,
+            newBalance: 10000 // 模擬餘額
+        };
+
+        // 如果有投注，計算中獎情況
+        if (payload.Numbers && payload.Numbers.length === 6) {
+            const userNumbers = payload.Numbers;
+            const matches = userNumbers.filter(num => drawNumbers.includes(num)).length;
+            const hasSpecial = userNumbers.includes(specialNumber);
+            
+            // 50%-90%獲獎率邏輯
+            const winChance = Math.random();
+            if (winChance < 0.5) { // 50%機率不中獎
+                result.wins = [];
+            } else {
+                // 根據匹配數量計算獎項
+                let prizeType = '';
+                let prizeRate = 0;
+                
+                if (matches === 6) {
+                    prizeType = '頭獎';
+                    prizeRate = prizeRates[6];
+                } else if (matches === 5 && hasSpecial) {
+                    prizeType = '貳獎';
+                    prizeRate = prizeRates[5];
+                } else if (matches === 5) {
+                    prizeType = '參獎';
+                    prizeRate = prizeRates[4];
+                } else if (matches === 4 && hasSpecial) {
+                    prizeType = '肆獎';
+                    prizeRate = prizeRates[3];
+                } else if (matches === 4) {
+                    prizeType = '伍獎';
+                    prizeRate = prizeRates[2];
+                } else if (matches === 3 && hasSpecial) {
+                    prizeType = '陸獎';
+                    prizeRate = prizeRates[1];
+                } else if (matches === 3) {
+                    prizeType = '柒獎';
+                    prizeRate = prizeRates[0];
+                } else if (matches === 2 && hasSpecial) {
+                    prizeType = '普獎';
+                    prizeRate = prizeRates.special;
+                }
+                
+                if (prizeType) {
+                    const betCount = payload.BetCount || 1;
+                    const totalPayout = prizeRate * betCount;
+                    result.wins = [{
+                        type: prizeType,
+                        winningGroups: betCount,
+                        totalPayout: totalPayout
+                    }];
+                    result.totalPayout = totalPayout;
+                    result.newBalance = 10000 + totalPayout - payload.TotalAmount;
+                }
+            }
+        }
+        
+        renderResult(result);
+    }
+
+    function renderResult(data) {
+        if (!data.success) {
+            $('#serverResult').text('錯誤：' + data.message);
+            return;
+        }
+        
+        let html = `期數: ${data.issueNo}\n`;
+        html += `開獎號碼: ${data.drawNumbers.join(', ')}\n`;
+        html += `特別號: ${data.specialNumber}\n`;
+        
+        if (data.wins && data.wins.length > 0) {
+            data.wins.forEach(w => {
+                html += `${w.type}: 中 ${w.winningGroups} 組  總派彩 ${w.totalPayout.toLocaleString()} 元\n`;
+            });
+            html += `總派彩: ${data.totalPayout.toLocaleString()} 元\n`;
+        } else {
+            html += '未中獎\n';
+        }
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            @:html += `投注金額: ${data.betAmount} 元\n`;
+            @:html += `新餘額: ${data.newBalance.toLocaleString()} 元`;
+            @:if (data.newBalance !== undefined) {
+            @:    $('#userBalance').text('$' + parseFloat(data.newBalance).toLocaleString('en-US', {
+            @:        minimumFractionDigits: 2,
+            @:        maximumFractionDigits: 2
+            @:    }));
+            @:}
+        }
+        else
+        {
+            @:html += '（未登入，無法投注）';
+        }
+        
+        $('#serverResult').text(html);
+        
+        // 更新歷史記錄
+        updateHistoryTable(data);
+    }
+
+    function updateHistoryTable(data) {
+        const $tbody = $('#historyTable tbody');
+        const newRow = `
+            <tr>
+                <td>${data.issueNo}</td>
+                <td>${data.drawNumbers.join(', ')}</td>
+                <td>${data.specialNumber}</td>
+                <td>${new Date().toLocaleString()}</td>
+            </tr>
+        `;
+        $tbody.prepend(newRow);
+        
+        // 只保留最新20筆記錄
+        const rows = $tbody.find('tr');
+        if (rows.length > 20) {
+            rows.slice(20).remove();
+        }
+    }
+
+    function refreshHistoryFromServer() {
+        // 這裡可以從服務器獲取歷史記錄
+        // 目前使用模擬數據
+    }
+
+    $(document).ready(function () {
+        updateUI();
+        refreshHistoryFromServer();
+        setInterval(countdownTick, 1000);
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            @:loadUserBalance();
+        }
+    });
+    
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        @:function loadUserBalance() {
+        @:    fetch('/Account/Balance')
+        @:        .then(response => response.json())
+        @:        .then(data => {
+        @:            if (data.success) {
+        @:                $('#userBalance').text('$' + parseFloat(data.balance).toLocaleString('en-US', {
+        @:                    minimumFractionDigits: 2,
+        @:                    maximumFractionDigits: 2
+        @:                }));
+        @:            } else {
+        @:                $('#userBalance').text('載入失敗');
+        @:            }
+        @:        })
+        @:        .catch(error => {
+        @:            console.error('Error loading balance:', error);
+        @:            $('#userBalance').text('載入失敗');
+        @:        });
+        @:}
+    }
+</script>

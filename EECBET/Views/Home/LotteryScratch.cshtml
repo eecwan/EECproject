@@ -1,0 +1,627 @@
+@{
+    ViewBag.Title = "刮刮樂遊戲";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: linear-gradient(135deg, #0a1f0a 0%, #1a3d1a 50%, #0d2d0d 100%);
+        color: #ffffff;
+        font-family: 'Microsoft JhengHei', sans-serif;
+        min-height: 100vh;
+    }
+
+    .scratch-container {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(0, 255, 0, 0.3);
+        margin: 20px 0;
+    }
+
+    .scratch-title {
+        color: #00ff00;
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    .card {
+        background: rgba(0, 0, 0, 0.6);
+        border: 2px solid rgba(0, 255, 0, 0.4);
+        color: #ffffff;
+        border-radius: 15px;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #004d00 0%, #00aa00 50%, #004d00 100%);
+        color: #ffffff;
+        border-radius: 15px 15px 0 0;
+        padding: 18px 25px;
+    }
+
+    .scratch-card {
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+        border: 3px solid #ff6600;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 15px;
+        text-align: center;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .scratch-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+    }
+
+    .scratch-card.scratched {
+        background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+        border-color: #999999;
+    }
+
+    .scratch-area {
+        background: linear-gradient(45deg, #c0c0c0 25%, transparent 25%), 
+                    linear-gradient(-45deg, #c0c0c0 25%, transparent 25%), 
+                    linear-gradient(45deg, transparent 75%, #c0c0c0 75%), 
+                    linear-gradient(-45deg, transparent 75%, #c0c0c0 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 12px;
+        transition: opacity 0.5s ease;
+    }
+
+    .scratch-card.scratched .scratch-area {
+        opacity: 0;
+    }
+
+    .scratch-content {
+        position: relative;
+        z-index: 1;
+        color: #000000;
+        font-weight: bold;
+        font-size: 1.2rem;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .scratch-card.scratched .scratch-content {
+        opacity: 1;
+    }
+
+    .prize-amount {
+        font-size: 2rem;
+        color: #ff0000;
+        font-weight: 900;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .no-prize {
+        font-size: 1.5rem;
+        color: #666666;
+        font-weight: bold;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
+        border: none;
+        color: #000000;
+        font-weight: 700;
+        padding: 18px 35px;
+        font-size: 1.2rem;
+        margin: 30px 0;
+        display: block;
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #ff9900 0%, #ffcc00 100%);
+        color: #000000;
+        transform: translateY(-3px);
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #00aa00 0%, #00ff00 100%);
+        border: none;
+        color: #000000;
+        font-weight: 700;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, #00ff00 0%, #66ff66 100%);
+        color: #000000;
+        transform: translateY(-2px);
+    }
+
+    table.table {
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        border: 1px solid rgba(0, 255, 0, 0.3);
+        border-radius: 8px;
+    }
+
+    table.table th,
+    table.table td {
+        text-align: center;
+        vertical-align: middle;
+        padding: 12px 8px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(0, 255, 0, 0.2);
+        color: #ffffff;
+    }
+
+    table thead {
+        background: linear-gradient(135deg, #004d00 0%, #00aa00 100%);
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    input[type="number"] {
+        background: rgba(0, 0, 0, 0.4);
+        border: 2px solid rgba(0, 255, 0, 0.4);
+        color: #00ff00;
+        padding: 10px 15px;
+        border-radius: 8px;
+    }
+
+    input[type="number"]:focus {
+        outline: none;
+        border-color: #00ff00;
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+    }
+
+    .btn-outline-primary, .btn-outline-secondary {
+        border-radius: 8px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+        border-width: 2px;
+    }
+
+    .btn-outline-primary {
+        color: #00ff00;
+        border-color: #00ff00;
+        background: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        background: #00ff00;
+        color: #000000;
+    }
+
+    .btn-outline-secondary {
+        color: #888888;
+        border-color: #888888;
+        background: transparent;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #888888;
+        color: #000000;
+    }
+
+    label {
+        color: #00ff00;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .btn-sm {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .back-button {
+        background: linear-gradient(135deg, #666666 0%, #888888 100%);
+        border: 2px solid #555555;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+        background: linear-gradient(135deg, #888888 0%, #aaaaaa 100%);
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
+    .prize-info {
+        background: rgba(0, 255, 0, 0.1);
+        border: 2px solid rgba(0, 255, 0, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .prize-info h6 {
+        color: #00ff00;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .prize-info p {
+        color: #cccccc;
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .scratch-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .total-winnings {
+        background: rgba(255, 215, 0, 0.2);
+        border: 2px solid rgba(255, 215, 0, 0.5);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        text-align: center;
+    }
+
+    .total-winnings h5 {
+        color: #ffd700;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .total-winnings .amount {
+        font-size: 2rem;
+        color: #ff6600;
+        font-weight: 900;
+    }
+</style>
+
+<div class="container">
+    <div class="scratch-container">
+        <a href="@Url.Action("LotteryMenu", "Home")" class="back-button">← 返回彩票選單</a>
+        
+        <h1 class="scratch-title">🎫 刮刮樂遊戲</h1>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">購買設定</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label>選擇面額：</label>
+                            <select id="cardValue" class="form-select" style="background: rgba(0, 0, 0, 0.4); border: 2px solid rgba(0, 255, 0, 0.4); color: #00ff00;">
+                                <option value="50">50元刮刮樂</option>
+                                <option value="100">100元刮刮樂</option>
+                                <option value="200">200元刮刮樂</option>
+                                <option value="500">500元刮刮樂</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>購買數量：</label>
+                            <input type="number" id="cardCount" value="1" min="1" max="20" />
+                            <small class="text-muted">（最多20張）</small>
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <strong>總金額：<span id="totalAmount">50</span> 元</strong>
+                        </div>
+                        <button class="btn btn-warning" id="buyCards">購買刮刮樂</button>
+                        <div class="mt-3">
+                            <button class="btn btn-success" id="scratchAll">全部刮開</button>
+                            <button class="btn btn-outline-secondary" id="clearAll">清除全部</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="total-winnings" id="totalWinnings" style="display: none;">
+                    <h5>🎉 總獎金</h5>
+                    <div class="amount" id="totalAmountDisplay">0 元</div>
+                </div>
+                
+                <div class="prize-info">
+                    <h6>🎫 獎項說明</h6>
+                    <p><strong>50元刮刮樂：</strong>最高獎金 10,000 元</p>
+                    <p><strong>100元刮刮樂：</strong>最高獎金 20,000 元</p>
+                    <p><strong>200元刮刮樂：</strong>最高獎金 50,000 元</p>
+                    <p><strong>500元刮刮樂：</strong>最高獎金 100,000 元</p>
+                    <p><strong>中獎率：</strong>約 65%</p>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">我的刮刮樂</div>
+                    <div class="card-body">
+                        <div class="scratch-grid" id="scratchGrid">
+                            <div class="text-center text-muted">
+                                <h5>還沒有刮刮樂</h5>
+                                <p>請先購買刮刮樂開始遊戲</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">中獎紀錄</div>
+                    <div class="card-body">
+                        <table class="table table-sm" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>時間</th>
+                                    <th>面額</th>
+                                    <th>獎金</th>
+                                    <th>狀態</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let scratchCards = [];
+    let totalWinnings = 0;
+
+    // 刮刮樂獎項配置
+    const prizeConfigs = {
+        50: { maxPrize: 10000, prizes: [10000, 5000, 2000, 1000, 500, 200, 100, 50, 0] },
+        100: { maxPrize: 20000, prizes: [20000, 10000, 5000, 2000, 1000, 500, 200, 100, 0] },
+        200: { maxPrize: 50000, prizes: [50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 0] },
+        500: { maxPrize: 100000, prizes: [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 0] }
+    };
+
+    function updateTotalAmount() {
+        const cardValue = parseInt($('#cardValue').val());
+        const cardCount = parseInt($('#cardCount').val());
+        const total = cardValue * cardCount;
+        $('#totalAmount').text(total);
+    }
+
+    function generatePrize(cardValue) {
+        const config = prizeConfigs[cardValue];
+        const random = Math.random();
+        
+        // 65% 中獎率
+        if (random < 0.35) {
+            return 0; // 不中獎
+        }
+        
+        // 根據機率分配獎項
+        const prizeWeights = [0.001, 0.005, 0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5];
+        let cumulativeWeight = 0;
+        const randomWeight = Math.random();
+        
+        for (let i = 0; i < config.prizes.length; i++) {
+            cumulativeWeight += prizeWeights[i];
+            if (randomWeight <= cumulativeWeight) {
+                return config.prizes[i];
+            }
+        }
+        
+        return 0;
+    }
+
+    function createScratchCard(cardValue, prize) {
+        const cardId = Date.now() + Math.random();
+        const card = {
+            id: cardId,
+            value: cardValue,
+            prize: prize,
+            scratched: false
+        };
+        
+        scratchCards.push(card);
+        renderScratchCard(card);
+    }
+
+    function renderScratchCard(card) {
+        const cardHtml = `
+            <div class="scratch-card" data-card-id="${card.id}" ${card.scratched ? 'scratched' : ''}>
+                <div class="scratch-area"></div>
+                <div class="scratch-content">
+                    ${card.prize > 0 ? 
+                        `<div class="prize-amount">${card.prize.toLocaleString()} 元</div>` : 
+                        `<div class="no-prize">謝謝惠顧</div>`
+                    }
+                </div>
+            </div>
+        `;
+        
+        if (scratchCards.length === 1) {
+            $('#scratchGrid').html(cardHtml);
+        } else {
+            $('#scratchGrid .text-center').remove();
+            $('#scratchGrid').append(cardHtml);
+        }
+    }
+
+    function renderAllCards() {
+        if (scratchCards.length === 0) {
+            $('#scratchGrid').html(`
+                <div class="text-center text-muted">
+                    <h5>還沒有刮刮樂</h5>
+                    <p>請先購買刮刮樂開始遊戲</p>
+                </div>
+            `);
+            return;
+        }
+        
+        $('#scratchGrid').empty();
+        scratchCards.forEach(card => {
+            renderScratchCard(card);
+        });
+    }
+
+    function updateTotalWinnings() {
+        totalWinnings = scratchCards
+            .filter(card => card.scratched)
+            .reduce((sum, card) => sum + card.prize, 0);
+        
+        if (totalWinnings > 0) {
+            $('#totalWinnings').show();
+            $('#totalAmountDisplay').text(totalWinnings.toLocaleString() + ' 元');
+        } else {
+            $('#totalWinnings').hide();
+        }
+    }
+
+    function addToHistory(cardValue, prize) {
+        const $tbody = $('#historyTable tbody');
+        const newRow = `
+            <tr>
+                <td>${new Date().toLocaleString()}</td>
+                <td>${cardValue} 元</td>
+                <td>${prize > 0 ? prize.toLocaleString() + ' 元' : '未中獎'}</td>
+                <td>${prize > 0 ? '中獎' : '未中獎'}</td>
+            </tr>
+        `;
+        $tbody.prepend(newRow);
+        
+        // 只保留最新50筆記錄
+        const rows = $tbody.find('tr');
+        if (rows.length > 50) {
+            rows.slice(50).remove();
+        }
+    }
+
+    $('#cardValue, #cardCount').on('input', updateTotalAmount);
+
+    $('#buyCards').click(() => {
+        @if (User.Identity?.IsAuthenticated != true)
+        {
+            @:alert('請先登入才能購買刮刮樂');
+            @:return;
+        }
+        else
+        {
+            @:const cardValue = parseInt($('#cardValue').val());
+            @:const cardCount = parseInt($('#cardCount').val());
+            @:const total = cardValue * cardCount;
+            @:
+            @:if (total <= 0) {
+            @:    alert('請選擇購買數量');
+            @:    return;
+            @:}
+            @:
+            @:for (let i = 0; i < cardCount; i++) {
+            @:    const prize = generatePrize(cardValue);
+            @:    createScratchCard(cardValue, prize);
+            @:}
+            @:
+            @:updateTotalWinnings();
+            @:$('#serverResult').text(`成功購買 ${cardCount} 張 ${cardValue} 元刮刮樂，總金額 ${total} 元`);
+        }
+    });
+
+    $(document).on('click', '.scratch-card', function() {
+        const cardId = $(this).data('card-id');
+        const card = scratchCards.find(c => c.id == cardId);
+        
+        if (card && !card.scratched) {
+            card.scratched = true;
+            $(this).addClass('scratched');
+            updateTotalWinnings();
+            addToHistory(card.value, card.prize);
+            
+            if (card.prize > 0) {
+                $('#serverResult').text(`恭喜！中獎 ${card.prize.toLocaleString()} 元！`);
+            } else {
+                $('#serverResult').text('很遺憾，這張沒有中獎，再試試其他張吧！');
+            }
+        }
+    });
+
+    $('#scratchAll').click(() => {
+        scratchCards.forEach(card => {
+            if (!card.scratched) {
+                card.scratched = true;
+                addToHistory(card.value, card.prize);
+            }
+        });
+        
+        renderAllCards();
+        updateTotalWinnings();
+        
+        const totalPrize = scratchCards.reduce((sum, card) => sum + card.prize, 0);
+        if (totalPrize > 0) {
+            $('#serverResult').text(`全部刮開完成！總獎金 ${totalPrize.toLocaleString()} 元！`);
+        } else {
+            $('#serverResult').text('全部刮開完成！很遺憾沒有中獎，下次再試試吧！');
+        }
+    });
+
+    $('#clearAll').click(() => {
+        scratchCards = [];
+        totalWinnings = 0;
+        renderAllCards();
+        updateTotalWinnings();
+        $('#serverResult').text('已清除所有刮刮樂');
+    });
+
+    $(document).ready(function () {
+        updateTotalAmount();
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            @:loadUserBalance();
+        }
+    });
+    
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        @:function loadUserBalance() {
+        @:    fetch('/Account/Balance')
+        @:        .then(response => response.json())
+        @:        .then(data => {
+        @:            if (data.success) {
+        @:                $('#userBalance').text('$' + parseFloat(data.balance).toLocaleString('en-US', {
+        @:                    minimumFractionDigits: 2,
+        @:                    maximumFractionDigits: 2
+        @:                }));
+        @:            } else {
+        @:                $('#userBalance').text('載入失敗');
+        @:            }
+        @:        })
+        @:        .catch(error => {
+        @:            console.error('Error loading balance:', error);
+        @:            $('#userBalance').text('載入失敗');
+        @:        });
+        @:}
+    }
+</script>
