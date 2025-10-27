@@ -27,7 +27,7 @@ namespace EECBET.Controllers
         {
             return View();
         }
-        public IActionResult Member()
+        public IActionResult Points()
         {
             return View();
         }
