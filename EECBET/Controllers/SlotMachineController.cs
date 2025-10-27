@@ -1,16 +1,43 @@
 using Microsoft.AspNetCore.Mvc;
+using EECBET.Data;
+using EECBET.Models;
+using System.Linq;
 
 namespace EECBET.Controllers
 {
-    public class SlotMachineController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class SlotController : ControllerBase
     {
-        // GET: /SlotMachine/Index
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public SlotController(ApplicationDbContext context)
         {
-            return View();
+            _context = context;
         }
 
-        // 如果未來需要處理遊戲邏輯，可以在這裡添加
-        // 例如：儲存遊戲分數、更新使用者點數等
+        // 取得最新 50 筆紀錄
+        [HttpGet]
+        public IActionResult GetRecords()
+        {
+            var records = _context.SlotRecords
+                .OrderByDescending(r => r.PlayTime)
+                .Take(50)
+                .ToList();
+
+            return Ok(records);
+        }
+
+        // 儲存遊戲紀錄
+        [HttpPost]
+        public IActionResult SaveRecord([FromBody] SlotRecord record)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _context.SlotRecords.Add(record);
+            _context.SaveChanges();
+            return Ok(record);
+        }
     }
 }

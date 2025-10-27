@@ -13,6 +13,8 @@ namespace EECBET.Data
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<GameListViewModel> GameList { get; set; }
+        public DbSet<SlotRecord> SlotRecords { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
