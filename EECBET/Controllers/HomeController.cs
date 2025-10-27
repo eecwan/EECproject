@@ -69,7 +69,7 @@ namespace EECBET.Controllers
 
         public IActionResult Points()
         {
-            return View();
+            return RedirectToAction("Points", "Member");
         }
 
         public IActionResult Privacy()
