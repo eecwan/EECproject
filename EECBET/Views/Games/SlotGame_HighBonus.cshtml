@@ -17,7 +17,7 @@
             }
             else
             {
-                @foreach (var g in Model.Where(g => g.GameCategory == "高報酬"))
+                @foreach (var g in Model)
                 {
                     <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
                         <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
