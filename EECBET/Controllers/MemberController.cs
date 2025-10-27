@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EECBET.Data;
 using EECBET.Models;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace EECBET.Controllers
 {
@@ -25,7 +23,7 @@ namespace EECBET.Controllers
             var captcha = GenerateCaptcha();
             HttpContext.Session.SetString("Captcha", captcha);
             ViewBag.Captcha = captcha;
-            
+
             return View();
         }
 
@@ -45,16 +43,16 @@ namespace EECBET.Controllers
 
             // 驗證驗證碼
             var sessionCaptcha = HttpContext.Session.GetString("Captcha");
-            if (string.IsNullOrEmpty(sessionCaptcha) || 
+            if (string.IsNullOrEmpty(sessionCaptcha) ||
                 !model.Captcha.Equals(sessionCaptcha, StringComparison.OrdinalIgnoreCase))
             {
                 ModelState.AddModelError("Captcha", "驗證碼錯誤");
-                
+
                 // 重新生成驗證碼
                 var newCaptcha = GenerateCaptcha();
                 HttpContext.Session.SetString("Captcha", newCaptcha);
                 ViewBag.Captcha = newCaptcha;
-                
+
                 return View(model);
             }
 
@@ -67,26 +65,25 @@ namespace EECBET.Controllers
                 if (member == null)
                 {
                     ModelState.AddModelError("", "帳號或密碼錯誤");
-                    
+
                     // 重新生成驗證碼
                     var newCaptcha = GenerateCaptcha();
                     HttpContext.Session.SetString("Captcha", newCaptcha);
                     ViewBag.Captcha = newCaptcha;
-                    
+
                     return View(model);
                 }
 
-                // 驗證密碼（這裡使用簡單比對，實際應用應使用加密）
-                // 如果密碼有加密，請使用: VerifyPassword(model.Password, member.Password)
+                // 驗證密碼（簡單比對 - 學生作業用）
                 if (member.Password != model.Password)
                 {
                     ModelState.AddModelError("", "帳號或密碼錯誤");
-                    
+
                     // 重新生成驗證碼
                     var newCaptcha = GenerateCaptcha();
                     HttpContext.Session.SetString("Captcha", newCaptcha);
                     ViewBag.Captcha = newCaptcha;
-                    
+
                     return View(model);
                 }
 
@@ -109,12 +106,12 @@ namespace EECBET.Controllers
             {
                 _logger.LogError(ex, "登入過程發生錯誤");
                 ModelState.AddModelError("", "登入失敗，請稍後再試");
-                
+
                 // 重新生成驗證碼
                 var newCaptcha = GenerateCaptcha();
                 HttpContext.Session.SetString("Captcha", newCaptcha);
                 ViewBag.Captcha = newCaptcha;
-                
+
                 return View(model);
             }
         }
@@ -123,6 +120,75 @@ namespace EECBET.Controllers
         public IActionResult Register01()
         {
             return View();
+        }
+
+        // GET: /Member/Points
+        public async Task<IActionResult> Points()
+        {
+            // 檢查登入狀態
+            var memberId = HttpContext.Session.GetInt32("MemberId");
+            if (memberId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // 從資料庫載入會員資訊
+            var member = await _context.Members.FindAsync(memberId.Value);
+            if (member == null)
+            {
+                HttpContext.Session.Clear();
+                return RedirectToAction("Login");
+            }
+
+            _logger.LogInformation($"載入會員資料: Username={member.Username}, Firstname={member.Firstname}, Lastname={member.Lastname}, Country={member.Country}");
+
+            // 傳遞會員資訊到 View
+            ViewBag.Member = member;
+            ViewBag.Username = member.Username;
+
+            // 指定 View 位置
+            return View("~/Views/Home/Points.cshtml");
+        }
+
+        // POST: /Member/UpdateProfile - 更新個人資料
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileModel model)
+        {
+            try
+            {
+                var memberId = HttpContext.Session.GetInt32("MemberId");
+                if (memberId == null)
+                {
+                    return Json(new { success = false, message = "未登入" });
+                }
+
+                var member = await _context.Members.FindAsync(memberId.Value);
+                if (member == null)
+                {
+                    return Json(new { success = false, message = "找不到會員資料" });
+                }
+
+                // 更新資料（允許更新為空值）
+                member.Firstname = model.Firstname;
+                member.Lastname = model.Lastname;
+                member.Email = model.Email;
+                member.Gender = model.Gender;
+                member.Country = model.Country;
+
+                if (model.Birthday.HasValue)
+                    member.Birthday = model.Birthday;
+                else if (model.Birthday == null)
+                    member.Birthday = null;
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "資料更新成功" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "更新個人資料時發生錯誤");
+                return Json(new { success = false, message = "更新失敗，請稍後再試" });
+            }
         }
 
         // GET: /Member/Logout
@@ -141,21 +207,6 @@ namespace EECBET.Controllers
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        // 密碼加密 (SHA256) - 如果需要的話
-        private string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(hashedBytes);
-            }
-        }
-
-        // 驗證密碼
-        private bool VerifyPassword(string inputPassword, string storedHash)
-        {
-            var inputHash = HashPassword(inputPassword);
-            return inputHash == storedHash;
-        }
+        // 密碼加密方法已移除 - 學生作業使用明文密碼
     }
 }

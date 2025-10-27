@@ -1,223 +1,326 @@
 ﻿@{
-  ViewData["Title"] = "點數管理";
+    ViewData["Title"] = "點數管理";
+    var member = ViewBag.Member as EECBET.Models.Member;
+    var displayName = !string.IsNullOrEmpty(member?.Lastname) || !string.IsNullOrEmpty(member?.Firstname)
+        ? $"{member?.Lastname}{member?.Firstname}"
+        : member?.Username ?? "玩家";
 }
 
 <!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>點數管理系統</title>
-  <link rel="stylesheet" href="~/css/points.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>點數管理系統</title>
+    <link rel="stylesheet" href="~/css/points.css" />
 </head>
 
 <body>
-  <div class="container">
-    <!-- 側邊欄 -->
-    <div class="sidebar">
-      <div class="user-info">
-        <div class="avatar">👤</div>
-        <div class="username">玩家名稱</div>
-        <div class="user-id">ID: 123456789</div>
-      </div>
+    <div class="container">
+        <!-- 側邊欄 -->
+        <div class="sidebar">
+            <div class="user-info">
+                <div class="avatar">👤</div>
+                <div class="username">@displayName</div>
+                <div class="user-id">ID: @member?.Id</div>
+            </div>
 
-      <div class="menu-item active" data-page="overview">
-        <span class="menu-icon">💰</span>
-        <span>狀態一覽</span>
-      </div>
-      <div class="menu-item" data-page="profile">
-        <span class="menu-icon">👤</span>
-        <span>個人資料</span>
-      </div>
+            <div class="menu-item active" data-page="overview">
+                <span class="menu-icon">💰</span>
+                <span>狀態一覽</span>
+            </div>
+            <div class="menu-item" data-page="profile">
+                <span class="menu-icon">👤</span>
+                <span>個人資料</span>
+            </div>
+        </div>
+
+        <!-- 主要內容區 -->
+        <div class="main-content">
+            <!-- 狀態一覽頁面 -->
+            <div class="page-content active" id="overview-page">
+                <h2 class="section-title">💰 點數管理</h2>
+
+                <!-- 錢包卡片 -->
+                <div class="wallet-cards">
+                    <div class="wallet-card">
+                        <div class="wallet-label">點數餘額</div>
+                        <div class="wallet-amount">NT$ @member?.Points.ToString("N0")</div>
+                    </div>
+                    <div class="wallet-card">
+                        <div class="wallet-label">今日盈虧</div>
+                        <div class="wallet-amount">NT$ 0</div>
+                    </div>
+                </div>
+
+                <!-- 統計資訊 -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">總投注額</div>
+                        <div class="stat-value">NT$ @member?.TotalBet.ToString("N0")</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">總中獎額</div>
+                        <div class="stat-value">NT$ @member?.TotalWin.ToString("N0")</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 個人資料頁面 -->
+            <div class="page-content" id="profile-page">
+                <div class="section-title">
+                    <span>👤 個人資料</span>
+                    <button class="btn btn-edit" id="editBtn" onclick="toggleEditMode()">✏️ 編輯資料</button>
+                    <button class="btn btn-primary" id="saveBtn" onclick="saveProfile()" style="display: none;">💾 儲存</button>
+                    <button class="btn btn-secondary" id="cancelBtn" onclick="cancelEdit()" style="display: none;">❌ 取消</button>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">👤</div>
+                        <div class="profile-info">
+                            <div class="profile-name">@displayName</div>
+                            <div class="profile-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">用戶名</span>
+                                    <span class="meta-value">@member?.Username</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">出生日期</span>
+                                    <input type="date" class="profile-input" id="birthdayInput" value="@(member?.Birthday?.ToString("yyyy-MM-dd") ?? "")" style="display: none;" />
+                                    <span class="meta-value" id="birthdayDisplay">@(member?.Birthday?.ToString("yyyy-MM-dd") ?? "未設定")</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">註冊日期</span>
+                                    <span class="meta-value">@(member?.CreatedAt.ToString("yyyy-MM-dd"))</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">ID</span>
+                                    <span class="meta-value">@member?.Id</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-section-title">📧 聯絡資訊</div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">姓氏</span>
+                                <input type="text" class="profile-input" id="lastnameInput" value="@(member?.Lastname ?? "")" style="display: none;" />
+                                <div class="info-value" id="lastnameDisplay">
+                                    <span>@(member?.Lastname ?? "未設定")</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">名字</span>
+                                <input type="text" class="profile-input" id="firstnameInput" value="@(member?.Firstname ?? "")" style="display: none;" />
+                                <div class="info-value" id="firstnameDisplay">
+                                    <span>@(member?.Firstname ?? "未設定")</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">電子郵件</span>
+                                <input type="email" class="profile-input" id="emailInput" value="@(member?.Email ?? "")" style="display: none;" />
+                                <div class="info-value verified" id="emailDisplay">
+                                    <span>@(member?.Email ?? "未設定")</span>
+                                    @if (!string.IsNullOrEmpty(member?.Email))
+                                    {
+                                        <span class="verified-badge">✓ 已驗證</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">國家/地區</span>
+                                <select class="profile-input" id="countryInput" style="display: none;">
+                                    <option value="">請選擇</option>
+                                    <option value="台灣">台灣</option>
+                                    <option value="日本">日本</option>
+                                    <option value="韓國">韓國</option>
+                                </select>
+                                <div class="info-value" id="countryDisplay">
+                                    <span>@(member?.Country ?? "未設定")</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">性別</span>
+                                <select class="profile-input" id="genderInput" style="display: none;">
+                                    <option value="">請選擇</option>
+                                    <option value="male">男</option>
+                                    <option value="female">女</option>
+                                    <option value="none">不方便透露</option>
+                                </select>
+                                <div class="info-value" id="genderDisplay">
+                                    <span>@(member?.Gender == "male" ? "男" : member?.Gender == "female" ? "女" : member?.Gender == "none" ? "不方便透露" : "未設定")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-section-title">🔐 帳戶資訊</div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">帳戶狀態</span>
+                                <div class="info-value verified">
+                                    <span>已啟用</span>
+                                    <span class="verified-badge">✓ 已驗證</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">會員等級</span>
+                                <div class="info-value">
+                                    <span style="color: #fbbf24; font-weight: 600">💎 黃金會員</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">點數餘額</span>
+                                <div class="info-value">
+                                    <span style="color: #fbbf24; font-weight: 600">💰 NT$ @member?.Points.ToString("N0")</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">最後登入時間</span>
+                                <div class="info-value">
+                                    <span>@(member?.LastLogin?.ToString("yyyy-MM-dd HH:mm") ?? "從未登入")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- 主要內容區 -->
-    <div class="main-content">
-      <!-- 狀態一覽頁面 -->
-      <div class="page-content active" id="overview-page">
-        <h2 class="section-title">💰 點數管理</h2>
+    <script src="~/js/points.js"></script>
+    <script>
+        let isEditMode = false;
 
-        <!-- 錢包卡片 - 已移除新增記錄按鈕 -->
-        <div class="wallet-cards">
-          <div class="wallet-card">
-            <div class="wallet-label">點數餘額</div>
-            <div class="wallet-amount" id="totalBalance">NT$ 0</div>
-          </div>
-          <div class="wallet-card">
-            <div class="wallet-label">今日盈虧</div>
-            <div class="wallet-amount" id="todayChange">NT$ 0</div>
-          </div>
-        </div>
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            
+            if (isEditMode) {
+                document.getElementById('editBtn').style.display = 'none';
+                document.getElementById('saveBtn').style.display = 'inline-block';
+                document.getElementById('cancelBtn').style.display = 'inline-block';
+                
+                // 顯示輸入框
+                document.getElementById('lastnameInput').style.display = 'block';
+                document.getElementById('firstnameInput').style.display = 'block';
+                document.getElementById('emailInput').style.display = 'block';
+                document.getElementById('countryInput').style.display = 'block';
+                document.getElementById('genderInput').style.display = 'block';
+                document.getElementById('birthdayInput').style.display = 'block';
+                
+                // 設定下拉選單的預設值
+                @if (member != null)
+                {
+                    <text>
+                    document.getElementById('countryInput').value = '@member.Country';
+                    document.getElementById('genderInput').value = '@member.Gender';
+                    </text>
+                }
+                
+                // 隱藏顯示文字
+                document.getElementById('lastnameDisplay').style.display = 'none';
+                document.getElementById('firstnameDisplay').style.display = 'none';
+                document.getElementById('emailDisplay').style.display = 'none';
+                document.getElementById('countryDisplay').style.display = 'none';
+                document.getElementById('genderDisplay').style.display = 'none';
+                document.getElementById('birthdayDisplay').style.display = 'none';
+            } else {
+                cancelEdit();
+            }
+        }
 
-        <!-- 統計資訊 -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">總投注額</div>
-            <div class="stat-value" id="totalIncome">NT$ 0</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">總中獎額</div>
-            <div class="stat-value" id="totalExpense">NT$ 0</div>
-          </div>
-        </div>
+        function cancelEdit() {
+            isEditMode = false;
+            
+            document.getElementById('editBtn').style.display = 'inline-block';
+            document.getElementById('saveBtn').style.display = 'none';
+            document.getElementById('cancelBtn').style.display = 'none';
+            
+            // 隱藏輸入框
+            document.getElementById('lastnameInput').style.display = 'none';
+            document.getElementById('firstnameInput').style.display = 'none';
+            document.getElementById('emailInput').style.display = 'none';
+            document.getElementById('countryInput').style.display = 'none';
+            document.getElementById('genderInput').style.display = 'none';
+            document.getElementById('birthdayInput').style.display = 'none';
+            
+            // 顯示顯示文字
+            document.getElementById('lastnameDisplay').style.display = 'block';
+            document.getElementById('firstnameDisplay').style.display = 'block';
+            document.getElementById('emailDisplay').style.display = 'block';
+            document.getElementById('countryDisplay').style.display = 'block';
+            document.getElementById('genderDisplay').style.display = 'block';
+            document.getElementById('birthdayDisplay').style.display = 'block';
+        }
 
-        <!-- 投注紀錄表格 -->
-        <h3 style="margin: 40px 0 20px">📋 最近投注記錄</h3>
-        <div class="form-row" style="margin-bottom: 20px">
-          <div class="form-group">
-            <label for="startDate" class="form-label">開始日期</label>
-            <input type="date" class="form-input" id="startDate" />
-          </div>
-          <div class="form-group">
-            <label for="endDate" class="form-label">結束日期</label>
-            <input type="date" class="form-input" id="endDate" />
-          </div>
-          <div class="form-group">
-            <label for="categoryFilter" class="form-label">遊戲類型</label>
-            <select name="" id="categoryFilter" class="form-input">
-              <option value="">全部</option>
-            </select>
-          </div>
-          <div class="form-group" style="display: flex; align-items: flex-end; gap: 10px;">
-            <button class="btn btn-primary" onclick="filterTransactions()" style="flex: 1;">篩選</button>
-            <button class="btn btn-edit" onclick="resetFilters()" style="flex: 1;">重設</button>
-          </div>
-        </div>
+        async function saveProfile() {
+            try {
+                const data = {
+                    lastname: document.getElementById('lastnameInput').value,
+                    firstname: document.getElementById('firstnameInput').value,
+                    email: document.getElementById('emailInput').value,
+                    country: document.getElementById('countryInput').value,
+                    gender: document.getElementById('genderInput').value,
+                    birthday: document.getElementById('birthdayInput').value || null
+                };
 
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>時間</th>
-                <th>遊戲名稱</th>
-                <th>投注金額</th>
-                <th>結果</th>
-                <th>盈虧</th>
-                <th>狀態</th>
-              </tr>
-            </thead>
-            <tbody id="transactionsBody">
-              <tr>
-                <td colspan="6" style="text-align: center; padding: 40px; color: #999;">載入中...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+                const response = await fetch('/Member/UpdateProfile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
 
-      <!-- 個人資料頁面 -->
-      <div class="page-content" id="profile-page">
-        <div class="section-title">
-          <span>👤 個人資料</span>
-          <button class="btn btn-edit">✏️ 編輯資料</button>
-        </div>
+                const result = await response.json();
 
-        <div class="profile-card">
-          <div class="profile-header">
-            <div class="profile-avatar">👤</div>
-            <div class="profile-info">
-              <div class="profile-name">玩家名稱</div>
-              <div class="profile-meta">
-                <div class="meta-item">
-                  <span class="meta-label">用戶名</span>
-                  <span class="meta-value">xx123xx</span>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">出生日期</span>
-                  <span class="meta-value">1990-01-01</span>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">註冊日期</span>
-                  <span class="meta-value">2020-01-01</span>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">ID</span>
-                  <span class="meta-value">123456789</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="info-section">
-            <div class="info-section-title">📧 聯絡資訊</div>
-            <div class="info-grid">
-              <div class="info-item">
-                <span class="info-label">電子郵件</span>
-                <div class="info-value verified">
-                  <span>xx123xx@@*****.com</span>
-                  <span class="verified-badge">✓ 已驗證</span>
-                </div>
-              </div>
-              <div class="info-item">
-                <span class="info-label">地址</span>
-                <div class="info-value">
-                  <span>桃園市桃園區***</span>
-                </div>
-              </div>
-              <div class="info-item">
-                <span class="info-label">手機號碼</span>
-                <div class="info-value">
-                  <span>+886 9** *** ***</span>
-                </div>
-              </div>
-              <div class="info-item">
-                <span class="info-label">城市</span>
-                <div class="info-value">
-                  <span>桃園市</span>
-                </div>
-              </div>
-              <div class="info-item">
-                <span class="info-label">郵遞區號</span>
-                <div class="info-value">
-                  <span>330</span>
-                </div>
-              </div>
-              <div class="info-item">
-                <span class="info-label">通訊語言</span>
-                <div class="info-value">
-                  <span>繁體中文</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="info-section">
-            <div class="info-section-title">🔐 帳戶資訊</div>
-            <div class="info-grid">
-              <div class="info-item">
-                <span class="info-label">帳戶狀態</span>
-                <div class="info-value verified">
-                  <span>已啟用</span>
-                  <span class="verified-badge">✓ 已驗證</span>
-                </div>
-              </div>
-              <div class="info-item">
-                <span class="info-label">會員等級</span>
-                <div class="info-value">
-                  <span style="color: #fbbf24; font-weight: 600">💎 黃金會員</span>
-                </div>
-              </div>
-              <div class="info-item">
-                <span class="info-label">最後登入時間</span>
-                <div class="info-value">
-                  <span>2025-10-16 14:30</span>
-                </div>
-              </div>
-              <div class="info-item">
-                <span class="info-label">登入裝置</span>
-                <div class="info-value">
-                  <span>Chrome / Windows</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="~/js/points.js"></script>
+                if (result.success) {
+                    alert('資料更新成功！');
+                    // 重新導向到 Points 頁面以重新載入資料
+                    window.location.href = '/Member/Points';
+                } else {
+                    alert('更新失敗：' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('更新時發生錯誤，請稍後再試');
+            }
+        }
+    </script>
+    <style>
+        .profile-input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #00ff88;
+            border-radius: 4px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: #00ff88;
+            color: #1a1a1a;
+        }
+        
+        .btn-secondary {
+            background: #666;
+            color: #fff;
+        }
+    </style>
 </body>
 
 </html>

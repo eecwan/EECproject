@@ -29,7 +29,8 @@ namespace EECBET.Controllers
         }
         public IActionResult Points()
         {
-            return View();
+            // 重新導向到 MemberController 的 Points
+            return RedirectToAction("Points", "Member");
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
