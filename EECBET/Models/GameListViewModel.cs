@@ -1,7 +1,12 @@
-﻿namespace EECBET.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+namespace EECBET.Models
 {
+
     public class GameListViewModel
     {
+
+        [Key] //主鍵（必要）
         public int GameID { get; set; }
         public string? GameNameTW { get; set; }
         public string? GameNameEN { get; set; }

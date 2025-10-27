@@ -3,7 +3,7 @@ using EECBET.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 使用 SQL Server
+// 使用 MSSQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
