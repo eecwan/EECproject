@@ -88,7 +88,7 @@ namespace EECBET.Controllers
                 }
 
                 // 登入成功，更新最後登入時間
-                member.LastLogin = DateTime.Now;
+                member.LastLogin = DateOnly.FromDateTime(DateTime.UtcNow); // ✅ 修改
                 await _context.SaveChangesAsync();
 
                 // 設定 Session
@@ -157,10 +157,12 @@ namespace EECBET.Controllers
                     Firstname = model.Firstname,
                     Lastname = model.Lastname,
                     Gender = model.Gender,
-                    Birthday = model.Birthday,
+                    Birthday = model.Birthday.HasValue
+                        ? DateOnly.FromDateTime(model.Birthday.Value)   // ✅ 修改
+                        : null,
                     Country = model.Country,
                     Points = 1000, // 新會員贈送1000點
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow) // ✅ 修改
                 };
 
                 _context.Members.Add(member);
@@ -245,7 +247,7 @@ namespace EECBET.Controllers
                 member.Country = model.Country;
 
                 if (model.Birthday.HasValue)
-                    member.Birthday = model.Birthday;
+                    member.Birthday = DateOnly.FromDateTime(model.Birthday.Value); // ✅ 修改
                 else if (model.Birthday == null)
                     member.Birthday = null;
 

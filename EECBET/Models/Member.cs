@@ -8,6 +8,7 @@ namespace EECBET.Models
     public class Member
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // ✅ 確保 PostgreSQL 自動遞增
         [Column("id")]
         public int Id { get; set; }
 
@@ -37,26 +38,29 @@ namespace EECBET.Models
         [Column("gender")]
         public string? Gender { get; set; }
 
-        [Column("birthday")]
-        public DateTime? Birthday { get; set; }
+        // ✅ 改用 DateOnly，因為 Neon 的型別是 date
+        [Column("birthday", TypeName = "date")]
+        public DateOnly? Birthday { get; set; }
 
         [StringLength(100)]
         [Column("country")]
         public string? Country { get; set; }
 
-        [Column("points", TypeName = "decimal(18,2)")]
+        [Column("points", TypeName = "numeric(18,2)")]
         public decimal Points { get; set; } = 0;
 
-        [Column("created_at")]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        // ✅ 改成 DateOnly，用 UTC 時間轉換為今天的日期
+        [Column("created_at", TypeName = "date")]
+        public DateOnly CreatedAt { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        [Column("last_login")]
-        public DateTime? LastLogin { get; set; }
+        // ✅ 改用 DateOnly，因為 Neon 的型別是 date
+        [Column("last_login", TypeName = "date")]
+        public DateOnly? LastLogin { get; set; }
 
-        [Column("total_bet", TypeName = "decimal(18,2)")]
+        [Column("total_bet", TypeName = "numeric(18,2)")]
         public decimal TotalBet { get; set; } = 0;
 
-        [Column("total_win", TypeName = "decimal(18,2)")]
+        [Column("total_win", TypeName = "numeric(18,2)")]
         public decimal TotalWin { get; set; } = 0;
     }
 }
