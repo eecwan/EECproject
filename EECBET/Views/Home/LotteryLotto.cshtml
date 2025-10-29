@@ -720,7 +720,7 @@
     @if (isAuthenticated)
     {
         @:function loadUserBalance() {
-        @:    fetch('/Account/Balance')
+        @:    fetch('/Member/GetBalance')
         @:        .then(response => response.json())
         @:        .then(data => {
         @:            if (data.success) {

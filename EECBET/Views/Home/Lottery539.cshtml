@@ -515,12 +515,14 @@
         {
             @:html += `投注金額: ${data.betAmount} 元\n`;
             @:html += `新餘額: ${data.newBalance} 元`;
+            @:console.log('Debug info:', data.debug);
             @:// 更新餘額顯示
-            @:if (data.newBalance !== undefined) {
+            @:if (data.newBalance !== undefined && data.newBalance !== null) {
             @:    $('#userBalance').text('$' + parseFloat(data.newBalance).toLocaleString('en-US', {
             @:        minimumFractionDigits: 2,
             @:        maximumFractionDigits: 2
             @:    }));
+            @:    setTimeout(() => loadUserBalance(), 500);
             @:}
         }
         else
@@ -567,7 +569,7 @@
     @if (isAuthenticated)
     {
         @:function loadUserBalance() {
-        @:    fetch('/Account/Balance')
+        @:    fetch('/Member/GetBalance')
         @:        .then(response => response.json())
         @:        .then(data => {
         @:            if (data.success) {

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using EECBET.Data;
+using EECBET.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// 註冊服務
+builder.Services.AddSingleton<DrawHistoryService>();
+builder.Services.AddSingleton<DrawService>();
 
 // 加入 Session 支援
 builder.Services.AddDistributedMemoryCache();

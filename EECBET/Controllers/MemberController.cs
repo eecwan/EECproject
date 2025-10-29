@@ -211,7 +211,8 @@ namespace EECBET.Controllers
                 return RedirectToAction("Login");
             }
 
-            _logger.LogInformation($"載入會員資料: Username={member.Username}, Firstname={member.Firstname}, Lastname={member.Lastname}, Country={member.Country}");
+            _logger.LogInformation($"載入會員資料: Username={member.Username}, Points={member.Points}, TotalBet={member.TotalBet}, TotalWin={member.TotalWin}");
+            _logger.LogInformation($"載入會員資料: Firstname={member.Firstname}, Lastname={member.Lastname}, Country={member.Country}");
 
             // 傳遞會員資訊到 View
             ViewBag.Member = member;
@@ -267,6 +268,95 @@ namespace EECBET.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
+        }
+
+        // GET: /Member/GetGameRecords - 獲取遊戲記錄
+        [HttpGet]
+        public async Task<IActionResult> GetGameRecords()
+        {
+            try
+            {
+                var memberId = HttpContext.Session.GetInt32("MemberId");
+                if (memberId == null)
+                {
+                    return Json(new { success = false, message = "未登入" });
+                }
+
+                // 獲取最近的遊戲記錄
+                var records = await _context.BetRecords
+                    .Where(r => r.MemberId == memberId.Value)
+                    .OrderByDescending(r => r.CreatedAt)
+                    .Take(20)
+                    .Select(r => new
+                    {
+                        id = r.Id,
+                        gameType = r.GameType,
+                        issueNo = r.IssueNo,
+                        betAmount = r.BetAmount,
+                        winAmount = r.WinAmount,
+                        result = r.Result,
+                        pointsBefore = r.PointsBefore,
+                        pointsAfter = r.PointsAfter,
+                        createdAt = r.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")
+                    })
+                    .ToListAsync();
+
+                return Json(new { success = true, records = records });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "獲取遊戲記錄時發生錯誤");
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        // GET: /Member/GetBalance - 獲取當前餘額
+        [HttpGet]
+        public async Task<IActionResult> GetBalance()
+        {
+            try
+            {
+                var memberId = HttpContext.Session.GetInt32("MemberId");
+                if (memberId == null)
+                {
+                    return Json(new { success = false, message = "未登入" });
+                }
+
+                var member = await _context.Members.FindAsync(memberId.Value);
+                if (member == null)
+                {
+                    return Json(new { success = false, message = "找不到會員" });
+                }
+
+                // 計算今日盈虧（今天的總中獎額 - 今天的總投注額）
+                var todayStart = DateTime.UtcNow.Date;
+                var todayEnd = todayStart.AddDays(1);
+                var todayRecords = await _context.BetRecords
+                    .Where(r => r.MemberId == memberId.Value &&
+                                r.CreatedAt >= todayStart &&
+                                r.CreatedAt < todayEnd)
+                    .ToListAsync();
+
+                var todayBet = todayRecords.Sum(r => r.BetAmount);
+                var todayWin = todayRecords.Sum(r => r.WinAmount);
+                var todayProfit = todayWin - todayBet;
+
+                _logger.LogInformation($"獲取餘額: MemberId={memberId}, Points={member.Points}, TotalBet={member.TotalBet}, TotalWin={member.TotalWin}, TodayProfit={todayProfit}");
+
+                return Json(new
+                {
+                    success = true,
+                    balance = member.Points,
+                    totalBet = member.TotalBet,
+                    totalWin = member.TotalWin,
+                    todayProfit = todayProfit
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "獲取餘額時發生錯誤");
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
         // 生成隨機驗證碼

@@ -46,11 +46,11 @@
                 <div class="wallet-cards">
                     <div class="wallet-card">
                         <div class="wallet-label">點數餘額</div>
-                        <div class="wallet-amount">NT$ @member?.Points.ToString("N0")</div>
+                        <div class="wallet-amount" id="balanceDisplay">NT$ @member?.Points.ToString("N0")</div>
                     </div>
                     <div class="wallet-card">
                         <div class="wallet-label">今日盈虧</div>
-                        <div class="wallet-amount">NT$ 0</div>
+                        <div class="wallet-amount" id="todayProfitDisplay">NT$ 0</div>
                     </div>
                 </div>
 
@@ -58,11 +58,36 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-label">總投注額</div>
-                        <div class="stat-value">NT$ @member?.TotalBet.ToString("N0")</div>
+                        <div class="stat-value" id="totalBetDisplay">NT$ @member?.TotalBet.ToString("N0")</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">總中獎額</div>
-                        <div class="stat-value">NT$ @member?.TotalWin.ToString("N0")</div>
+                        <div class="stat-value" id="totalWinDisplay">NT$ @member?.TotalWin.ToString("N0")</div>
+                    </div>
+                </div>
+
+                <!-- 遊戲記錄 -->
+                <div class="game-records-section" style="margin-top: 30px;">
+                    <h3 class="section-title">📝 遊戲記錄</h3>
+                    <div class="game-records-container">
+                        <table class="game-records-table" id="gameRecordsTable">
+                            <thead>
+                                <tr>
+                                    <th>遊戲類型</th>
+                                    <th>期數</th>
+                                    <th>投注金額</th>
+                                    <th>中獎金額</th>
+                                    <th>結果</th>
+                                    <th>餘額變動</th>
+                                    <th>時間</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gameRecordsBody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 20px;">載入中...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -210,6 +235,67 @@
     <script>
         let isEditMode = false;
 
+        // 載入遊戲記錄
+        async function loadGameRecords() {
+            try {
+                const response = await fetch('/Member/GetGameRecords');
+                const data = await response.json();
+
+                if (data.success) {
+                    const tbody = document.getElementById('gameRecordsBody');
+                    if (data.records && data.records.length > 0) {
+                        tbody.innerHTML = data.records.map(record => `
+                            <tr>
+                                <td>${record.gameType}</td>
+                                <td>${record.issueNo}</td>
+                                <td>NT$ ${parseFloat(record.betAmount).toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+                                <td>NT$ ${parseFloat(record.winAmount).toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+                                <td>${record.result || '未中獎'}</td>
+                                <td>${parseFloat(record.pointsBefore).toLocaleString()} → ${parseFloat(record.pointsAfter).toLocaleString()}</td>
+                                <td>${record.createdAt}</td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">尚無遊戲記錄</td></tr>';
+                    }
+                } else {
+                    document.getElementById('gameRecordsBody').innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">載入失敗</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error loading game records:', error);
+                document.getElementById('gameRecordsBody').innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">載入失敗</td></tr>';
+            }
+        }
+
+        // 更新餘額
+        async function updateBalance() {
+            try {
+                const response = await fetch('/Member/GetBalance');
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('balanceDisplay').textContent = `NT$ ${parseFloat(data.balance).toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+                    document.getElementById('todayProfitDisplay').textContent = `NT$ ${parseFloat(data.todayProfit || 0).toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+                    document.getElementById('totalBetDisplay').textContent = `NT$ ${parseFloat(data.totalBet).toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+                    document.getElementById('totalWinDisplay').textContent = `NT$ ${parseFloat(data.totalWin).toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+                }
+            } catch (error) {
+                console.error('Error updating balance:', error);
+            }
+        }
+
+        // 頁面載入時執行
+        document.addEventListener('DOMContentLoaded', function () {
+            loadGameRecords();
+            updateBalance();
+
+            // 每5秒更新一次餘額和記錄
+            setInterval(() => {
+                updateBalance();
+                loadGameRecords();
+            }, 5000);
+        });
+
         function toggleEditMode() {
             isEditMode = !isEditMode;
 
@@ -332,6 +418,47 @@
         .btn-secondary {
             background: #666;
             color: #fff;
+        }
+
+        .game-records-section {
+            margin-top: 30px;
+        }
+
+        .game-records-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .game-records-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #fff;
+        }
+
+        .game-records-table thead {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .game-records-table th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .game-records-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-records-table tbody tr:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .game-records-table tbody tr:last-child td {
+            border-bottom: none;
         }
     </style>
 </body>

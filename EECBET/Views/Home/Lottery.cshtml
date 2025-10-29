@@ -423,11 +423,12 @@
             @:hasBetThisRound = true;
             @:currentBetPayload = {
             @:    Numbers: selectedNumbers,
-            @:    Bet2: parseInt($('#bet2').val()),
-            @:    Bet3: parseInt($('#bet3').val()),
-            @:    Bet4: parseInt($('#bet4').val()),
+            @:    Bet2: parseInt($('#bet2').val()) || 0,
+            @:    Bet3: parseInt($('#bet3').val()) || 0,
+            @:    Bet4: parseInt($('#bet4').val()) || 0,
             @:    TotalAmount: total
             @:};
+            @:console.log('投注設定成功:', currentBetPayload);
             @:$('#serverResult').text('您已投注成功，本期開獎後會顯示結果');
         }
     });
@@ -454,16 +455,37 @@
             ? currentBetPayload
             : { Numbers: [] };
 
+        console.log('準備開獎，投注資料:', payload);
+        console.log('hasBetThisRound:', hasBetThisRound, 'currentBetPayload:', currentBetPayload);
+
         $.ajax({
             url: '/Bet/SubmitBet',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(payload),
             success: data => {
-                renderResult(data);
+                console.log('開獎API成功:', data);
+                if (data && data.success) {
+                    renderResult(data);
+                } else {
+                    $('#serverResult').text('錯誤：' + (data ? data.message : '未知錯誤'));
+                }
             },
-            error: err => {
-                console.error('開獎呼叫錯誤', err);
+            error: (xhr, status, error) => {
+                console.error('開獎API錯誤:', {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    responseText: xhr.responseText,
+                    error: error
+                });
+                // 即使出錯也顯示錯誤訊息
+                let errorMsg = '錯誤：無法連接伺服器';
+                try {
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = '錯誤：' + xhr.responseJSON.message;
+                    }
+                } catch (e) {}
+                $('#serverResult').text(errorMsg);
             },
             complete: () => {
                 hasBetThisRound = false;
@@ -492,12 +514,15 @@
         {
             @:html += `投注金額: ${data.betAmount} 元\n`;
             @:html += `新餘額: ${data.newBalance} 元`;
+            @:console.log('Debug info:', data.debug);
             @:// 更新餘額顯示
-            @:if (data.newBalance !== undefined) {
+            @:if (data.newBalance !== undefined && data.newBalance !== null) {
             @:    $('#userBalance').text('$' + parseFloat(data.newBalance).toLocaleString('en-US', {
             @:        minimumFractionDigits: 2,
             @:        maximumFractionDigits: 2
             @:    }));
+            @:    // 重新載入餘額以確保同步
+            @:    setTimeout(() => loadUserBalance(), 500);
             @:}
         }
         else
@@ -544,7 +569,7 @@
     @if (isAuthenticated)
     {
         @:function loadUserBalance() {
-        @:    fetch('/Account/Balance')
+        @:    fetch('/Member/GetBalance')
         @:        .then(response => response.json())
         @:        .then(data => {
         @:            if (data.success) {

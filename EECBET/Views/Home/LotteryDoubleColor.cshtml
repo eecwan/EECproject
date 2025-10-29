@@ -670,18 +670,38 @@
             ? currentBetPayload
             : { RedNumbers: [], BlueNumbers: [] };
 
+        console.log('準備開獎，投注資料:', payload);
+
         $.ajax({
             url: '/Bet/SubmitDoubleColorBet',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(payload),
             success: data => {
-                renderResult(data);
+                console.log('開獎API成功:', data);
+                if (data && data.success) {
+                    renderResult(data);
+                    if (data.newBalance !== undefined && data.newBalance !== null) {
+                        setTimeout(() => loadUserBalance(), 500);
+                    }
+                } else {
+                    $('#serverResult').text('錯誤：' + (data ? data.message : '未知錯誤'));
+                }
             },
-            error: err => {
-                console.error('開獎呼叫錯誤', err);
-                // 模擬開獎結果
-                simulateDrawResult(payload);
+            error: (xhr, status, error) => {
+                console.error('開獎API錯誤:', {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    responseText: xhr.responseText,
+                    error: error
+                });
+                let errorMsg = '錯誤：無法連接伺服器';
+                try {
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = '錯誤：' + xhr.responseJSON.message;
+                    }
+                } catch (e) {}
+                $('#serverResult').text(errorMsg);
             },
             complete: () => {
                 hasBetThisRound = false;
@@ -860,7 +880,7 @@
     @if (isAuthenticated)
     {
         @:function loadUserBalance() {
-        @:    fetch('/Account/Balance')
+        @:    fetch('/Member/GetBalance')
         @:        .then(response => response.json())
         @:        .then(data => {
         @:            if (data.success) {

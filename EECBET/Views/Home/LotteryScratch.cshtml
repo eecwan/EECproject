@@ -540,13 +540,42 @@
             @:    return;
             @:}
             @:
+            @:// 生成所有卡片的中獎金額
+            @:const prizes = [];
             @:for (let i = 0; i < cardCount; i++) {
             @:    const prize = generatePrize(cardValue);
-            @:    createScratchCard(cardValue, prize);
+            @:    prizes.push(prize);
             @:}
             @:
-            @:updateTotalWinnings();
-            @:$('#serverResult').text(`成功購買 ${cardCount} 張 ${cardValue} 元刮刮樂，總金額 ${total} 元`);
+            @:// 調用後端 API 購買
+            @:$.ajax({
+            @:    url: '/Bet/PurchaseScratchCards',
+            @:    type: 'POST',
+            @:    contentType: 'application/json',
+            @:    data: JSON.stringify({
+            @:        CardValue: cardValue,
+            @:        CardCount: cardCount,
+            @:        Prizes: prizes
+            @:    }),
+            @:    success: function(data) {
+            @:        console.log('刮刮樂購買成功:', data);
+            @:        if (data.success) {
+            @:            // 創建卡片
+            @:            for (let i = 0; i < cardCount; i++) {
+            @:                createScratchCard(cardValue, prizes[i]);
+            @:            }
+            @:            updateTotalWinnings();
+            @:            loadUserBalance(); // 更新餘額顯示
+            @:            $('#serverResult').text(`成功購買 ${cardCount} 張 ${cardValue} 元刮刮樂，總金額 ${total} 元${data.totalPrize > 0 ? '，總獎金 ' + data.totalPrize + ' 元' : ''}`);
+            @:        } else {
+            @:            alert('購買失敗：' + (data.message || '未知錯誤'));
+            @:        }
+            @:    },
+            @:    error: function(xhr, status, error) {
+            @:        console.error('刮刮樂購買錯誤:', xhr, status, error);
+            @:        alert('購買失敗，請檢查網路連接');
+            @:    }
+            @:});
         }
     });
 
@@ -607,7 +636,7 @@
     @if (isAuthenticated)
     {
         @:function loadUserBalance() {
-        @:    fetch('/Account/Balance')
+        @:    fetch('/Member/GetBalance')
         @:        .then(response => response.json())
         @:        .then(data => {
         @:            if (data.success) {
