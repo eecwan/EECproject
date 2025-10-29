@@ -2,7 +2,7 @@
     ViewData["Title"] = "點數管理";
     var member = ViewBag.Member as EECBET.Models.Member;
     var displayName = !string.IsNullOrEmpty(member?.Lastname) || !string.IsNullOrEmpty(member?.Firstname)
-    ? $"{member?.Lastname}{member?.Firstname}"
+    ? $"{member?.Lastname} {member?.Firstname}"
     : member?.Username ?? "玩家";
 }
 
@@ -172,7 +172,7 @@
                     <div class="info-section">
                         <div class="info-section-title">🔐 帳戶資訊</div>
                         <div class="info-grid">
-                            <div class="info-item">
+                            <!-- <div class="info-item">
                                 <span class="info-label">帳戶狀態</span>
                                 <div class="info-value verified">
                                     <span>已啟用</span>
@@ -184,7 +184,7 @@
                                 <div class="info-value">
                                     <span style="color: #fbbf24; font-weight: 600">💎 黃金會員</span>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="info-item">
                                 <span class="info-label">點數餘額</span>
                                 <div class="info-value">
