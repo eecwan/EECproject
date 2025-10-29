@@ -2,8 +2,8 @@
     ViewData["Title"] = "點數管理";
     var member = ViewBag.Member as EECBET.Models.Member;
     var displayName = !string.IsNullOrEmpty(member?.Lastname) || !string.IsNullOrEmpty(member?.Firstname)
-        ? $"{member?.Lastname}{member?.Firstname}"
-        : member?.Username ?? "玩家";
+    ? $"{member?.Lastname}{member?.Firstname}"
+    : member?.Username ?? "玩家";
 }
 
 <!DOCTYPE html>
@@ -72,8 +72,10 @@
                 <div class="section-title">
                     <span>👤 個人資料</span>
                     <button class="btn btn-edit" id="editBtn" onclick="toggleEditMode()">✏️ 編輯資料</button>
-                    <button class="btn btn-primary" id="saveBtn" onclick="saveProfile()" style="display: none;">💾 儲存</button>
-                    <button class="btn btn-secondary" id="cancelBtn" onclick="cancelEdit()" style="display: none;">❌ 取消</button>
+                    <button class="btn btn-primary" id="saveBtn" onclick="saveProfile()" style="display: none;">💾
+                        儲存</button>
+                    <button class="btn btn-secondary" id="cancelBtn" onclick="cancelEdit()" style="display: none;">❌
+                        取消</button>
                 </div>
 
                 <div class="profile-card">
@@ -88,12 +90,17 @@
                                 </div>
                                 <div class="meta-item">
                                     <span class="meta-label">出生日期</span>
-                                    <input type="date" class="profile-input" id="birthdayInput" value="@(member?.Birthday?.ToString("yyyy-MM-dd") ?? "")" style="display: none;" />
-                                    <span class="meta-value" id="birthdayDisplay">@(member?.Birthday?.ToString("yyyy-MM-dd") ?? "未設定")</span>
+                                    <input type="date" class="profile-input" id="birthdayInput"
+                                        value="@(member?.Birthday?.ToDateTime(TimeOnly.MinValue).ToString("yyyy-MM-dd") ?? "")"
+                                        style="display: none;" />
+                                    <span class="meta-value"
+                                        id="birthdayDisplay">@(member?.Birthday?.ToDateTime(TimeOnly.MinValue).ToString("yyyy-MM-dd")
+                                                                                ?? "未設定")</span>
                                 </div>
                                 <div class="meta-item">
                                     <span class="meta-label">註冊日期</span>
-                                    <span class="meta-value">@(member?.CreatedAt.ToString("yyyy-MM-dd"))</span>
+                                    <span
+                                        class="meta-value">@(member?.CreatedAt.ToDateTime(TimeOnly.MinValue).ToString("yyyy-MM-dd"))</span>
                                 </div>
                                 <div class="meta-item">
                                     <span class="meta-label">ID</span>
@@ -108,21 +115,24 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <span class="info-label">姓氏</span>
-                                <input type="text" class="profile-input" id="lastnameInput" value="@(member?.Lastname ?? "")" style="display: none;" />
+                                <input type="text" class="profile-input" id="lastnameInput"
+                                    value="@(member?.Lastname ?? "")" style="display: none;" />
                                 <div class="info-value" id="lastnameDisplay">
                                     <span>@(member?.Lastname ?? "未設定")</span>
                                 </div>
                             </div>
                             <div class="info-item">
                                 <span class="info-label">名字</span>
-                                <input type="text" class="profile-input" id="firstnameInput" value="@(member?.Firstname ?? "")" style="display: none;" />
+                                <input type="text" class="profile-input" id="firstnameInput"
+                                    value="@(member?.Firstname ?? "")" style="display: none;" />
                                 <div class="info-value" id="firstnameDisplay">
                                     <span>@(member?.Firstname ?? "未設定")</span>
                                 </div>
                             </div>
                             <div class="info-item">
                                 <span class="info-label">電子郵件</span>
-                                <input type="email" class="profile-input" id="emailInput" value="@(member?.Email ?? "")" style="display: none;" />
+                                <input type="email" class="profile-input" id="emailInput" value="@(member?.Email ?? "")"
+                                    style="display: none;" />
                                 <div class="info-value verified" id="emailDisplay">
                                     <span>@(member?.Email ?? "未設定")</span>
                                     @if (!string.IsNullOrEmpty(member?.Email))
@@ -152,7 +162,8 @@
                                     <option value="none">不方便透露</option>
                                 </select>
                                 <div class="info-value" id="genderDisplay">
-                                    <span>@(member?.Gender == "male" ? "男" : member?.Gender == "female" ? "女" : member?.Gender == "none" ? "不方便透露" : "未設定")</span>
+                                    <span>@(member?.Gender == "male" ? "男" : member?.Gender == "female" ? "女" :
+                                                                                member?.Gender == "none" ? "不方便透露" : "未設定")</span>
                                 </div>
                             </div>
                         </div>
@@ -177,13 +188,15 @@
                             <div class="info-item">
                                 <span class="info-label">點數餘額</span>
                                 <div class="info-value">
-                                    <span style="color: #fbbf24; font-weight: 600">💰 NT$ @member?.Points.ToString("N0")</span>
+                                    <span style="color: #fbbf24; font-weight: 600">💰 NT$
+                                        @member?.Points.ToString("N0")</span>
                                 </div>
                             </div>
                             <div class="info-item">
                                 <span class="info-label">最後登入時間</span>
                                 <div class="info-value">
-                                    <span>@(member?.LastLogin?.ToString("yyyy-MM-dd HH:mm") ?? "從未登入")</span>
+                                    <span>@(member?.LastLogin?.ToDateTime(TimeOnly.MinValue).ToString("yyyy-MM-dd") ??
+                                                                                "從未登入")</span>
                                 </div>
                             </div>
                         </div>
@@ -199,12 +212,12 @@
 
         function toggleEditMode() {
             isEditMode = !isEditMode;
-            
+
             if (isEditMode) {
                 document.getElementById('editBtn').style.display = 'none';
                 document.getElementById('saveBtn').style.display = 'inline-block';
                 document.getElementById('cancelBtn').style.display = 'inline-block';
-                
+
                 // 顯示輸入框
                 document.getElementById('lastnameInput').style.display = 'block';
                 document.getElementById('firstnameInput').style.display = 'block';
@@ -212,18 +225,18 @@
                 document.getElementById('countryInput').style.display = 'block';
                 document.getElementById('genderInput').style.display = 'block';
                 document.getElementById('birthdayInput').style.display = 'block';
-                
+
                 // 設定下拉選單的預設值
                 @if (member != null)
-                {
-                    <text>
-                    document.getElementById('countryInput').value = '@member.Country';
-                    document.getElementById('genderInput').value = '@member.Gender';
-                    </text>
+                    {
+                        <text>
+                            document.getElementById('countryInput').value = '@member.Country';
+                            document.getElementById('genderInput').value = '@member.Gender';
+                        </text>
                 }
-                
-                // 隱藏顯示文字
-                document.getElementById('lastnameDisplay').style.display = 'none';
+
+                    // 隱藏顯示文字
+                    document.getElementById('lastnameDisplay').style.display = 'none';
                 document.getElementById('firstnameDisplay').style.display = 'none';
                 document.getElementById('emailDisplay').style.display = 'none';
                 document.getElementById('countryDisplay').style.display = 'none';
@@ -236,11 +249,11 @@
 
         function cancelEdit() {
             isEditMode = false;
-            
+
             document.getElementById('editBtn').style.display = 'inline-block';
             document.getElementById('saveBtn').style.display = 'none';
             document.getElementById('cancelBtn').style.display = 'none';
-            
+
             // 隱藏輸入框
             document.getElementById('lastnameInput').style.display = 'none';
             document.getElementById('firstnameInput').style.display = 'none';
@@ -248,7 +261,7 @@
             document.getElementById('countryInput').style.display = 'none';
             document.getElementById('genderInput').style.display = 'none';
             document.getElementById('birthdayInput').style.display = 'none';
-            
+
             // 顯示顯示文字
             document.getElementById('lastnameDisplay').style.display = 'block';
             document.getElementById('firstnameDisplay').style.display = 'block';
@@ -301,7 +314,7 @@
             background: #1a1a1a;
             color: #fff;
         }
-        
+
         .btn {
             padding: 10px 20px;
             border: none;
@@ -310,12 +323,12 @@
             margin-left: 10px;
             font-size: 14px;
         }
-        
+
         .btn-primary {
             background: #00ff88;
             color: #1a1a1a;
         }
-        
+
         .btn-secondary {
             background: #666;
             color: #fff;
