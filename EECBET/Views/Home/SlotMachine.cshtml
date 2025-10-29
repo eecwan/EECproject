@@ -642,6 +642,34 @@
                 appendLog(`未中，結果： ${symbolsResult.join(' | ')}`);
             }
             statusEl.textContent = msg;
+            
+            // 保存遊戲記錄到資料庫
+            saveGameRecord(bet, symbolsResult.join(' '), reward, credits);
+        }
+        
+        // 保存記錄到資料庫
+        async function saveGameRecord(bet, result, reward, creditsAfter){
+            try {
+                const response = await fetch('/api/Slot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Bet: bet,
+                        Result: result,
+                        Reward: reward,
+                        CreditsAfter: creditsAfter,
+                        PlayTime: new Date().toISOString()
+                    })
+                });
+                
+                if (!response.ok) {
+                    console.warn('保存遊戲記錄失敗:', await response.text());
+                }
+            } catch (error) {
+                console.warn('保存遊戲記錄錯誤:', error);
+            }
         }
     })();
 </script>

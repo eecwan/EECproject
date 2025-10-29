@@ -35,6 +35,13 @@ namespace EECBET.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            // 從 Session 取得 MemberId（如果有登入）
+            var memberId = HttpContext.Session.GetInt32("MemberId");
+            if (memberId.HasValue)
+            {
+                record.MemberId = memberId.Value;
+            }
+
             _context.SlotRecords.Add(record);
             _context.SaveChanges();
             return Ok(record);

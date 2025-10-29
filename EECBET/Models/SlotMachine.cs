@@ -9,6 +9,8 @@ namespace EECBET.Models
         [Key]
         public int Id { get; set; }
 
+        public int? MemberId { get; set; } // 會員 ID（可為空以支援舊記錄）
+
         public DateTime PlayTime { get; set; } = DateTime.Now;
 
         [Required]

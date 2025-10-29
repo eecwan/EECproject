@@ -270,7 +270,7 @@ namespace EECBET.Controllers
             return RedirectToAction("Login");
         }
 
-        // GET: /Member/GetGameRecords - 獲取遊戲記錄
+        // GET: /Member/GetGameRecords - 獲取遊戲記錄（包含拉霸機）
         [HttpGet]
         public async Task<IActionResult> GetGameRecords()
         {
@@ -282,26 +282,72 @@ namespace EECBET.Controllers
                     return Json(new { success = false, message = "未登入" });
                 }
 
-                // 獲取最近的遊戲記錄
-                var records = await _context.BetRecords
+                // 創建結果列表
+                var allRecords = new List<object>();
+
+                // 獲取彩票遊戲記錄
+                var betRecords = await _context.BetRecords
                     .Where(r => r.MemberId == memberId.Value)
                     .OrderByDescending(r => r.CreatedAt)
                     .Take(20)
-                    .Select(r => new
+                    .ToListAsync();
+
+                // 添加彩票記錄到結果列表
+                foreach (var r in betRecords)
+                {
+                    allRecords.Add(new
                     {
                         id = r.Id,
                         gameType = r.GameType,
-                        issueNo = r.IssueNo,
+                        issueNo = r.IssueNo.ToString(),
                         betAmount = r.BetAmount,
                         winAmount = r.WinAmount,
                         result = r.Result,
                         pointsBefore = r.PointsBefore,
                         pointsAfter = r.PointsAfter,
                         createdAt = r.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")
-                    })
-                    .ToListAsync();
+                    });
+                }
 
-                return Json(new { success = true, records = records });
+                // 嘗試獲取拉霸機記錄（如果表格有 MemberId 欄位）
+                try
+                {
+                    var slotRecords = await _context.SlotRecords
+                        .Where(r => r.MemberId == memberId.Value)
+                        .OrderByDescending(r => r.PlayTime)
+                        .Take(20)
+                        .ToListAsync();
+
+                    // 添加拉霸機記錄到結果列表
+                    foreach (var r in slotRecords)
+                    {
+                        allRecords.Add(new
+                        {
+                            id = r.Id,
+                            gameType = "拉霸機",
+                            issueNo = "-",
+                            betAmount = (decimal)r.Bet,
+                            winAmount = (decimal)r.Reward,
+                            result = r.Result,
+                            pointsBefore = (decimal)(r.CreditsAfter - r.Reward + r.Bet),
+                            pointsAfter = (decimal)r.CreditsAfter,
+                            createdAt = r.PlayTime.ToString("yyyy-MM-dd HH:mm:ss")
+                        });
+                    }
+                }
+                catch (Exception slotEx)
+                {
+                    // 如果 SlotRecords 表格還沒有 MemberId 欄位，忽略錯誤
+                    _logger.LogWarning(slotEx, "無法查詢拉霸機記錄，可能是資料庫尚未更新 MemberId 欄位");
+                }
+
+                // 按時間排序並取最近 30 筆
+                var sortedRecords = allRecords
+                    .OrderByDescending(r => ((dynamic)r).createdAt)
+                    .Take(30)
+                    .ToList();
+
+                return Json(new { success = true, records = sortedRecords });
             }
             catch (Exception ex)
             {
@@ -310,7 +356,7 @@ namespace EECBET.Controllers
             }
         }
 
-        // GET: /Member/GetBalance - 獲取當前餘額
+        // GET: /Member/GetBalance - 獲取當前餘額（包含拉霸機）
         [HttpGet]
         public async Task<IActionResult> GetBalance()
         {
@@ -331,14 +377,36 @@ namespace EECBET.Controllers
                 // 計算今日盈虧（今天的總中獎額 - 今天的總投注額）
                 var todayStart = DateTime.UtcNow.Date;
                 var todayEnd = todayStart.AddDays(1);
-                var todayRecords = await _context.BetRecords
+                
+                // 彩票遊戲今日記錄
+                var todayBetRecords = await _context.BetRecords
                     .Where(r => r.MemberId == memberId.Value &&
                                 r.CreatedAt >= todayStart &&
                                 r.CreatedAt < todayEnd)
                     .ToListAsync();
 
-                var todayBet = todayRecords.Sum(r => r.BetAmount);
-                var todayWin = todayRecords.Sum(r => r.WinAmount);
+                // 拉霸機今日記錄（如果表格有 MemberId 欄位）
+                decimal slotTodayBet = 0;
+                decimal slotTodayWin = 0;
+                try
+                {
+                    var todaySlotRecords = await _context.SlotRecords
+                        .Where(r => r.MemberId == memberId.Value &&
+                                    r.PlayTime >= todayStart &&
+                                    r.PlayTime < todayEnd)
+                        .ToListAsync();
+                    
+                    slotTodayBet = todaySlotRecords.Sum(r => r.Bet);
+                    slotTodayWin = todaySlotRecords.Sum(r => r.Reward);
+                }
+                catch (Exception slotEx)
+                {
+                    // 如果 SlotRecords 表格還沒有 MemberId 欄位，忽略錯誤
+                    _logger.LogWarning(slotEx, "無法查詢拉霸機今日記錄");
+                }
+
+                var todayBet = todayBetRecords.Sum(r => r.BetAmount) + slotTodayBet;
+                var todayWin = todayBetRecords.Sum(r => r.WinAmount) + slotTodayWin;
                 var todayProfit = todayWin - todayBet;
 
                 _logger.LogInformation($"獲取餘額: MemberId={memberId}, Points={member.Points}, TotalBet={member.TotalBet}, TotalWin={member.TotalWin}, TodayProfit={todayProfit}");
