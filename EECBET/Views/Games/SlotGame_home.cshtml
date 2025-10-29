@@ -1,6 +1,6 @@
-
-﻿<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <link rel="stylesheet" href="~/css/slotgameBase.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/slotgameSwiper.css" asp-append-version="true" />
 @{
     Layout = "~/Views/Shared/_SlotLayout.cshtml";
     ViewBag.Title = "特色遊戲 SlotGame_home";
@@ -18,12 +18,12 @@
             </div>
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                   @foreach (GameListViewModel g in Model)
-                {
-                    <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                        <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
-                    </div>
-                }
+                    @foreach (GameListViewModel g in Model)
+                    {
+                        <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                            <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                        </div>
+                    }
                 </div>
                 <!-- 左右箭頭 -->
                 <div class="swiper-button-next"></div>
@@ -44,14 +44,14 @@
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    
-                            @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.Exclusive)
-                            {
-                                <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                                    <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
-                                </div>
-                            }
-                        
+
+                    @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.Exclusive)
+                    {
+                        <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                            <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                        </div>
+                    }
+
                 </div>
                 <!-- 左右箭頭 -->
                 <div class="swiper-button-next"></div>
@@ -73,10 +73,11 @@
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                     @if (ViewBag.HighBonusGames == null || !((IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.HighBonusGames).Any())
-                        {
-                            <p>⚠️ 尚無高報酬遊戲資料。</p>
-                        }
+                    @if (ViewBag.HighBonusGames == null ||
+                                        !((IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.HighBonusGames).Any())
+                    {
+                        <p>⚠️ 尚無高報酬遊戲資料。</p>
+                    }
                     else
                     {
                         foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.HighBonusGames)
@@ -109,12 +110,12 @@
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                      @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.classic)
-                            {
-                                <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                                    <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
-                                </div>
-                            }
+                    @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.classic)
+                    {
+                        <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                            <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                        </div>
+                    }
                 </div>
                 <!-- 左右箭頭 -->
                 <div class="swiper-button-next"></div>
@@ -135,16 +136,16 @@
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                      @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.Megaways)
-                            {
-                                <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                                    <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
-                                </div>
-                            }
+                    @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.Megaways)
+                    {
+                        <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                            <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                        </div>
+                    }
                 </div>
-             </div>
-               
-            
+            </div>
+
+
         </section>
     </div>
 
@@ -200,4 +201,3 @@
         });
     </script>
 </div>
-

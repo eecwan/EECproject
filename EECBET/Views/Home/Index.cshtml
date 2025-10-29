@@ -14,7 +14,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap JS Bundle (含 Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!--卡片的 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="/css/Lobby.css">
+  <link rel="stylesheet" href="~/css/slotgameSwiper.css" asp-append-version="true" />
 </head>
 
 <body>
@@ -42,43 +45,47 @@
     </div>
   </div>
 
- <!-- 卡片區域 -->
-<div class="container my-4">
-  <div class="row g-4">
+  <!-- 卡片區域 -->
+  <div class="container my-4">
+    <div class="row g-4">
 
-    <!-- 第一張卡片 -->
-   <div class="col-md-4">
-  <div class="card card-image-only">
-    <img src="https://content001.bet365.mx/Games/ProjectAwesome/LiveCasinoOffersSeason/November/1-LiveCasinoGiveaway/LCOS_LiveCasinoGiveaway_680x400.jpg" class="card-img" alt="遊戲介紹">
-    <div class="card-overlay">
-      <h5 class="card-title">遊戲介紹</h5>
-      <p class="card-text">精選各類遊戲，淺顯易懂的教學，讓您快速上手!</p>
-    </div>
-  </div>
-</div>
+      <!-- 第一張卡片 -->
+      <div class="col-md-4">
+        <div class="card card-image-only">
+          <img
+            src="https://content001.bet365.mx/Games/ProjectAwesome/LiveCasinoOffersSeason/November/1-LiveCasinoGiveaway/LCOS_LiveCasinoGiveaway_680x400.jpg"
+            class="card-img" alt="遊戲介紹">
+          <div class="card-overlay">
+            <h5 class="card-title">遊戲介紹</h5>
+            <p class="card-text">精選各類遊戲，淺顯易懂的教學，讓您快速上手!</p>
+          </div>
+        </div>
+      </div>
 
-    <!-- 第二張卡片 -->
-  <div class="col-md-4">
-    <div class="card card-image-only">
-      <img src="https://content001.bet365.mx/Games/Awesome/LiveBlackjackChallenges_680x400.png" class="card-img" alt="儲值點數">
-      <div class="card-overlay">
-        <h5 class="card-title">儲值點數</h5>
-        <p class="card-text">線上儲值，玩家錢包系統，首儲再送好禮!</p>
+      <!-- 第二張卡片 -->
+      <div class="col-md-4">
+        <div class="card card-image-only">
+          <img src="https://content001.bet365.mx/Games/Awesome/LiveBlackjackChallenges_680x400.png" class="card-img"
+            alt="儲值點數">
+          <div class="card-overlay">
+            <h5 class="card-title">儲值點數</h5>
+            <p class="card-text">線上儲值，玩家錢包系統，首儲再送好禮!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第三張卡片 -->
+      <div class="col-md-4">
+        <div class="card card-image-only">
+          <img src="https://content001.bet365.mx/Games/SGP/Test/NextGen/Gaming_680x400_Carousel_1.jpg" class="card-img"
+            alt="萬聖狂歡節">
+          <div class="card-overlay">
+            <h5 class="card-title">萬聖狂歡節</h5>
+            <p class="card-text">萬聖節奇趣派對驚喜上線中!多重大禮包等你拿!</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- 第三張卡片 -->
-  <div class="col-md-4">
-    <div class="card card-image-only">
-      <img src="https://content001.bet365.mx/Games/SGP/Test/NextGen/Gaming_680x400_Carousel_1.jpg" class="card-img" alt="萬聖狂歡節">
-      <div class="card-overlay">
-        <h5 class="card-title">萬聖狂歡節</h5>
-        <p class="card-text">萬聖節奇趣派對驚喜上線中!多重大禮包等你拿!</p>
-      </div>
-    </div>
-  </div>
-</div>
 
   </div>
 
@@ -95,167 +102,81 @@
       </div> *@
 
       <!-- 輪播內容 -->
-      <div class="carousel-container">
-        <!-- 左箭頭 -->
-        <button class="carousel-btn left-btn">&lt;</button>
-
-        <!-- 圖片橫向列表 -->
-        <div class="carousel-track">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="slide1">
-          <img src="https://www.top-casino.nl/runtime/images/2247/540x360/Gokkast_book_of_horus_bet365.webp" alt="slide2">
-          <img src="https://online.casinocity.com/image_resize.ashx?type=game&imgid=128934&width=280" alt="slide3">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS07KHn-x72PtJF_0qzfaRtuvLJ5GukYPBIrSF858_Dm7X_x5VxKeUgPwoI6_2L3-DliQA&usqp=CAU" alt="slide4">
-          <img src="https://content001.bet365.com/Games/SGP/GamePodImages/BisonRisingMegawaysJPK_1000x400.jpg" alt="slide5">
-          <img src="https://content001.bet365.es/Slots/SGP/GamePodImages/CashStrikeHotstepper2_1000x400_With-Character.jpg" alt="slide6">
-          <img src="https://content001.bet365.gr/Games/SGP/GamePodImages/ValhallGold_1000x400_With-Character.jpg" alt="slide7">
-          <img src="https://content001.bet365.es/Slots/SGP/GamePodImages/8Immortals3_1000x400_With-Character.jpg" alt="slide8">
+      <!-- 最新 -->
+      @model IEnumerable<EECBET.Models.GameListViewModel>
+      <section>
+        <div class="sectionTitle">
+          <div>
+            <h3>老虎機</h3>
+          </div>
         </div>
-
-        <!-- 右箭頭 -->
-        <button class="carousel-btn right-btn">&gt;</button>
-      </div>
-
-      <!-- 輪播內容 -->
-      <div class="carousel-container">
-        <!-- 左箭頭 -->
-        <button class="carousel-btn left-btn">&lt;</button>
-
-        <!-- 圖片橫向列表 -->
-        <div class="carousel-track">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/1001ArabianNightsPlusPays_1000x400_With-Character.jpg" alt="slide9">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/RouletteUp_1000x400.jpg" alt="slide10">
-          <img src="https://content001.bet365.com/Games/SGP/GamePodImages/MiniSuperSpinRoulette_1000x400.jpg" alt="slide11">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/ZappinZeus_1000x400_With-Character.jpg" alt="slide12">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/DeadWest_1000x400_With-Character.jpg" alt="slide13">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/8ImmortalsVideoBingo_1000x400_With-Character.jpg" alt="slide14">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/100BurningClover_CloverChance_1000x400.jpg" alt="slide15">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwbTmlYxiDepY8_3w5hZ_9Wq-dB3vSBN7pd2Z58FowqO9HgmASc0dPGRhXmlNGoB2dP4g&usqp=CAU" alt="slide16">
-        </div>
-
-        <!-- 右箭頭 -->
-        <button class="carousel-btn right-btn">&gt;</button>
-      </div>
-
-      <!-- 輪播內容 -->
-      <div class="carousel-container">
-        <!-- 左箭頭 -->
-        <button class="carousel-btn left-btn">&lt;</button>
-
-        <!-- 圖片橫向列表 -->
-        <div class="carousel-track">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/123Bingo_1000x400.jpg" alt="slide17">
-          <img src="https://www.cityam.com/wp-content/uploads/2025/09/bet365-Bingo-Scratch-To-Win.jpg?w=824&h=463&crop=1" alt="slide18">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/GonzosQuestIIReturntoElDorado_1000x400_With-Character.jpg" alt="slide19">
-          <img src="https://content001.bet365.mx/Games/SGP/GamePodImages/10000BC2DoubleMax_v3_1000x400_With-Character.jpg" alt="slide20">
-          <img src="https://content001.bet365.es/Slots/SGP/GamePodImages/Baoshi_1000x400_with-character.jpg" alt="slide21">
-          <img src="https://content001.pa.bet365.com/Casino/SGP/GamePodImages/Firerush77Sevens_1000x400.jpg" alt="slide22">
-          <img src="https://content001.bet365.es/Slots/SGP/GamePodImages/RiseofAtlantisLegacy_1000x400_With-Character.jpg" alt="slide23">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkLzBg7y4_7grbk55zc7XVw2UzwsoUuVtllBntcr0Z-foDPCgCE358_bHSOMlcRRAhDyY&usqp=CAU" alt="slide24">
-        </div>
-
-        <!-- 右箭頭 -->
-        <button class="carousel-btn right-btn">&gt;</button>
-      </div>
-        </div>
-    </div>
-    <!-- 優化後的輪播功能 -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // 為每個輪播容器設定功能
-      document.querySelectorAll('.carousel-container').forEach((container, index) => {
-        const track = container.querySelector('.carousel-track');
-        const btnLeft = container.querySelector('.left-btn');
-        const btnRight = container.querySelector('.right-btn');
-        
-        let isScrolling = false;
-        let autoScrollInterval;
-        
-        // 計算每次滾動距離（一張圖片寬度 + 間距）
-        const getScrollAmount = () => {
-          const img = track.querySelector('img');
-          return img ? img.offsetWidth + 10 : 190;
-        };
-        
-        // 平滑滾動函數
-        const smoothScroll = (direction) => {
-          if (isScrolling) return;
-          
-          isScrolling = true;
-          const scrollAmount = getScrollAmount();
-          const targetScroll = direction === 'left' 
-            ? track.scrollLeft - scrollAmount 
-            : track.scrollLeft + scrollAmount;
-          
-          // 使用原生滾動 API，更流暢
-          track.scrollTo({
-            left: targetScroll,
-            behavior: 'smooth'
-          });
-          
-          // 檢查是否到達邊界，如果是則重置到開頭
-          setTimeout(() => {
-            if (direction === 'right' && track.scrollLeft >= track.scrollWidth - track.clientWidth - 50) {
-              setTimeout(() => {
-                track.scrollTo({ left: 0, behavior: 'smooth' });
-              }, 300);
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            @foreach (GameListViewModel g in Model)
+            {
+              <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+              </div>
             }
-            isScrolling = false;
-          }, 400);
-        };
-        
-        // 左右按鈕事件
-        btnLeft.addEventListener('click', (e) => {
-          e.preventDefault();
-          smoothScroll('left');
+          </div>
+          <!-- 左右箭頭 -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </section>
+
+      <!-- 輪播Swiper JS -->
+      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      <script>
+        // .mySwiper 都獨立初始化
+        document.querySelectorAll(".mySwiper").forEach((swiperEl, index) => {
+          const nextBtn = swiperEl.querySelector(".swiper-button-next");
+          const prevBtn = swiperEl.querySelector(".swiper-button-prev");
+
+          const swiper = new Swiper(swiperEl, {
+            slidesPerView: 6,
+            spaceBetween: 8,
+            loop: false, // ❌ 不循環
+            speed: 1000, // 平滑
+            autoplay: {
+              delay: 0,
+              disableOnInteraction: false
+            },
+            navigation: {
+              nextEl: nextBtn,
+              prevEl: prevBtn
+            }
+          });
+
+          swiper.autoplay.stop(); // 預設靜止
+
+          // 到頭或到尾 → 停止
+          swiper.on("slideChange", () => {
+            if (swiper.isBeginning || swiper.isEnd) {
+              swiper.autoplay.stop();
+            }
+          });
+
+          // Hover 右箭頭 → 往後播
+          nextBtn.addEventListener("mouseenter", () => {
+            if (!swiper.isEnd) {
+              swiper.params.autoplay.reverseDirection = false;
+              swiper.autoplay.start();
+            }
+          });
+          nextBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
+
+          // Hover 左箭頭 → 往前播
+          prevBtn.addEventListener("mouseenter", () => {
+            if (!swiper.isBeginning) {
+              swiper.params.autoplay.reverseDirection = true;
+              swiper.autoplay.start();
+            }
+          });
+          prevBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
         });
-        
-        btnRight.addEventListener('click', (e) => {
-          e.preventDefault();
-          smoothScroll('right');
-        });
-        
-        // 自動輪播功能（每個輪播延遲不同時間開始，產生錯落效果）
-        const startAutoScroll = () => {
-          autoScrollInterval = setInterval(() => {
-            smoothScroll('right');
-          }, 2500 + (index * 300)); // 每排間隔 300ms，產生視覺層次
-        };
-        
-        const stopAutoScroll = () => {
-          if (autoScrollInterval) {
-            clearInterval(autoScrollInterval);
-          }
-        };
-        
-        // 滑鼠移入暫停，移出恢復
-        track.addEventListener('mouseenter', stopAutoScroll);
-        track.addEventListener('mouseleave', startAutoScroll);
-        
-        // 觸控支援
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        track.addEventListener('touchstart', (e) => {
-          touchStartX = e.changedTouches[0].screenX;
-          stopAutoScroll();
-        });
-        
-        track.addEventListener('touchend', (e) => {
-          touchEndX = e.changedTouches[0].screenX;
-          const diff = touchStartX - touchEndX;
-          
-          if (Math.abs(diff) > 50) {
-            smoothScroll(diff > 0 ? 'right' : 'left');
-          }
-          
-          startAutoScroll();
-        });
-        
-        // 啟動自動輪播
-        startAutoScroll();
-      });
-    });
-  </script>
+      </script>
+
 
 </body>
 

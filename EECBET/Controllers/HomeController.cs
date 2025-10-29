@@ -1,27 +1,33 @@
 using System.Diagnostics;
 using EECBET.Models;
 using Microsoft.AspNetCore.Mvc;
+using EECBET.Data; //資料庫
+using Microsoft.EntityFrameworkCore; //給ToListAsync
+
 
 namespace EECBET.Controllers
 {
     public class HomeController : Controller
     {
+        //import 資料庫
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _context = context;// 資料庫內容
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var allGames = await _context.GameList
+            .Where(g => g.IsActive)
+            .OrderByDescending(g => g.ReleaseDate)
+            .Take(8)
+            .ToListAsync();
+            return View(allGames);
         }
-
-        // public IActionResult SlotGame_home()
-        // {
-        //     return View();
-        // }
 
         public IActionResult Lottery()
         {

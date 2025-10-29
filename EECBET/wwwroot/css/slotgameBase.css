@@ -35,54 +35,9 @@ section {
 .more {
     display: inline-flex;
     align-items: center;
-    /* �����m�� */
     justify-content: center;
-    /* �����m�� */
     border: 1px solid rgb(255, 255, 255);
     padding: 0 10px;
     border-radius: 20px;
     font-size: 12px;
-}
-
-/* Swiper */
-
-.swiper {
-    padding: 10px 10px;
-}
-
-.swiper-slide img:hover {
-    transform: scale(1.05);
-}
-
-.swiper-slide img {
-    width: 100%;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-    aspect-ratio: 1;
-    object-fit: cover;
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-    background-color: rgba(0, 0, 0, 0.519);
-    padding: 90px 10px;
-    color: white;
-    transition: opacity 0.3s ease;
-
-    transform: translateY(-40%);
-    /* �����m���γo�� */
-}
-
-.swiper-button-next {
-    right: 0;
-}
-
-.swiper-button-prev {
-    left: 0;
-}
-
-.swiper-button-disabled {
-    opacity: 0.3;
-    /* ����ɲH�� */
-    pointer-events: none;
 }
