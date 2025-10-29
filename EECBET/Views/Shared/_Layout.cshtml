@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Http
 @{
     Layout = null;
 }
@@ -36,8 +37,23 @@
         <div class="nav-logo-container">
             <nav class="main-nav">
                 <ul>
-                    <li><a asp-controller="Member" asp-action="Register01">註冊</a></li>
-                    <li><a asp-controller="Member" asp-action="login">登入</a></li>
+                    @{
+                        var username = Context.Session.GetString("Username");
+                        var memberId = Context.Session.GetInt32("MemberId");
+                    }
+                    
+                    @if (memberId == null || string.IsNullOrEmpty(username))
+                    {
+                        <!-- 未登入狀態 -->
+                        <li><a asp-controller="Member" asp-action="Register01">註冊</a></li>
+                        <li><a asp-controller="Member" asp-action="login">登入</a></li>
+                    }
+                    else
+                    {
+                        <!-- 已登入狀態 -->
+                        <li><a asp-controller="Member" asp-action="Points">👤 @username</a></li>
+                        <li><a asp-controller="Member" asp-action="Logout">登出</a></li>
+                    }
                 </ul>
             </nav>
         </div>
