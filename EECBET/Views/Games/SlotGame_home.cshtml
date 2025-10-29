@@ -44,24 +44,14 @@
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/triple_money_jackpot_bells_1000x400.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/triple_money_jackpot_bells_1000x400.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/MysticMines_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/DragonHopper_1000x400.svg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/MysticMines_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/8ImmortalsFullHouseFortune_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
+                    
+                            @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.Exclusive)
+                            {
+                                <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                                    <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                                </div>
+                            }
+                        
                 </div>
                 <!-- 左右箭頭 -->
                 <div class="swiper-button-next"></div>
@@ -83,24 +73,21 @@
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/ArtHeist_1000x400.svg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/BigBaitGold_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/KitchenChaosRushHour_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/DragonHopper_1000x400.svg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/BigBaitGold_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/TattooChallenge_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
+                     @if (ViewBag.HighBonusGames == null || !((IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.HighBonusGames).Any())
+                        {
+                            <p>⚠️ 尚無高報酬遊戲資料。</p>
+                        }
+                    else
+                    {
+                        foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.HighBonusGames)
+                        {
+                            <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                                <a href="#">
+                                    <img src="@g.GameImageUrl" alt="@g.GameNameEN" />
+                                </a>
+                            </div>
+                        }
+                    }
                 </div>
                 <!-- 左右箭頭 -->
                 <div class="swiper-button-next"></div>
@@ -122,24 +109,12 @@
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/CosmicCash_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/DragonHopper_1000x400.svg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/CosmicCash_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/DragonHopper_1000x400.svg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/DragonHopper_1000x400.svg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/HiLoClassicV3_1000x400.svg" alt="icon"></a>
-                    </div>
+                      @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.classic)
+                            {
+                                <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                                    <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                                </div>
+                            }
                 </div>
                 <!-- 左右箭頭 -->
                 <div class="swiper-button-next"></div>
@@ -160,24 +135,12 @@
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/CatsAhoyMouseMayhem_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/MayanMajesty_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/CosmicCash_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/EyeOfWukong_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/EyeOfWukong_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/WarriorsValour_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
+                      @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.Megaways)
+                            {
+                                <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                                    <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                                </div>
+                            }
                 </div>
              </div>
                

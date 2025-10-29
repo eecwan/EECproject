@@ -25,12 +25,39 @@ namespace EECBET.Controllers
 
         public async Task<IActionResult> SlotGame_home()
         {
-            var games = await _context.GameList
-                .Where(g => g.IsActive) // ✅ 若有此欄位，可保留，只顯示上架遊戲
-                .OrderByDescending(g => g.ReleaseDate) // ✅ 最新遊戲在最前
+            var allGames = await _context.GameList
+       .Where(g => g.IsActive)
+       .OrderByDescending(g => g.ReleaseDate)
+       .ToListAsync();
+
+            // 取高報酬前6個
+            var highBonusGames = await _context.GameList
+                .Where(g => g.GameCategory == "高報酬")
+                .Take(6)
                 .ToListAsync();
 
-            return View(games);
+            var Exclusive = await _context.GameList
+            .Where(g => g.GameCategory == "獨創")
+            .Take(6)
+            .ToListAsync();
+
+            var classic = await _context.GameList
+            .Where(g => g.GameCategory == "經典")
+            .Take(6)
+            .ToListAsync();
+
+            var Megaways = await _context.GameList
+            .Where(g => g.GameCategory == "頂級")
+            .Take(6)
+            .ToListAsync();
+
+            // 用 ViewBag 傳過去（主模型保持原來的）
+            ViewBag.HighBonusGames = highBonusGames;
+            ViewBag.Exclusive = Exclusive;
+            ViewBag.classic = classic;
+            ViewBag.Megaways = Megaways;
+
+            return View(allGames);
         }
 
         public async Task<IActionResult> SlotGame_Exclusive()
