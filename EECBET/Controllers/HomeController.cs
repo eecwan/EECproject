@@ -18,10 +18,10 @@ namespace EECBET.Controllers
             return View();
         }
 
-        public IActionResult SlotGame_home()
-        {
-            return View();
-        }
+        // public IActionResult SlotGame_home()
+        // {
+        //     return View();
+        // }
 
         public IActionResult Lottery()
         {

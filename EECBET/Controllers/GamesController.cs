@@ -21,7 +21,18 @@ namespace EECBET.Controllers
 
         }
 
-        //    SlotGame 分頁     
+        //    SlotGame 分頁    
+
+        public async Task<IActionResult> SlotGame_home()
+        {
+            var games = await _context.GameList
+                .Where(g => g.IsActive) // ✅ 若有此欄位，可保留，只顯示上架遊戲
+                .OrderByDescending(g => g.ReleaseDate) // ✅ 最新遊戲在最前
+                .ToListAsync();
+
+            return View(games);
+        }
+
         public async Task<IActionResult> SlotGame_Exclusive()
         {
             var games = await _context.GameList

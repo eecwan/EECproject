@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_SlotLayout.cshtml";
     ViewBag.Title = "特色遊戲 SlotGame_home";
 }
+@model IEnumerable<EECBET.Models.GameListViewModel>
 
 <div class="wrap">
     <div class="content">
@@ -17,30 +18,12 @@
             </div>
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/333BoomBanksPowerCombo_1000x400.svg" alt="icon"></a>
+                   @foreach (GameListViewModel g in Model)
+                {
+                    <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                        <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
                     </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/GemRevolver_1000x400.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.mx/Games/SGP/GamePodImages/SpinOReelyGoldBlitz_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/8ImmortalsInstantWin_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/AncientGodsGilgameshandEnkiduv3_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/Atomic7_1000x400.svg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/TheLastEagleHuntress_1000x400_With-Character.jpg" alt="icon"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href=""><img src="https://content001.bet365.com/Games/SGP/GamePodImages/AnglersGold_1000x400.jpg" alt="icon"></a>
-                    </div>
+                }
                 </div>
                 <!-- 左右箭頭 -->
                 <div class="swiper-button-next"></div>
