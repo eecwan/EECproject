@@ -117,50 +117,6 @@ body {
 .main-nav a:hover::after {
     width: 70%;
 }
-/* =====================================================
-   🔍 搜尋欄
-   ===================================================== */
-.search-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin: 40px auto;
-    padding: 0 20px;
-    max-width: 1200px;
-}
-
-.search-form input {
-    flex: 1;
-    padding: 10px 15px;
-    border-radius: 20px;
-    border: 1px solid #fff;
-    background-color: #222;
-    color: #fff;
-    outline: none;
-    transition: all 0.3s;
-}
-
-.search-form input:focus {
-    border-color: #e7e09c;
-    background-color: #333;
-}
-
-.search-form button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 20px;
-    background-color: #e7e09c;
-    color: #222;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.search-form button:hover {
-    background-color: #d4c76e;
-    transform: scale(1.05);
-}
 
 
 /* =====================================================
@@ -327,67 +283,7 @@ body {
     margin: 0;
 }
 
-/* =====================================================
-   🎠 輪播區域
-   ===================================================== */
-.carousel-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin: 30px 0;
-}
 
-.carousel-track {
-    display: flex;
-    gap: 10px;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    padding: 10px 0;
-}
-
-.carousel-track img {
-    flex: 0 0 auto;
-    width: 180px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.carousel-track img:hover {
-    transform: scale(1.05);
-}
-
-/* 輪播按鈕 */
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    font-size: 24px;
-    padding: 15px 10px;
-    cursor: pointer;
-    z-index: 2;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.carousel-btn:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.left-btn {
-    left: 10px;
-}
-
-.right-btn {
-    right: 10px;
-}
 
 /* =====================================================
    🦶 Footer
@@ -399,6 +295,15 @@ footer {
 footer a:hover {
     color: #00ff99 !important;
 }
+
+/* 快速開始的字 */
+
+.fastStart
+{
+    font-weight: bolder;
+    margin: 30px;
+}
+
 
 /* =====================================================
    📱 響應式設計 (手機 & 平板)
@@ -439,4 +344,6 @@ footer a:hover {
         width: 120px;
         height: 100px;
     }
+
+
 }

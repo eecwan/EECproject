@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="/css/Lobby.css">
   <link rel="stylesheet" href="~/css/slotgameSwiper.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/Lobbylottery.css" asp-append-version="true" />
 </head>
 
 <body>
@@ -92,90 +93,138 @@
 
 
   <div class="container mt-5">
-    <!-- 輪播開始 -->
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-pause="hover">
-      <!-- 輪播指示器 (小圓點) -->
-      @* <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2"></button>
-      </div> *@
+    <!-- 輪播內容 -->
+  
+      <h3  class="fastStart">快速開始</h3>
+  
+    <!-- 老虎機的 -->
+    @model IEnumerable<EECBET.Models.GameListViewModel>
+    <section>
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          @foreach (GameListViewModel g in Model)
+          {
+            <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+              <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+            </div>
+          }
+        </div>
+        <!-- 左右箭頭 -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </section>
 
-      <!-- 輪播內容 -->
-      <!-- 最新 -->
-      @model IEnumerable<EECBET.Models.GameListViewModel>
-      <section>
-        <div class="sectionTitle">
-          <div>
-            <h3>老虎機</h3>
+
+    <!-- 樂透的 -->
+<section>
+      <div class="lotterySection">
+        <!-- 四星彩 -->
+        <div class="lotteryBox">
+          <div class="lottery-card" onclick="location.href='@Url.Action("Lottery539", "Home")'">
+            <div class="lottery-card-header">
+              <div class="lottery-icon">🎯</div>
+              <div class="lottery-name">四星彩</div>
+            </div>
           </div>
         </div>
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper">
-            @foreach (GameListViewModel g in Model)
-            {
-              <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
-              </div>
-            }
+
+        <!-- 大樂透 -->
+        <div class="lotteryBox">
+          <div class="lottery-card" onclick="location.href='@Url.Action("LotteryLotto", "Home")'">
+            <div class="lottery-card-header">
+              <div class="lottery-icon">🎲</div>
+              <div class="lottery-name">大樂透</div>
+            </div>
           </div>
-          <!-- 左右箭頭 -->
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
         </div>
-      </section>
 
-      <!-- 輪播Swiper JS -->
-      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-      <script>
-        // .mySwiper 都獨立初始化
-        document.querySelectorAll(".mySwiper").forEach((swiperEl, index) => {
-          const nextBtn = swiperEl.querySelector(".swiper-button-next");
-          const prevBtn = swiperEl.querySelector(".swiper-button-prev");
+        <!-- 威力彩 -->
+        <div class="lotteryBox">
+          <div class="lottery-card" onclick="location.href='@Url.Action("LotteryPower", "Home")'">
+            <div class="lottery-card-header">
+              <div class="lottery-icon">⚡</div>
+              <div class="lottery-name">威力彩</div>
+            </div>
+          </div>
+        </div>
 
-          const swiper = new Swiper(swiperEl, {
-            slidesPerView: 6,
-            spaceBetween: 8,
-            loop: false, // ❌ 不循環
-            speed: 1000, // 平滑
-            autoplay: {
-              delay: 0,
-              disableOnInteraction: false
-            },
-            navigation: {
-              nextEl: nextBtn,
-              prevEl: prevBtn
-            }
-          });
+        <!-- 今彩539 -->
+        <div class="lotteryBox">
+          <div class="lottery-card" onclick="location.href='@Url.Action("LotteryToday539", "Home")'">
+            <div class="lottery-card-header">
+              <div class="lottery-icon">🌟</div>
+              <div class="lottery-name">今彩539</div>
+            </div>
+          </div>
+        </div>
 
-          swiper.autoplay.stop(); // 預設靜止
+        <!-- 雙色球 -->
+        <div class="lotteryBox">
+          <div class="lottery-card" onclick="location.href='@Url.Action("LotteryDoubleColor", "Home")'">
+            <div class="lottery-card-header">
+              <div class="lottery-icon">🔴🔵</div>
+              <div class="lottery-name">雙色球</div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+     
+</section>
 
-          // 到頭或到尾 → 停止
-          swiper.on("slideChange", () => {
-            if (swiper.isBeginning || swiper.isEnd) {
-              swiper.autoplay.stop();
-            }
-          });
+    <!-- 輪播Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      // .mySwiper 都獨立初始化
+      document.querySelectorAll(".mySwiper").forEach((swiperEl, index) => {
+        const nextBtn = swiperEl.querySelector(".swiper-button-next");
+        const prevBtn = swiperEl.querySelector(".swiper-button-prev");
 
-          // Hover 右箭頭 → 往後播
-          nextBtn.addEventListener("mouseenter", () => {
-            if (!swiper.isEnd) {
-              swiper.params.autoplay.reverseDirection = false;
-              swiper.autoplay.start();
-            }
-          });
-          nextBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
-
-          // Hover 左箭頭 → 往前播
-          prevBtn.addEventListener("mouseenter", () => {
-            if (!swiper.isBeginning) {
-              swiper.params.autoplay.reverseDirection = true;
-              swiper.autoplay.start();
-            }
-          });
-          prevBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
+        const swiper = new Swiper(swiperEl, {
+          slidesPerView: 6,
+          spaceBetween: 8,
+          loop: false, // ❌ 不循環
+          speed: 1000, // 平滑
+          autoplay: {
+            delay: 0,
+            disableOnInteraction: false
+          },
+          navigation: {
+            nextEl: nextBtn,
+            prevEl: prevBtn
+          }
         });
-      </script>
+   
+
+        swiper.autoplay.stop(); // 預設靜止
+
+        // 到頭或到尾 → 停止
+        swiper.on("slideChange", () => {
+          if (swiper.isBeginning || swiper.isEnd) {
+            swiper.autoplay.stop();
+          }
+        });
+
+        // Hover 右箭頭 → 往後播
+        nextBtn.addEventListener("mouseenter", () => {
+          if (!swiper.isEnd) {
+            swiper.params.autoplay.reverseDirection = false;
+            swiper.autoplay.start();
+          }
+        });
+        nextBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
+
+        // Hover 左箭頭 → 往前播
+        prevBtn.addEventListener("mouseenter", () => {
+          if (!swiper.isBeginning) {
+            swiper.params.autoplay.reverseDirection = true;
+            swiper.autoplay.start();
+          }
+        });
+        prevBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
+      });
+    </script>
 
 
 </body>
