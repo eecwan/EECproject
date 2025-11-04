@@ -377,7 +377,7 @@ namespace EECBET.Controllers
                 // 計算今日盈虧（今天的總中獎額 - 今天的總投注額）
                 var todayStart = DateTime.UtcNow.Date;
                 var todayEnd = todayStart.AddDays(1);
-                
+
                 // 彩票遊戲今日記錄
                 var todayBetRecords = await _context.BetRecords
                     .Where(r => r.MemberId == memberId.Value &&
@@ -395,7 +395,7 @@ namespace EECBET.Controllers
                                     r.PlayTime >= todayStart &&
                                     r.PlayTime < todayEnd)
                         .ToListAsync();
-                    
+
                     slotTodayBet = todaySlotRecords.Sum(r => r.Bet);
                     slotTodayWin = todaySlotRecords.Sum(r => r.Reward);
                 }
@@ -426,6 +426,53 @@ namespace EECBET.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+        
+        // GET: /Member/RecordGamePlay?gameId=123
+[HttpGet]
+public IActionResult RecordGamePlay(int id)
+{
+    var memberId = HttpContext.Session.GetInt32("MemberId");
+    if (memberId == null)
+    {
+        return Json(new { success = false, message = "未登入" });
+    }
+
+    // 依據 GameID 找遊戲資料
+    var game = _context.GameList.FirstOrDefault(g => g.GameID == id);
+    if (game == null)
+    {
+        return Json(new { success = false, message = "找不到遊戲" });
+    }
+
+   try
+{
+    var record = new BetRecord
+    {
+        MemberId = memberId.Value,
+        GameType = game.GameNameTW ?? game.GameNameEN ?? "未知遊戲",
+        IssueNo = 0,
+        BetAmount = 0,
+        WinAmount = 0,
+        Result = "進入遊戲",
+        PointsBefore = 0,
+        PointsAfter = 0,
+        CreatedAt = DateTime.UtcNow // ✅ 改這裡！
+    };
+
+    _context.BetRecords.Add(record);
+    _context.SaveChanges();
+
+    _logger.LogInformation($"✅ 成功記錄遊戲：MemberId={memberId}, GameType={record.GameType}");
+    return Json(new { success = true });
+}
+catch (Exception ex)
+{
+    // 🔍 把內部例外也印出來
+    var inner = ex.InnerException?.Message ?? "無內部例外";
+    _logger.LogError(ex, $"❌ 儲存發生錯誤：{inner}");
+    return Json(new { success = false, message = inner });
+}
+}
 
         // 生成隨機驗證碼
         private string GenerateCaptcha()

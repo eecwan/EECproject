@@ -42,24 +42,35 @@
 <!-- 黑幕層 -->
 <div id="loginOverlay" class="login-overlay"></div>
 
-
 <script>
-    const isAuthenticated = @(isAuthenticated.ToString().ToLower());
+const isAuthenticated = @(isAuthenticated.ToString().ToLower());
+const gameId = @Model.GameID;
 
-    function closeGame() {
-        window.history.back();
+function closeGame() {
+    window.history.back();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (!isAuthenticated) {
+        const overlay = document.getElementById('loginOverlay');
+        overlay.classList.add('show');
+        setTimeout(() => {
+            alert('請先登入才能進行投注');
+            window.location.href = '/Member/Login';
+        }, 300);
+        return;
     }
 
-    // 🧩 頁面載入後判斷是否登入
-    window.addEventListener('DOMContentLoaded', () => {
-        if (!isAuthenticated) {
-            const overlay = document.getElementById('loginOverlay');
-            overlay.classList.add('show'); // 顯示黑幕
-            setTimeout(() => {
-                alert('請先登入才能進行投注');
-                window.location.href = '/Member/Login'; // 可選：登入導向
-            }, 300); // 延遲0.3秒讓黑幕先出現
-        }
-    });
-
+    // ✅ 已登入 → 用 GET 傳遊戲ID，紀錄進入
+    fetch(`/Member/RecordGamePlay?id=${gameId}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                console.log('✅ 已記錄進入遊戲：', data);
+            } else {
+                console.warn('⚠️ 記錄失敗：', data.message);
+            }
+        })
+        .catch(err => console.error('❌ 呼叫 RecordGamePlay 發生錯誤:', err));
+});
 </script>
