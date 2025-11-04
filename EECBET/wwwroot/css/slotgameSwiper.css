@@ -1,4 +1,4 @@
-/* Swiper */
+/* Swiper 輪播的 */
 
 .swiper {
     padding: 10px 10px;
@@ -39,4 +39,32 @@
     opacity: 0.3;
 
     pointer-events: none;
+}
+
+/* 獨立頁面的排列 */
+.slotContainer{
+    display: inline-grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(6, auto);
+}
+
+
+
+/* ---- 響應式設定 ---- */
+
+/* 平板：中型螢幕 */
+@media (max-width: 992px) {
+
+  .slotContainer{  
+    grid-template-columns: repeat(4, auto);
+}
+}
+
+/* 手機：小螢幕 */
+@media (max-width: 576px) {
+
+
+    .slotContainer{  
+    grid-template-columns: repeat(3, auto);
+}
 }

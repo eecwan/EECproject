@@ -3,6 +3,7 @@
     position: relative;
     display: flex;
     justify-content: right;
+    right: 15px;
 }
 
 .sort ul {

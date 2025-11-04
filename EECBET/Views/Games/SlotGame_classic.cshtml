@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="~/css/slotgamePage.css" asp-append-version="true" />
+
 <link rel="stylesheet" href="~/css/slotgameSwiper.css" asp-append-version="true" />
 @{
     Layout = "~/Views/Shared/_SlotLayout.cshtml";
@@ -11,7 +11,7 @@
 <div class="wrap">
     <partial name="_SlotSortPartial" />
     <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
+        <div class="slotContainer">
             @if (Model == null || !Model.Any())
             {
                 <p>⚠️ 尚無資料或 API 連線失敗。</p>

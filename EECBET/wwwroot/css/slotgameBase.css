@@ -1,43 +1,114 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 .wrap {
 
-    max-width: 1400px;
-    margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
 
 }
 
 .sectionTitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    color: white;
-    margin: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  color: white;
+  margin: 0px;
 
-}
-
-.sectionTitle a {
-    text-decoration: none;
-    font-weight: bolder;
-    color: white;
 }
 
 section {
 
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .more {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgb(255, 255, 255);
-    padding: 0 10px;
-    border-radius: 20px;
-    font-size: 12px;
+
+  display: flex;
+  /* 外框 */
+  border: 1px solid rgb(255, 255, 255);
+ 
+  padding: 5px 10px;
+  border-radius: 20px;
+  /* 文字 */
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: bolder;
+  color: white;
+}
+
+/*menu */
+.menu ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  padding: 20px;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: rgb(159, 159, 159);
+  margin-right: 40px;
+  transition: all 0.2s ease;
+  font-size: 1.2em;
+}
+
+.menu ul li a:hover {
+  color: rgb(253, 253, 253);
+  font-weight: bolder;
+}
+
+.menu ul li a.active {
+  color: #13ffc0;
+  font-weight: bolder;
+  border-bottom: 3px solid #1fffc3;
+  padding-bottom: 5px;
+}
+
+
+/* ---- 響應式設定 ---- */
+
+/* 平板：中型螢幕 */
+@media (max-width: 992px) {
+
+  .sectionTitle h3 {
+    font-size: 1.3rem;
+  }
+
+  .menu ul li a {
+  font-size: 1em;
+}
+
+}
+
+/* 手機：小螢幕 */
+@media (max-width: 576px) {
+
+  .sectionTitle h3 {
+    font-size: 1rem;
+  }
+ .menu ul {
+    flex-wrap: nowrap; /* 不換行 */
+    overflow-x: auto;  /* 可水平滾動 */
+    white-space: nowrap;
+
+    padding:  5px;
+    scrollbar-width: none; /* 隱藏滾動條（Firefox） */
+  }
+
+  .menu ul::-webkit-scrollbar {
+    display: none; /* 隱藏滾動條（Chrome、Safari） */
+  }
+
+  .menu ul li a {
+    font-size: 1em;
+    flex: 0 0 auto; /* 每個 li 不自動壓縮 */
+    margin-right: 20px;
+  }
+
+
 }

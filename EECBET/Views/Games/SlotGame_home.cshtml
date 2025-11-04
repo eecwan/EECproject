@@ -39,8 +39,8 @@
                 <div>
                     <a class="more" asp-controller="Games" asp-action="SlotGame_Exclusive">更多</a>
                 </div>
-
             </div>
+
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
@@ -68,8 +68,9 @@
                 <div>
                     <a class="more" asp-controller="Games" asp-action="SlotGame_HighBonus">更多</a>
                 </div>
-
             </div>
+
+
             <!-- Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
@@ -143,6 +144,9 @@
                         </div>
                     }
                 </div>
+                <!-- 左右箭頭 -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
 
 
@@ -151,53 +155,5 @@
 
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        // .mySwiper 都獨立初始化
-        document.querySelectorAll(".mySwiper").forEach((swiperEl, index) => {
-            const nextBtn = swiperEl.querySelector(".swiper-button-next");
-            const prevBtn = swiperEl.querySelector(".swiper-button-prev");
-
-            const swiper = new Swiper(swiperEl, {
-                slidesPerView: 6,
-                spaceBetween: 8,
-                loop: false, // ❌ 不循環
-                speed: 1000, // 平滑
-                autoplay: {
-                    delay: 0,
-                    disableOnInteraction: false
-                },
-                navigation: {
-                    nextEl: nextBtn,
-                    prevEl: prevBtn
-                }
-            });
-
-            swiper.autoplay.stop(); // 預設靜止
-
-            // 到頭或到尾 → 停止
-            swiper.on("slideChange", () => {
-                if (swiper.isBeginning || swiper.isEnd) {
-                    swiper.autoplay.stop();
-                }
-            });
-
-            // Hover 右箭頭 → 往後播
-            nextBtn.addEventListener("mouseenter", () => {
-                if (!swiper.isEnd) {
-                    swiper.params.autoplay.reverseDirection = false;
-                    swiper.autoplay.start();
-                }
-            });
-            nextBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
-
-            // Hover 左箭頭 → 往前播
-            prevBtn.addEventListener("mouseenter", () => {
-                if (!swiper.isBeginning) {
-                    swiper.params.autoplay.reverseDirection = true;
-                    swiper.autoplay.start();
-                }
-            });
-            prevBtn.addEventListener("mouseleave", () => swiper.autoplay.stop());
-        });
-    </script>
+    <script src="~/js/slotgameHome.js" asp-append-version="true"></script>
 </div>
