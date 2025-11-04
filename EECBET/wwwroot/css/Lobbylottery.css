@@ -1,52 +1,75 @@
-.lotterySection{
-   display: flex;
-  justify-content: center; /* 讓內容置中 */
-  gap: 10px; /* 方框之間的間距 */
-  margin: 20px;;
+.lotterySection {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: relative;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
 
+.lotterySection::-webkit-scrollbar {
+  display: none;
 }
+
 .lotteryBox {
-  flex: 1 1 calc(20% - 20px); /* 平均分成 5 格（根據螢幕自動調整） */
-  
+  width: 240px;
+  flex: 0 0 auto;
 }
+
 .lottery-card {
-    background: rgba(0, 0, 0, 0.6);
-    border: 2px solid #0a573d94;
-    color: #ffffff;
-    border-radius: 15px;
-    transition: all 0.3s ease;
-    height: 100%;
-    cursor: pointer;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #00e9af56;
+  color: #ffffff;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  height: 100%;
+  cursor: pointer;
 }
 
 .lottery-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(126, 207, 187, 0.3);
-    border-color: #ffd700;
+  transform: translateY(-5px);
+  /* box-shadow: 0 10px 30px rgba(114, 252, 187, 0.3); */
+  border: 2px solid #02ff96da;
 }
 
 .lottery-card-header {
-    background: linear-gradient(135deg, #0a573d94 0%, #014e3c75 50%, #0a573d94 100%);
-    color: #ffffff;
-    border-radius: 15px 15px 0 0;
-    padding: 20px;
-    text-align: center;
-}
-
-.lottery-card-body {
-    padding: 25px;
-    text-align: center;
+  background: linear-gradient(135deg, #10eed079 0%, #01795d75 50%, #10a87694 100%);
+  color: #ffffff;
+  border-radius: 13px;
+  padding: 20px;
+  text-align: center;
 }
 
 .lottery-icon {
-    font-size: 2rem;
-    margin-bottom: 15px;
-    color: #ffd700;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 15px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  line-height: 1;
+  color: #ffd700;
 }
 
 .lottery-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #ffd700;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #ffd700;
+}
+
+/* 手機版仍保持橫向滑動 */
+@media (max-width: 776px) {
+  .lotterySection {
+    justify-content: flex-start;
+  }
+
+  .lotteryBox {
+  width: 200px;
+  flex: 0 0 auto;
+}
 }

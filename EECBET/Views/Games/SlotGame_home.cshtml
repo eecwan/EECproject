@@ -21,7 +21,11 @@
                     @foreach (GameListViewModel g in Model)
                     {
                         <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                            <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                            <a class="gamepage"
+                            asp-controller="Games"
+                            asp-action="SlotGame_game"
+                            asp-route-id="@g.GameID">
+                            <img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
                         </div>
                     }
                 </div>
@@ -48,7 +52,11 @@
                     @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.Exclusive)
                     {
                         <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                            <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                            <a class="gamepage"
+                            asp-controller="Games"
+                            asp-action="SlotGame_game"
+                            asp-route-id="@g.GameID">
+                            <img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
                         </div>
                     }
 
@@ -84,10 +92,12 @@
                         foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.HighBonusGames)
                         {
                             <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                                <a href="#">
-                                    <img src="@g.GameImageUrl" alt="@g.GameNameEN" />
-                                </a>
-                            </div>
+                            <a class="gamepage"
+                            asp-controller="Games"
+                            asp-action="SlotGame_game"
+                            asp-route-id="@g.GameID">
+                            <img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                        </div>
                         }
                     }
                 </div>
@@ -114,7 +124,11 @@
                     @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.classic)
                     {
                         <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                            <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                            <a class="gamepage"
+                            asp-controller="Games"
+                            asp-action="SlotGame_game"
+                            asp-route-id="@g.GameID">
+                            <img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
                         </div>
                     }
                 </div>
@@ -139,8 +153,12 @@
                 <div class="swiper-wrapper">
                     @foreach (var g in (IEnumerable<EECBET.Models.GameListViewModel>)ViewBag.Megaways)
                     {
-                        <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
-                            <a href="#"><img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
+                      <div class="swiper-slide" data-release-date="@g.ReleaseDate?.ToString("yyyy-MM-dd")">
+                            <a class="gamepage"
+                            asp-controller="Games"
+                            asp-action="SlotGame_game"
+                            asp-route-id="@g.GameID">
+                            <img src="@g.GameImageUrl" alt="@g.GameNameEN" /></a>
                         </div>
                     }
                 </div>

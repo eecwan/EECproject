@@ -4,16 +4,20 @@
     padding: 10px 10px;
 }
 
-.swiper-slide img:hover {
-    transform: scale(1.05);
-}
+
 
 .swiper-slide img {
     width: 100%;
     border-radius: 10px;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
     aspect-ratio: 1;
     object-fit: cover;
+}
+
+.swiper-slide img:hover {
+    /* transform: scale(1.05); */
+    transform: translateY(-5px);
+  border: 2px solid #02ff96fd;
 }
 
 .swiper-button-next,

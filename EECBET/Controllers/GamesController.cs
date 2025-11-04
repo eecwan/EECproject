@@ -90,6 +90,17 @@ namespace EECBET.Controllers
             return View(games);
         }
 
+        public async Task<IActionResult> SlotGame_game(int id)
+        {
+            var games = await _context.GameList
+          .FirstOrDefaultAsync(g => g.GameID == id);
+          if(games==null)
+              {
+                return NotFound();
+            }
+            return View(games);
+            
+        }
 
         //錯誤處理
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

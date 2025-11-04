@@ -15,6 +15,7 @@ namespace EECBET.Models
         public bool IsPromoted { get; set; }
         public bool IsActive { get; set; }
         public string? GameImageUrl { get; set; }
+        public string? GameLink { get; set; }
         public DateTime? ReleaseDate { get; set; }
     }
 }

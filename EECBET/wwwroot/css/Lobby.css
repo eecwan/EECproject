@@ -242,18 +242,21 @@ body {
 /* =====================================================
    🎴 卡片區域
    ===================================================== */
-.card-image-only {
+
+   .card-image-only {
     position: relative;
     border: none;
     overflow: hidden;
     border-radius: 15px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
     height: 300px;
+
 }
 
 .card-image-only:hover {
-    transform: scale(1.03);
+    transform: scale(1.01);
+   border: 1px solid rgb(9, 214, 136);
+  
 }
 
 .card-image-only .card-img {

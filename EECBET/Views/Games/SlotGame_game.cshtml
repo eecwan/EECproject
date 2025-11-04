@@ -1,0 +1,24 @@
+@{
+    Layout = "~/Views/Shared/_SlotLayout.cshtml";
+    ViewBag.Title = " SlotGame_game";
+}
+<link rel="stylesheet" href="~/css/slotgameBase.css" asp-append-version="true" />
+@model EECBET.Models.GameListViewModel
+
+
+<div class="game-container">
+
+    <button class="closeBtn" onclick="closeGame()">X</button>
+
+    <div class="gameIframe">
+        <iframe frameborder="0" src="@Model.GameLink" allowfullscreen="true">
+        </iframe>
+    </div>
+
+</div>
+
+<script>
+    function closeGame() {
+        window.history.back();
+    }
+</script>
