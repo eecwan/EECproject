@@ -1,24 +1,65 @@
 @{
     Layout = "~/Views/Shared/_SlotLayout.cshtml";
     ViewBag.Title = " SlotGame_game";
+    var isAuthenticated = Context.Session.GetInt32("MemberId") != null;
 }
 <link rel="stylesheet" href="~/css/slotgameBase.css" asp-append-version="true" />
 @model EECBET.Models.GameListViewModel
+
+<style>
+    /* 🩶 黑幕遮罩 */
+    .login-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .login-overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+</style>
 
 
 <div class="game-container">
 
     <button class="closeBtn" onclick="closeGame()">X</button>
 
-    <div class="gameIframe">
+    <div class="gameIframe" id="slotplaybtn">
         <iframe frameborder="0" src="@Model.GameLink" allowfullscreen="true">
         </iframe>
     </div>
 
 </div>
 
+<!-- 黑幕層 -->
+<div id="loginOverlay" class="login-overlay"></div>
+
+
 <script>
+    const isAuthenticated = @(isAuthenticated.ToString().ToLower());
+
     function closeGame() {
         window.history.back();
     }
+
+    // 🧩 頁面載入後判斷是否登入
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!isAuthenticated) {
+            const overlay = document.getElementById('loginOverlay');
+            overlay.classList.add('show'); // 顯示黑幕
+            setTimeout(() => {
+                alert('請先登入才能進行投注');
+                window.location.href = '/Member/Login'; // 可選：登入導向
+            }, 300); // 延遲0.3秒讓黑幕先出現
+        }
+    });
+
 </script>
