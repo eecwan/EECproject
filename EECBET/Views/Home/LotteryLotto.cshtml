@@ -31,13 +31,13 @@
         text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
     }
 
-    .card {
-        background: rgba(0, 0, 0, 0.6);
-        border: 2px solid #0a573d94;
-        color: #ffffff;
-        border-radius: 15px;
-    }
-
+   .card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #0a573d94;
+    color: #ffffff;
+    border-radius: 15px;
+    overflow: hidden; /* 確保內容不超出卡片 */
+}
     .card-header {
         background: linear-gradient(135deg, #0a573d94 0%, #014e3c75  zwei %, #0a573d94 100%);
         color: #ffffff;
@@ -46,8 +46,9 @@
     }
 
     .number-btn {
-        width: 50px;
-        height: 50px;
+         aspect-ratio: 1 / 1; /* 讓它永遠是正方形 */
+    width: 100%;         /* 填滿格子寬度 */
+    max-width: 70px;     /* 避免太大 */
         border-radius: 10px;
         margin: 3px;
         background: linear-gradient(135deg, #1a3d1a 0%, #2d5a2d 100%);
@@ -71,14 +72,16 @@
         transform: scale(1.05);
     }
 
-    .number-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 8px;
-        max-width: 420px;
-        margin: 10px auto;
-        padding: 20px;
-    }
+  .number-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* 自動依卡片寬度排 */
+    gap: 10px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    justify-items: center;
+    align-items: center;
+}
 
     .btn-warning {
         background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);

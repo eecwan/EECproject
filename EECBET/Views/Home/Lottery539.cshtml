@@ -44,8 +44,9 @@
     }
 
     .number-btn {
-        width: 50px;
-        height: 50px;
+        aspect-ratio: 1 / 1; /* 讓它永遠是正方形 */
+    width: 100%;         /* 填滿格子寬度 */
+    max-width: 70px;     /* 避免太大 */
         border-radius: 10px;
         margin: 3px;
         background: linear-gradient(135deg, #2d3d2d 0%, #3d4d3d 100%);
@@ -69,12 +70,14 @@
     }
 
     .number-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 8px;
-        max-width: 320px;
-        margin: 10px;
-        padding: 20px;
+       display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* 自動依卡片寬度排 */
+    gap: 10px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    justify-items: center;
+    align-items: center; d
     }
 
     .btn-warning {
