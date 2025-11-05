@@ -76,7 +76,7 @@ section {
   height: 100vh;
   /* 水平置中 */
   margin: 0 auto;
-  padding:  20px;
+  padding:  20px 40px;
 
 }
 
@@ -166,5 +166,8 @@ section {
  
 }
 
+.game-container {
+ height: 85dvh;
+}
 
 }
