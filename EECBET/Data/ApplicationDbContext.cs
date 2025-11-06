@@ -3,20 +3,22 @@ using EECBET.Models;
 
 namespace EECBET.Data
 {
+    //  DbContext負責連線資料庫、追蹤資料、發送 SQL
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-
+        //DbSet<T>對應資料庫中的資料表
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<GameListViewModel> GameList { get; set; }
         public DbSet<SlotRecord> SlotRecords { get; set; }
         public DbSet<BetRecord> BetRecords { get; set; }
 
-
+        //Fluent API（流暢式設定）適合需要更多控制的情況
+        //可建立關聯/全功能多設定
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -24,7 +26,7 @@ namespace EECBET.Data
             // 設定 Members 資料表的索引
             modelBuilder.Entity<Member>()
                 .HasIndex(m => m.Username)
-                .IsUnique();
+                .IsUnique(); //唯一索引
 
             // 設定 BetRecord 的配置
             modelBuilder.Entity<BetRecord>(entity =>

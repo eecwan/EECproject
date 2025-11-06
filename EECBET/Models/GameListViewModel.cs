@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace EECBET.Models
 {
-
+    //Data Annotations（屬性標籤）/簡單寫法/適合欄位不多的資料表/[Key]、[Column]、[Required]
     public class GameListViewModel
     {
 
