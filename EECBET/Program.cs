@@ -4,7 +4,7 @@ using EECBET.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 使用 MSSQL Server
+// 把資料庫交給EF Core :ApplicationDbContext ,然後資料庫在Neon
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 

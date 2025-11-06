@@ -26,9 +26,9 @@ namespace EECBET.Controllers
         public async Task<IActionResult> SlotGame_home()
         {
             var allGames = await _context.GameList
-       .Where(g => g.IsActive)
-       .OrderByDescending(g => g.ReleaseDate)
-       .ToListAsync();
+            .Where(g => g.IsActive)
+            .OrderByDescending(g => g.ReleaseDate)
+            .ToListAsync();
 
             // 取高報酬前6個
             var highBonusGames = await _context.GameList
@@ -51,12 +51,12 @@ namespace EECBET.Controllers
             .Take(6)
             .ToListAsync();
 
-            // 用 ViewBag 傳過去（主模型保持原來的）
+            // 用 其他上面的邏輯 用ViewBag 傳過去
             ViewBag.HighBonusGames = highBonusGames;
             ViewBag.Exclusive = Exclusive;
             ViewBag.classic = classic;
             ViewBag.Megaways = Megaways;
-
+            //主模型
             return View(allGames);
         }
 
@@ -92,14 +92,53 @@ namespace EECBET.Controllers
 
         public async Task<IActionResult> SlotGame_game(int id)
         {
+            //後端檢查是否登入
+            var memberId = HttpContext.Session.GetInt32("MemberId");
+            if (memberId == null)
+            {
+                return RedirectToAction("Login", "Member"); //導向MemberController內的Login()
+            }
+
+            //找出遊戲ID教出對應的網頁
             var games = await _context.GameList
-          .FirstOrDefaultAsync(g => g.GameID == id);
-          if(games==null)
-              {
+            .FirstOrDefaultAsync(g => g.GameID == id);
+            if (games == null)
+            {
                 return NotFound();
             }
-            return View(games);
+
+            //記錄「進入遊戲」
+            try
+            {
+                var record = new BetRecord
+                {
+                    MemberId = memberId.Value,
+                    GameType = games.GameNameTW ?? games.GameNameEN ?? "未知遊戲",
+                    IssueNo = 0,
+                    BetAmount = 0,
+                    WinAmount = 0,
+                    Result = "進入遊戲",
+                    PointsBefore = 0,
+                    PointsAfter = 0,
+                    CreatedAt = DateTime.UtcNow 
+                };
+
+                _context.BetRecords.Add(record);
+                await _context.SaveChangesAsync(); //非同步呼叫
+
+                _logger.LogInformation($"✅ 成功記錄遊戲：MemberId={memberId}, GameType={record.GameType}");
             
+            }
+            catch (Exception ex)
+            {
+                // 把內部例外也印出來
+                var inner = ex.InnerException?.Message ?? "無內部例外";
+                _logger.LogError(ex, $"❌ 儲存發生錯誤：{inner}");
+               
+            }
+
+            return View(games);
+
         }
 
         //錯誤處理

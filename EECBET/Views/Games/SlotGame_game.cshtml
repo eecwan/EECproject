@@ -6,26 +6,7 @@
 <link rel="stylesheet" href="~/css/slotgameBase.css" asp-append-version="true" />
 @model EECBET.Models.GameListViewModel
 
-<style>
-    /* 🩶 黑幕遮罩 */
-    .login-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.75);
-        z-index: 9999;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-    }
 
-    .login-overlay.show {
-        opacity: 1;
-        pointer-events: auto;
-    }
-</style>
 
 
 <div class="game-container">
@@ -39,38 +20,11 @@
 
 </div>
 
-<!-- 黑幕層 -->
-<div id="loginOverlay" class="login-overlay"></div>
 
 <script>
-const isAuthenticated = @(isAuthenticated.ToString().ToLower());
-const gameId = @Model.GameID;
 
 function closeGame() {
     window.history.back();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    if (!isAuthenticated) {
-        const overlay = document.getElementById('loginOverlay');
-        overlay.classList.add('show');
-        setTimeout(() => {
-            alert('請先登入才能進行投注');
-            window.location.href = '/Member/Login';
-        }, 300);
-        return;
-    }
-
-    // ✅ 已登入 → 用 GET 傳遊戲ID，紀錄進入
-    fetch(`/Member/RecordGamePlay?id=${gameId}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                console.log('✅ 已記錄進入遊戲：', data);
-            } else {
-                console.warn('⚠️ 記錄失敗：', data.message);
-            }
-        })
-        .catch(err => console.error('❌ 呼叫 RecordGamePlay 發生錯誤:', err));
-});
 </script>
